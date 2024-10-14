@@ -45,6 +45,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.annotation)
     androidTestImplementation("androidx.test:runner:1.6.2")
     androidTestUtil("androidx.test:orchestrator:1.5.0")
 
