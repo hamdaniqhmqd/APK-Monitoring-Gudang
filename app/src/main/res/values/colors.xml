@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="kuning">#F4CE14</color>
+    <color name="putih_bg">#F5F7F8</color>
+    <color name="hitam">#000000</color>
+
 </resources>
