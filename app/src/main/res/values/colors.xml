@@ -5,6 +5,8 @@
 
     <color name="kuning">#F4CE14</color>
     <color name="putih_bg">#F5F7F8</color>
+    <color name="putih">#F5F7F8</color>
     <color name="hitam">#000000</color>
+    <color name="hitam_smooth">#434244</color>
 
 </resources>
