@@ -30,21 +30,7 @@ abstract class GudangDatabase : RoomDatabase() {
                     context.applicationContext,
                     GudangDatabase::class.java,
                     "gudang_database"
-                )
-                    .addCallback(object : RoomDatabase.Callback() {
-                        override fun onCreate(db: SupportSQLiteDatabase) {
-                            super.onCreate(db)
-                            CoroutineScope(Dispatchers.IO).launch {
-                                try {
-                                    getDatabase(context).userDao().insert(User(username = "admin", password = "admin"))
-                                    Log.d("GudangDatabase", "Admin user inserted successfully")
-                                } catch (e: Exception) {
-                                    Log.e("GudangDatabase", "Error inserting admin user", e)
-                                }
-                            }
-                        }
-                    })
-                    .build()
+                ).build()
                 INSTANCE = instance
                 instance
             }

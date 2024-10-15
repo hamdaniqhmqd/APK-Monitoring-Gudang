@@ -14,27 +14,26 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import com.google.android.material.button.MaterialButton
+import com.tugas.aplikasimonitoringgudang.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var database: GudangDatabase
     private lateinit var userDao: UserDao
 
+    private lateinit var binding: ActivityLoginBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_login)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         database = GudangDatabase.getDatabase(this)
         userDao = database.userDao()
 
-        val usernameInput = findViewById<EditText>(R.id.inputUser)
-        val passwordInput = findViewById<EditText>(R.id.inputPass)
-        val loginButton = findViewById<MaterialButton>(R.id.btnLogin)
+        val usernameInput = binding.inputUser
+        val passwordInput = binding.inputPass
+        val loginButton = binding.btnLogin
 
         loginButton.setOnClickListener {
             val username = usernameInput.text.toString()

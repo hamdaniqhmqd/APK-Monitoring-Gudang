@@ -1,10 +1,11 @@
-package com.tugas.aplikasimonitoringgudang
+package com.tugas.aplikasimonitoringgudang.ui
 
 import android.os.Bundle
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import com.tugas.aplikasimonitoringgudang.databinding.ActivityAwalBinding
 import com.google.android.material.button.MaterialButton
+import com.tugas.aplikasimonitoringgudang.R
 import com.tugas.aplikasimonitoringgudang.ui.login.LoginActivity
 
 class AwalActivity : AppCompatActivity() {
