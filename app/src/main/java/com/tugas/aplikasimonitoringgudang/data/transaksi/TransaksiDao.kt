@@ -3,6 +3,7 @@ package com.tugas.aplikasimonitoringgudang.data.transaksi
 import androidx.lifecycle.LiveData
 import androidx.room.*
 
+@Dao
 interface TransaksiDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(barang: Transaksi)
