@@ -6,8 +6,6 @@ import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.tugas.aplikasimonitoringgudang.databinding.ActivityLoadScreenBinding
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class LoadScreenActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoadScreenBinding
@@ -19,7 +17,7 @@ class LoadScreenActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, AwalActivity::class.java)
             startActivity(intent)
             finish()
         }, 3000)
