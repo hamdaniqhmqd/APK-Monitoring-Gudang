@@ -2,10 +2,7 @@ package com.tugas.aplikasimonitoringgudang
 
 import android.os.Bundle
 import android.content.Intent
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.tugas.aplikasimonitoringgudang.databinding.ActivityAwalBinding
 import com.google.android.material.button.MaterialButton
 import com.tugas.aplikasimonitoringgudang.ui.login.LoginActivity

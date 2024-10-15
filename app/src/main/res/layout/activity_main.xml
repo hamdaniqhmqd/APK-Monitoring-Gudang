@@ -6,78 +6,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/putih_bg"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
 
-    <LinearLayout
-        android:id="@+id/laodScreen"
+    <FrameLayout
+        android:id="@+id/FragmentMenu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingVertical="8dp"
-        android:orientation="vertical"
-        android:gravity="center"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/Navigasi"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/Navigasi"
+        app:menu="@menu/menu"
+        android:background="@color/white"
+        app:itemActiveIndicatorStyle="@color/putih"
+        app:itemTextColor="@color/hitam"
+        app:itemIconTint="@color/hitam"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingHorizontal="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints">
-
-        <ImageView
-            android:id="@+id/logo"
-            android:src="@drawable/logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="24sp"
-                android:textColor="@color/hitam"
-                android:fontFamily="@font/nunitobold"
-                android:layout_marginRight="4dp"
-                android:text="Aplikasi" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="24sp"
-                android:textColor="@color/kuning"
-                android:fontFamily="@font/nunitobold"
-                android:layout_marginLeft="3dp"
-                android:text="Monitoring" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="24sp"
-                android:textColor="@color/kuning"
-                android:fontFamily="@font/nunitobold"
-                android:layout_marginRight="4dp"
-                android:text="Gudang" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="24sp"
-                android:textColor="@color/hitam"
-                android:fontFamily="@font/nunitobold"
-                android:layout_marginLeft="3dp"
-                android:text="Pakaian" />
-
-        </LinearLayout>
-
-    </LinearLayout>
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

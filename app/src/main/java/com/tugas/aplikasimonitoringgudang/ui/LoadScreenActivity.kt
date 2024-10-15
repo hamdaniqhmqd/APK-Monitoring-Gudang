@@ -1,10 +1,11 @@
-package com.tugas.aplikasimonitoringgudang
+package com.tugas.aplikasimonitoringgudang.ui
 
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
+import com.tugas.aplikasimonitoringgudang.AwalActivity
 import com.tugas.aplikasimonitoringgudang.databinding.ActivityLoadScreenBinding
 
 class LoadScreenActivity : AppCompatActivity() {
