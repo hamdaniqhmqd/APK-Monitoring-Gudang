@@ -1,4 +1,4 @@
-package com.tugas.aplikasimonitoringgudang.ui
+package com.tugas.aplikasimonitoringgudang
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
