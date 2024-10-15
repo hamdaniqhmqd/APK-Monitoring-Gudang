@@ -13,10 +13,7 @@
         android:theme="@style/Theme.Aplikasimonitoringgudang"
         tools:targetApi="31">
         <activity
-            android:name=".AwalActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.transaksi.TransaksiActivity"
+            android:name=".ui.AwalActivity"
             android:exported="false" />
         <activity
             android:name=".ui.register.RegisterActivity"
@@ -25,7 +22,7 @@
             android:name=".ui.login.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".LoadScreenActivity"
+            android:name=".ui.LoadScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,7 +31,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true">
 
         </activity>

@@ -8,8 +8,11 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/header_card"
         android:layout_width="0dp"
-        android:layout_height="44dp"
-        android:background="@color/hijau_masuk"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="10dp"
+        android:background="@drawable/card_rounded"
+        android:backgroundTint="@color/hijau_masuk"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints">
@@ -18,7 +21,7 @@
             android:id="@+id/status_gambar"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:src="@drawable/logo"
+            android:src="@drawable/transaksi_masuk"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -30,6 +33,7 @@
             android:fontFamily="@font/nunitoextrabold"
             android:text="Barang Masuk"
             android:textSize="14sp"
+            android:layout_marginStart="14dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/status_gambar"
             app:layout_constraintTop_toTopOf="parent" />
