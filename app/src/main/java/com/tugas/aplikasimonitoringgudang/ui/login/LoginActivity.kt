@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 import com.google.android.material.button.MaterialButton
 import com.tugas.aplikasimonitoringgudang.databinding.ActivityLoginBinding
 import com.tugas.aplikasimonitoringgudang.ui.MainActivity
+import com.tugas.aplikasimonitoringgudang.ui.register.RegisterActivity
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var database: GudangDatabase
@@ -54,10 +55,19 @@ class LoginActivity : AppCompatActivity() {
 //                }
 //            }
         }
+
+        binding.toRegister.setOnClickListener {
+            intentRegisterAct()
+        }
     }
 
     private fun intentMainAct() {
         val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun intentRegisterAct() {
+        val intent = Intent(this, RegisterActivity::class.java)
         startActivity(intent)
     }
 }
