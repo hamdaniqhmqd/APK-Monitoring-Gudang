@@ -19,22 +19,27 @@
             android:name=".ui.transaksi.TransaksiActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.AwalActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.register.RegisterActivity"
             android:exported="false" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".LoadScreenActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
+            android:name=".ui.LoadScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="true">
+
         </activity>
     </application>
 
