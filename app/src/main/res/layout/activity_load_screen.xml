@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/putih_bg"
-    tools:context=".LoadScreenActivity">
+    tools:context=".ui.LoadScreenActivity">
 
     <LinearLayout
         android:id="@+id/laodScreen"

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/HomeNavigasi"
+        android:title="Home"
+        android:iconTint="@color/kuning"
+        android:icon="@drawable/home"/>
+    <item
+        android:id="@+id/BarangNavigasi"
+        android:title="Barang"
+        android:iconTint="@color/kuning"
+        android:icon="@drawable/barang"/>
+    <item
+        android:id="@+id/SupplierNavigasi"
+        android:title="Supplier"
+        android:iconTint="@color/kuning"
+        android:icon="@drawable/supplier"/>
+    <item
+        android:id="@+id/TransaksiNavigasi"
+        android:title="Transaksi"
+        android:iconTint="@color/kuning"
+        android:icon="@drawable/transaksi"/>
+</menu>
