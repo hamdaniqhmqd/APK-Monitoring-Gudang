@@ -41,6 +41,9 @@
             android:exported="true">
 
         </activity>
+        <activity
+            android:name=".ui.admin.AdminProfileActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
