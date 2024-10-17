@@ -1,4 +1,4 @@
 package com.tugas.aplikasimonitoringgudang.adapter
 
-class AdapterBarang {
+class AdapterBarang{
 }
