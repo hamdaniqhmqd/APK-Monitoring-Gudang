@@ -1,14 +1,13 @@
-package com.tugas.aplikasimonitoringgudang
+package com.tugas.aplikasimonitoringgudang.ui
 
 import android.os.Bundle
 import android.content.Intent
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.tugas.aplikasimonitoringgudang.databinding.ActivityAwalBinding
 import com.google.android.material.button.MaterialButton
+import com.tugas.aplikasimonitoringgudang.R
 import com.tugas.aplikasimonitoringgudang.ui.login.LoginActivity
+import com.tugas.aplikasimonitoringgudang.ui.register.RegisterActivity
 
 class AwalActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAwalBinding
@@ -19,9 +18,13 @@ class AwalActivity : AppCompatActivity() {
         binding = ActivityAwalBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val loginButton = findViewById<MaterialButton>(R.id.btnLogin)
-        loginButton.setOnClickListener {
+        binding.btnLogin.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.btnRegister.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
     }

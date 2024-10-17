@@ -1,5 +1,6 @@
 package com.tugas.aplikasimonitoringgudang.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.Toast
@@ -14,43 +15,59 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import com.google.android.material.button.MaterialButton
+import com.tugas.aplikasimonitoringgudang.databinding.ActivityLoginBinding
+import com.tugas.aplikasimonitoringgudang.ui.MainActivity
+import com.tugas.aplikasimonitoringgudang.ui.register.RegisterActivity
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var database: GudangDatabase
     private lateinit var userDao: UserDao
 
+    private lateinit var binding: ActivityLoginBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_login)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         database = GudangDatabase.getDatabase(this)
         userDao = database.userDao()
 
-        val usernameInput = findViewById<EditText>(R.id.inputUser)
-        val passwordInput = findViewById<EditText>(R.id.inputPass)
-        val loginButton = findViewById<MaterialButton>(R.id.btnLogin)
+        val usernameInput = binding.inputUser
+        val passwordInput = binding.inputPass
+        val loginButton = binding.btnLogin
 
-        loginButton.setOnClickListener {
-            val username = usernameInput.text.toString()
-            val password = passwordInput.text.toString()
+        binding.btnLogin.setOnClickListener {
+            intentMainAct()
 
-            CoroutineScope(Dispatchers.IO).launch {
-                val user = userDao.getUser(username, password)
-                runOnUiThread {
-                    if (user != null) {
-                        Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
-                        // Proceed to the next activity or screen
-                    } else {
-                        Toast.makeText(this@LoginActivity, "Invalid credentials", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
+//            val username = usernameInput.text.toString()
+//            val password = passwordInput.text.toString()
+
+//            CoroutineScope(Dispatchers.IO).launch {
+//                val user = userDao.getUser(username, password)
+//                runOnUiThread {
+//                    if (user != null) {
+//                        Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
+//                    } else {
+//                        Toast.makeText(this@LoginActivity, "Invalid credentials", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//            }
         }
+
+        binding.toRegister.setOnClickListener {
+            intentRegisterAct()
+        }
+    }
+
+    private fun intentMainAct() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun intentRegisterAct() {
+        val intent = Intent(this, RegisterActivity::class.java)
+        startActivity(intent)
     }
 }

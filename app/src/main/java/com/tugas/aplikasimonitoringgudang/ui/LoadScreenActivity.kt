@@ -1,4 +1,4 @@
-package com.tugas.aplikasimonitoringgudang
+package com.tugas.aplikasimonitoringgudang.ui
 
 import android.content.Intent
 import android.os.Bundle

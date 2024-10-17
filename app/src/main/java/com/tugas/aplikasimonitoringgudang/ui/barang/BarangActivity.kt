@@ -1,4 +1,4 @@
-package com.tugas.aplikasimonitoringgudang.ui.transaksi
+package com.tugas.aplikasimonitoringgudang.ui.barang
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -7,11 +7,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.tugas.aplikasimonitoringgudang.R
 
-class TransaksiActivity : AppCompatActivity() {
+class BarangActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_transaksi)
+        setContentView(R.layout.activity_barang)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
