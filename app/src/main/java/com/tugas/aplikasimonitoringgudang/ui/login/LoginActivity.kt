@@ -54,6 +54,13 @@ class LoginActivity : AppCompatActivity() {
                 runOnUiThread {
                     if (user != null) {
                         Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
+
+                        // Save login state
+                        val sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE)
+                        val editor = sharedPreferences.edit()
+                        editor.putBoolean("isLoggedIn", true)
+                        editor.apply()
+
                         intentMainAct()
                     } else {
                         Toast.makeText(this@LoginActivity, "Invalid credentials", Toast.LENGTH_SHORT).show()

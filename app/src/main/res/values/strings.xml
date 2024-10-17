@@ -11,4 +11,15 @@
     <string name="login_failed">"Login failed"</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="logout">LOGOUT</string>
+    <string name="settings">SETTINGS\n</string>
+    <string name="admin_profile_title">ADMIN PROFIL</string>
+    <string name="admin_name">nama admin\n</string>
+    <string name="admin_profil">Admin Profil</string>
+    <string name="ini_nama_admin">Ini Nama Admin</string>
+    <string name="setting">Setting</string>
+    <string name="log_out">Log Out</string>
+    <string name="logo_setting">setting</string>
+    <string name="logo_logout">logo_logout</string>
+    <string name="admin_image">admin_image</string>
 </resources>
