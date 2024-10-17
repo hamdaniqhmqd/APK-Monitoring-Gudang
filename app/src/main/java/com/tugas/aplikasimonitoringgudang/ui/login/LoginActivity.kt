@@ -36,24 +36,30 @@ class LoginActivity : AppCompatActivity() {
 
         val usernameInput = binding.inputUser
         val passwordInput = binding.inputPass
-        val loginButton = binding.btnLogin
+
+        // Retrieve the credentials from the intent
+        val username = intent.getStringExtra("username") ?: ""
+        val password = intent.getStringExtra("password") ?: ""
+
+        // Pre-fill the login form
+        usernameInput.setText(username)
+        passwordInput.setText(password)
 
         binding.btnLogin.setOnClickListener {
-            intentMainAct()
+            val inputUsername = usernameInput.text.toString()
+            val inputPassword = passwordInput.text.toString()
 
-//            val username = usernameInput.text.toString()
-//            val password = passwordInput.text.toString()
-
-//            CoroutineScope(Dispatchers.IO).launch {
-//                val user = userDao.getUser(username, password)
-//                runOnUiThread {
-//                    if (user != null) {
-//                        Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
-//                    } else {
-//                        Toast.makeText(this@LoginActivity, "Invalid credentials", Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//            }
+            CoroutineScope(Dispatchers.IO).launch {
+                val user = userDao.getUser(inputUsername, inputPassword)
+                runOnUiThread {
+                    if (user != null) {
+                        Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
+                        intentMainAct()
+                    } else {
+                        Toast.makeText(this@LoginActivity, "Invalid credentials", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         }
 
         binding.toRegister.setOnClickListener {
