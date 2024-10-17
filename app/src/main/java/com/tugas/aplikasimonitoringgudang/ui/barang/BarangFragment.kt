@@ -7,13 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import com.tugas.aplikasimonitoringgudang.R
 import com.tugas.aplikasimonitoringgudang.adapter.AdapterBarang
-import com.tugas.aplikasimonitoringgudang.adapter.AdapterUser
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentBarangBinding
-import com.tugas.aplikasimonitoringgudang.databinding.FragmentUserBinding
 
 class BarangFragment : Fragment() {
     private var _binding: FragmentBarangBinding? = null
 
+    // This property is only valid between onCreateView and
+    // onDestroyView.
     private val binding get() = _binding!!
 
     private lateinit var BarangAdapter: AdapterBarang
@@ -33,6 +33,6 @@ class BarangFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        kode user di bawah ini
+        // kode barang di bawah ini
     }
 }

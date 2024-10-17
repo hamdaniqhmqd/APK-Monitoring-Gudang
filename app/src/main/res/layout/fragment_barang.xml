@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -9,7 +10,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.barang.BarangFragment">
+        tools:context=".ui.transaksi.TransaksiFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/wadah"
@@ -17,10 +18,43 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="barang" />
+                android:id="@+id/label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="List Barang"
+                android:textColor="@color/hitam"
+                android:fontFamily="@font/nunitobold"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/pesan"
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/nunitobold"
+                android:text="Data Barang Gudang Tjahadja Asia"
+                android:textSize="14sp"
+                android:textColor="@color/hitam_smooth"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/label"
+                tools:ignore="MissingConstraints" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_barang"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/pesan" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
