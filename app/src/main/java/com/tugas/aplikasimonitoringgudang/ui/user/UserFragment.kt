@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.content.Context
 import com.tugas.aplikasimonitoringgudang.R
 import com.tugas.aplikasimonitoringgudang.ui.admin.AdminProfileActivity
-import com.tugas.aplikasimonitoringgudang.adapter.AdapterUser
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentUserBinding
 import android.content.Intent
 import android.net.Uri
