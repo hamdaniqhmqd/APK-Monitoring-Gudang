@@ -43,8 +43,8 @@ class AdminProfileActivity : AppCompatActivity() {
 
         val settingsOption = findViewById<LinearLayout>(R.id.settingsOption)
         settingsOption.setOnClickListener {
-            val intent = Intent(this, AdminProfileSettingActivity::class.java)
-            startActivity(intent)
+//            val intent = Intent(this, AdminProfileSettingActivity::class.java)
+//            startActivity(intent)
         }
     }
 }

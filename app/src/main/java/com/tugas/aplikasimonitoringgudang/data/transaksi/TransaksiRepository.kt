@@ -4,18 +4,21 @@ import androidx.lifecycle.LiveData
 
 class TransaksiRepository(private val transaksiDao: TransaksiDao) {
 
-    val allCategories: LiveData<List<Transaksi>> = transaksiDao.getAllTransaksi()
+    val allTransaksi: LiveData<List<Transaksi>> = transaksiDao.getAllTransaksi()
 
-    suspend fun insert(category: Transaksi) {
-        transaksiDao.insert(category)
+    suspend fun insert(transaksi: Transaksi) {
+        transaksiDao.insert(transaksi)
     }
 
-    suspend fun update(category: Transaksi) {
-        transaksiDao.update(category)
+    suspend fun update(transaksi: Transaksi) {
+        transaksiDao.update(transaksi)
     }
 
-    suspend fun delete(category: Transaksi) {
-        transaksiDao.delete(category)
+    suspend fun delete(transaksi: Transaksi) {
+        transaksiDao.delete(transaksi)
     }
 
+    suspend fun getTransaksiById(id: Int): Transaksi? {
+        return transaksiDao.getBarangById(id)
+    }
 }

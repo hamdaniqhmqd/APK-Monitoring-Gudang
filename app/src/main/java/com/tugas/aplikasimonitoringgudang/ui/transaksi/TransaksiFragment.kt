@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.tugas.aplikasimonitoringgudang.R
 import com.tugas.aplikasimonitoringgudang.adapter.AdapterTransaksi
-import com.tugas.aplikasimonitoringgudang.adapter.AdapterUser
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentTransaksiBinding
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentUserBinding
 
