@@ -10,6 +10,6 @@ data class Barang(
     val nama_barang: String,
     val kategori_barang: String,
     val harga_barang: Int,
-    val stok_barang: String,
-    val ukuran_ukuran: String
+    val stok_barang: Int,
+    val ukuran_barang: String
 )
