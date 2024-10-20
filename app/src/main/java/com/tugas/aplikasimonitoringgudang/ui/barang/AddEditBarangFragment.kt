@@ -32,12 +32,12 @@ class AddEditBarangFragment : Fragment() {
         barangViewModel = ViewModelProvider(this).get(BarangViewModel::class.java)
 
         barangId = arguments?.getInt("barangId")
-        barangId?.let {
-            barangViewModel.getBarangById(it).observe(viewLifecycleOwner) { barang ->
+        if (barangId != null) {
+            barangViewModel.getBarangById(barangId!!).observe(viewLifecycleOwner) { barang ->
                 binding.namaBarang.setText(barang.nama_barang)
                 binding.kategoriBarang.setText(barang.kategori_barang)
-                binding.hargaBarang.setText(barang.harga_barang)
-                binding.stokBarang.setText(barang.stok_barang)
+                binding.hargaBarang.setText(barang.harga_barang.toString())
+                binding.stokBarang.setText(barang.stok_barang.toString())
                 binding.ukuranBarang.setText(barang.ukuran_barang)
             }
         }

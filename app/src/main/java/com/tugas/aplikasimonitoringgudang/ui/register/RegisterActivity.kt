@@ -35,10 +35,10 @@ class RegisterActivity : AppCompatActivity() {
             val repeatPassword = binding.inputRepeatPass.text.toString()
 
             if (password == repeatPassword) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    viewModelUser.insert(User(username = username, password = password))
-                    intentLoginAct()
-                }
+//                CoroutineScope(Dispatchers.IO).launch {
+                viewModelUser.insert(User(username = username, password = password))
+                intentLoginAct()
+//                }
             } else {
                 Toast.makeText(this, "Passwords tidak sama", Toast.LENGTH_SHORT).show()
             }

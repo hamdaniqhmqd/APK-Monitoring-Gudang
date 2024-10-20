@@ -9,10 +9,16 @@ import androidx.lifecycle.ViewModelProvider
 import com.tugas.aplikasimonitoringgudang.R
 import com.tugas.aplikasimonitoringgudang.data.barang.Barang
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentAddEditBarangBinding
+import com.tugas.aplikasimonitoringgudang.databinding.FragmentAddEditTransaksiBinding
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentDetailBarangBinding
+import com.tugas.aplikasimonitoringgudang.ui.transaksi.AddEditTransaksiFragment
 import com.tugas.aplikasimonitoringgudang.veiwModel.BarangViewModel
 
 class DetailBarangFragment : Fragment() {
+    private var _binding: FragmentDetailBarangBinding? = null
+
+    private val binding get() = _binding!!
+
     private lateinit var barangViewModel: BarangViewModel
     private var barangId: Int? = null
 
@@ -26,7 +32,7 @@ class DetailBarangFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val binding = FragmentDetailBarangBinding.inflate(inflater, container, false)
+        _binding = FragmentDetailBarangBinding.inflate(inflater, container, false)
 
         barangViewModel = ViewModelProvider(this).get(BarangViewModel::class.java)
 
@@ -42,16 +48,15 @@ class DetailBarangFragment : Fragment() {
         }
 
         binding.btnEdit.setOnClickListener {
-            barangId?.let { id ->
-                onDetailClick(id)
-            }
+            onDetailClick(barangId!!)
+        }
+
+        binding.btnTransaksi.setOnClickListener {
+            onAddTransaksiClick(barangId!!)
         }
 
         binding.btnHapus.setOnClickListener {
-            barangId?.let { id ->
-                barangViewModel.delete(Barang(id, "", "", 0, 0, ""))
-            }
-
+            barangViewModel.delete(Barang(barangId!!, "", "", 0, 0, ""))
             toBarangFragment()
         }
 
@@ -59,7 +64,6 @@ class DetailBarangFragment : Fragment() {
     }
 
     private fun onDetailClick(idBarang: Int) {
-        // Navigasi ke CreateProductFragment dengan ID produk
         val bundle = Bundle().apply {
             putInt("barangId", idBarang ?: 0)
         }
@@ -75,6 +79,19 @@ class DetailBarangFragment : Fragment() {
     private fun toBarangFragment() {
         parentFragmentManager.beginTransaction()
             .replace(R.id.FragmentMenu, BarangFragment())
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun onAddTransaksiClick(idBarang: Int) {
+        val bundle = Bundle().apply {
+            putInt("barangId", idBarang ?: 0)
+        }
+        val addEditTransaksiFragment = AddEditTransaksiFragment()
+        addEditTransaksiFragment.arguments = bundle
+
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.FragmentMenu, addEditTransaksiFragment)
             .addToBackStack(null)
             .commit()
     }
