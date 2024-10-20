@@ -247,7 +247,7 @@
         android:id="@+id/btnTransaksi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/merah_hapus"
+        android:backgroundTint="@color/hijau"
         android:fontFamily="@font/nunitobold"
         android:paddingVertical="8dp"
         android:text="Transaksi"
