@@ -35,6 +35,7 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
         android:hint="Nama Barang"
+        android:textColorHint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivSupplier" />
@@ -46,6 +47,7 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
         android:hint="Kategori"
+        android:textColorHint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nama_barang" />
@@ -57,6 +59,7 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
         android:hint="Harga Barang"
+        android:textColorHint="@color/black"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,6 +72,7 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
         android:hint="Stok Barang"
+        android:textColorHint="@color/black"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,6 +85,7 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
         android:hint="Ukuran Barang"
+        android:textColorHint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/stok_barang" />
