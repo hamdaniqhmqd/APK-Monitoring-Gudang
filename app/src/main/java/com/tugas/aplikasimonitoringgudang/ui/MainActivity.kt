@@ -37,9 +37,6 @@ class MainActivity : AppCompatActivity() {
             true
         }
         if (savedInstanceState == null) {
-            binding.Navigasi.selectedItemId = R.id.BarangNavigasi
-            if (savedInstanceState == null) {
-                binding.Navigasi.selectedItemId = R.id.SupplierNavigasi
-            }
+            binding.Navigasi.selectedItemId = R.id.HomeNavigasi
         }
     }}

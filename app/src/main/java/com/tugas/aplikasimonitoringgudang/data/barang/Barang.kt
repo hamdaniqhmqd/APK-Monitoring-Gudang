@@ -3,7 +3,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "barang_table",)
-
 data class Barang(
     @PrimaryKey(autoGenerate = true)
     val id_barang: Int = 0,

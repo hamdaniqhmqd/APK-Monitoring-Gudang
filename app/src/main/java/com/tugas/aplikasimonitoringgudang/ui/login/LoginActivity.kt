@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -15,15 +16,19 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import com.google.android.material.button.MaterialButton
+import com.tugas.aplikasimonitoringgudang.data.user.User
 import com.tugas.aplikasimonitoringgudang.databinding.ActivityLoginBinding
 import com.tugas.aplikasimonitoringgudang.ui.MainActivity
 import com.tugas.aplikasimonitoringgudang.ui.register.RegisterActivity
+import com.tugas.aplikasimonitoringgudang.veiwModel.UserViewModel
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var database: GudangDatabase
     private lateinit var userDao: UserDao
 
     private lateinit var binding: ActivityLoginBinding
+
+    private val userLoginViewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +37,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         database = GudangDatabase.getDatabase(this)
-//        userDao = database.userDao()
+        userDao = database.userDao()
 
         val usernameInput = binding.inputUser
         val passwordInput = binding.inputPass
@@ -51,16 +56,13 @@ class LoginActivity : AppCompatActivity() {
 
             CoroutineScope(Dispatchers.IO).launch {
                 val user = userDao.getUser(inputUsername, inputPassword)
+
                 runOnUiThread {
                     if (user != null) {
-                        Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
-
                         // Save login state
-                        val sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE)
-                        val editor = sharedPreferences.edit()
-                        editor.putBoolean("isLoggedIn", true)
-                        editor.apply()
+                        userLoginViewModel.update(User(id = user.id, username = inputUsername, password = inputPassword, statusLoging = 1))
 
+                        Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
                         intentMainAct()
                     } else {
                         Toast.makeText(this@LoginActivity, "Invalid credentials", Toast.LENGTH_SHORT).show()
