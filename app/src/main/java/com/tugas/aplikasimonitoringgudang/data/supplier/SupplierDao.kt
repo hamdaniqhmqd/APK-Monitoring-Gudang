@@ -23,5 +23,5 @@ interface SupplierDao {
     fun getAllSupplier(): LiveData<List<Supplier>>
 
     @Query("SELECT * FROM supplier_table WHERE id_supplier = :id")
-    suspend fun getSupplierById(id: Int): Supplier?
+    fun getSupplierById(id: Int): LiveData<Supplier>
 }

@@ -32,7 +32,7 @@ class SupplierViewModel(application: Application) : AndroidViewModel(application
         repository.delete(supplier)
     }
 
-    suspend fun getSupplierById(id: Int): Supplier? {
+    fun getSupplierById(id: Int): LiveData<Supplier> {
         return repository.getSupplierById(id)
     }
 }
