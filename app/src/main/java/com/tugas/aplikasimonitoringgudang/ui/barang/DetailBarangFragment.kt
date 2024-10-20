@@ -13,6 +13,7 @@ import com.tugas.aplikasimonitoringgudang.databinding.FragmentAddEditTransaksiBi
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentDetailBarangBinding
 import com.tugas.aplikasimonitoringgudang.ui.transaksi.AddEditTransaksiFragment
 import com.tugas.aplikasimonitoringgudang.veiwModel.BarangViewModel
+import com.tugas.aplikasimonitoringgudang.veiwModel.SupplierViewModel
 
 class DetailBarangFragment : Fragment() {
     private var _binding: FragmentDetailBarangBinding? = null
@@ -21,6 +22,8 @@ class DetailBarangFragment : Fragment() {
 
     private lateinit var barangViewModel: BarangViewModel
     private var barangId: Int? = null
+
+    private lateinit var viewModel: SupplierViewModel
     private var supplierId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +41,6 @@ class DetailBarangFragment : Fragment() {
         barangViewModel = ViewModelProvider(this).get(BarangViewModel::class.java)
 
         barangId = arguments?.getInt("barangId")
-        supplierId = arguments?.getInt("supplierId")
         barangId?.let {
             barangViewModel.getBarangById(it).observe(viewLifecycleOwner) { barang ->
                 binding.tvItemName.text = barang.nama_barang
@@ -48,17 +50,26 @@ class DetailBarangFragment : Fragment() {
                 binding.tvItemSizesIsi.text = barang.ukuran_barang
             }
         }
+        viewModel = ViewModelProvider(this).get(SupplierViewModel::class.java)
+        supplierId = arguments?.getInt("supplierId")
+        supplierId?.let {
+            viewModel.getSupplierById(it).observe(viewLifecycleOwner) { supplier ->
+                binding.tvSupplierName.text = supplier.nama_supplier
+                binding.tvSupplierPhoneIsi.text = supplier.no_hp_supplier.toString()
+                binding.tvSupplierNikIsi.text = supplier.nik_supplier.toString()
+            }
+        }
 
         binding.btnEdit.setOnClickListener {
             onEditClick(barangId!!)
         }
 
         binding.btnTransaksi.setOnClickListener {
-            onAddTransaksiClick(barangId!!)
+            onAddTransaksiClick(barangId!!, supplierId!!)
         }
 
         binding.btnHapus.setOnClickListener {
-            barangViewModel.delete(Barang(barangId!!, "", "", 0, 0, "", 0))
+            barangViewModel.delete(Barang(barangId!!, "", "", 0, 0, "", 0, ""))
             toBarangFragment()
         }
 
@@ -85,9 +96,10 @@ class DetailBarangFragment : Fragment() {
             .commit()
     }
 
-    private fun onAddTransaksiClick(idBarang: Int) {
+    private fun onAddTransaksiClick(idBarang: Int, idSupplier: Int) {
         val bundle = Bundle().apply {
             putInt("barangId", idBarang ?: 0)
+            putInt("supplierId", idSupplier ?: 0)
         }
         val addEditTransaksiFragment = AddEditTransaksiFragment()
         addEditTransaksiFragment.arguments = bundle

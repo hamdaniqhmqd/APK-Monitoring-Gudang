@@ -15,6 +15,7 @@ class EditBarangFragment : Fragment() {
     private lateinit var barangViewModel: BarangViewModel
     private var barangId: Int? = -1
     private var supplierId: Int? = -1
+    private var supplierNama: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +30,7 @@ class EditBarangFragment : Fragment() {
         barangViewModel = ViewModelProvider(this).get(BarangViewModel::class.java)
 
         barangId = arguments?.getInt("barangId")
+        supplierNama = arguments?.getString("supplierNama")
         if (barangId != -1) {
             barangViewModel.getBarangById(barangId!!).observe(viewLifecycleOwner) { barang ->
                 if (barang != null) {
@@ -58,7 +60,8 @@ class EditBarangFragment : Fragment() {
                         harga_barang = harga,
                         stok_barang = stok,
                         ukuran_barang = ukuran,
-                        supplier_id = supplierId!!
+                        supplier_id = supplierId!!,
+                        supplier_nama = supplierNama!!
                     )
                 )
 
