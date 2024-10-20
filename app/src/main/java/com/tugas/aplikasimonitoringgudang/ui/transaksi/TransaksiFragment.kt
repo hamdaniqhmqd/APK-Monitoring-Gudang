@@ -69,11 +69,11 @@ class TransaksiFragment : Fragment() {
 
     private fun onDetailClick(transaksi: Transaksi) {
         // Navigasi ke CreateProductFragment dengan ID produk
-//        val bundle = Bundle().apply {
-//            putInt("transaksiId", transaksi.id_transaksi ?: 0)
-//        }
+        val bundle = Bundle().apply {
+            putInt("transaksiId", transaksi.id_transaksi ?: 0)
+        }
         val detailFragment = DetailTransaksiFragment()
-//        detailFragment.arguments = bundle
+        detailFragment.arguments = bundle
 
         parentFragmentManager.beginTransaction()
             .replace(R.id.FragmentMenu, detailFragment)

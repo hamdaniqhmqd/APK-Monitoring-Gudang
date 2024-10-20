@@ -22,6 +22,7 @@ class DetailSupplierFragment : Fragment() {
 
     private lateinit var viewModel: SupplierViewModel
     private var supplierId: Int? = null
+    private var supplierNama: String? = ""
 
     private lateinit var Adapter: AdapterBarang
     private lateinit var viewModelBarang: BarangViewModel
@@ -44,6 +45,7 @@ class DetailSupplierFragment : Fragment() {
         supplierId = arguments?.getInt("supplierId")
         supplierId?.let {
             viewModel.getSupplierById(it).observe(viewLifecycleOwner) { supplier ->
+                supplierNama = supplier.nama_supplier
                 binding.nama.text = supplier.nama_supplier
                 binding.noHp.text = supplier.no_hp_supplier.toString()
                 binding.nik.text = supplier.nik_supplier.toString()
@@ -60,7 +62,7 @@ class DetailSupplierFragment : Fragment() {
         }
 
         binding.btnTambahBarang.setOnClickListener {
-            onTambahBarangClick(supplierId!!)
+            onTambahBarangClick(supplierId!!, supplierNama!!)
         }
 
         viewModelBarang = ViewModelProvider(this).get(BarangViewModel::class.java)
@@ -106,6 +108,7 @@ class DetailSupplierFragment : Fragment() {
         // Navigasi ke CreateProductFragment dengan ID produk
         val bundle = Bundle().apply {
             putInt("barangId", barang.id_barang ?: 0)
+            putInt("supplierId", barang.supplier_id ?: 0)
         }
         val detailFragment = DetailBarangFragment()
         detailFragment.arguments = bundle
@@ -116,9 +119,10 @@ class DetailSupplierFragment : Fragment() {
             .commit()
     }
 
-    private fun onTambahBarangClick(idSupplier: Int) {
+    private fun onTambahBarangClick(idSupplier: Int, namaSupplier: String) {
         val bundle = Bundle().apply {
             putInt("supplierId", idSupplier ?: 0)
+            putString("supplierNama", namaSupplier ?: "")
         }
         val addEditFragment = AddEditBarangFragment()
         addEditFragment.arguments = bundle

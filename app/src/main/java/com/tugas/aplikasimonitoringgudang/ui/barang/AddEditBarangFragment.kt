@@ -10,12 +10,15 @@ import com.tugas.aplikasimonitoringgudang.R
 import com.tugas.aplikasimonitoringgudang.data.barang.Barang
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentAddEditBarangBinding
 import com.tugas.aplikasimonitoringgudang.veiwModel.BarangViewModel
+import com.tugas.aplikasimonitoringgudang.veiwModel.SupplierViewModel
 
 class AddEditBarangFragment : Fragment() {
     //    private lateinit var binding: FragmentAddEditBarangBinding
     private lateinit var barangViewModel: BarangViewModel
+    private lateinit var viewModel: SupplierViewModel
     private var barangId: Int? = -1
     private var supplierId: Int? = -1
+    private var supplierNama: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,8 +32,10 @@ class AddEditBarangFragment : Fragment() {
         val binding = FragmentAddEditBarangBinding.inflate(inflater, container, false)
 
         barangViewModel = ViewModelProvider(this).get(BarangViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(SupplierViewModel::class.java)
 
         supplierId = arguments?.getInt("supplierId")
+        supplierNama = arguments?.getString("supplierNama")
 
         binding.btnSubmit.setOnClickListener {
             val nama = binding.namaBarang.text.toString()
@@ -46,7 +51,8 @@ class AddEditBarangFragment : Fragment() {
                     harga_barang = harga,
                     stok_barang = stok,
                     ukuran_barang = ukuran,
-                    supplier_id = supplierId!!
+                    supplier_id = supplierId!!,
+                    supplier_nama = supplierNama!!
                 )
             )
 

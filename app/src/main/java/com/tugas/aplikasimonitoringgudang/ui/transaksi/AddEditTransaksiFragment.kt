@@ -14,6 +14,7 @@ import com.tugas.aplikasimonitoringgudang.ui.MainActivity
 import com.tugas.aplikasimonitoringgudang.ui.barang.AddEditBarangFragment
 import com.tugas.aplikasimonitoringgudang.ui.barang.BarangFragment
 import com.tugas.aplikasimonitoringgudang.veiwModel.BarangViewModel
+import com.tugas.aplikasimonitoringgudang.veiwModel.SupplierViewModel
 import com.tugas.aplikasimonitoringgudang.veiwModel.TransaksiViewModel
 
 class AddEditTransaksiFragment : Fragment() {
@@ -24,9 +25,11 @@ class AddEditTransaksiFragment : Fragment() {
 
     private lateinit var viewModel: TransaksiViewModel
     private lateinit var barangViewModel: BarangViewModel
+    private lateinit var supplierViewModel: SupplierViewModel
 
     private var transaksiId: Int? = null
     private var barangId: Int? = null
+    private var supplierId: Int? = null
 
     private var jumlahBarang: Int = 0
     private var totalHargaBarang: Int? = 0
@@ -45,6 +48,7 @@ class AddEditTransaksiFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(TransaksiViewModel::class.java)
         barangViewModel = ViewModelProvider(this).get(BarangViewModel::class.java)
+        supplierViewModel = ViewModelProvider(this).get(SupplierViewModel::class.java)
 
         barangId = arguments?.getInt("barangId")
         if (barangId != null) {
@@ -55,6 +59,8 @@ class AddEditTransaksiFragment : Fragment() {
 //                }
             }
         }
+
+        supplierId = arguments?.getInt("supplierId")
 
         binding.plus.setOnClickListener {
             jumlahBarang += 1
