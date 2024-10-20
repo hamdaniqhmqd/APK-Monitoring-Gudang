@@ -11,5 +11,6 @@
     <color name="hitam_smooth">#434244</color>
     <color name="hijau_masuk">#DEFFDD</color>
     <color name="merah_keluar">#FFDCDF</color>
+    <color name="merah_hapus">#990000</color>
 
 </resources>
