@@ -1,8 +1,6 @@
 package com.tugas.aplikasimonitoringgudang.data.user
 
 import androidx.lifecycle.LiveData
-import com.tugas.aplikasimonitoringgudang.data.user.User
-
 
 class UserRepository(private val userDao: UserDao) {
 //    val allUser: LiveData<List<User>> = userDao.getUser()
@@ -21,5 +19,9 @@ class UserRepository(private val userDao: UserDao) {
 
     suspend fun getUserById(id: Int): User? {
         return userDao.getUserById(id)
+    }
+    
+    fun getAdminLiveData(username: String): LiveData<User?> {
+        return userDao.getAdminLiveData(username)
     }
 }

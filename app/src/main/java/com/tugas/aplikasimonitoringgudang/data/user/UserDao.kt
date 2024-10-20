@@ -1,5 +1,6 @@
 package com.tugas.aplikasimonitoringgudang.data.user
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
 
@@ -19,4 +20,8 @@ interface UserDao {
 
     @Query("SELECT * FROM user_table WHERE id = :id LIMIT 1")
     suspend fun getUserById(id: Int): User?
+
+    @Query("SELECT * FROM user_table WHERE username = :username")
+    fun getAdminLiveData(username: String): LiveData<User?>
 }
+
