@@ -18,4 +18,8 @@ class BarangRepository(private val barangDao: BarangDao) {
     }
 
     fun getBarangById(id: Int): LiveData<Barang> = barangDao.getBarangById(id)
+
+    fun getBarangBySupplerId(idSuppler: Int): LiveData<List<Barang>> {
+        return barangDao.getBarangByIdSuppler(idSuppler)
+    }
 }

@@ -4,9 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.R
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
 import com.tugas.aplikasimonitoringgudang.databinding.ItemTransaksiBinding
+
 
 class AdapterTransaksi(
     private var transaksiList: List<Transaksi>,
@@ -15,6 +18,8 @@ class AdapterTransaksi(
 
     inner class TransaksiViewHolder(private val binding: ItemTransaksiBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        val status = binding.headerCard
+        val namaStatus = binding.labelCard
         val namaBarang = binding.namaBarang
         val hargaBarang = binding.HargaBarang
         val jumlahTransaksi = binding.JumlahBarang
@@ -37,6 +42,20 @@ class AdapterTransaksi(
 
     override fun onBindViewHolder(holder: TransaksiViewHolder, position: Int) {
         val dataTransaksi = transaksiList[position]
+        val context = holder.itemView.context
+
+        var status = dataTransaksi.status
+        if (status == 1) {
+            holder.status.setBackgroundColor(ContextCompat.getColor(context, com.tugas.aplikasimonitoringgudang.R.color.merah_keluar))
+            holder.namaStatus.text = "Barang Keluar"
+        } else if (status == 2) {
+            holder.status.setBackgroundColor(ContextCompat.getColor(context, com.tugas.aplikasimonitoringgudang.R.color.hijau_masuk))
+            holder.namaStatus.text = "Barang Masuk"
+        } else if (status == 3) {
+            holder.status.setBackgroundColor(ContextCompat.getColor(context, com.tugas.aplikasimonitoringgudang.R.color.putih_smooth))
+            holder.namaStatus.text = "Batal Transaksi"
+        }
+
         holder.namaBarang.text = dataTransaksi.barang_nama
         holder.hargaBarang.text = dataTransaksi.harga_barang.toString()
         holder.jumlahTransaksi.text = dataTransaksi.jumlah_barang.toString()

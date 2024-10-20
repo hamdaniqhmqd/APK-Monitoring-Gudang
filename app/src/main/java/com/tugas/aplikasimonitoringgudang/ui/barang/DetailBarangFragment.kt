@@ -21,6 +21,7 @@ class DetailBarangFragment : Fragment() {
 
     private lateinit var barangViewModel: BarangViewModel
     private var barangId: Int? = null
+    private var supplierId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +38,7 @@ class DetailBarangFragment : Fragment() {
         barangViewModel = ViewModelProvider(this).get(BarangViewModel::class.java)
 
         barangId = arguments?.getInt("barangId")
+        supplierId = arguments?.getInt("supplierId")
         barangId?.let {
             barangViewModel.getBarangById(it).observe(viewLifecycleOwner) { barang ->
                 binding.tvItemName.text = barang.nama_barang
@@ -48,7 +50,7 @@ class DetailBarangFragment : Fragment() {
         }
 
         binding.btnEdit.setOnClickListener {
-            onDetailClick(barangId!!)
+            onEditClick(barangId!!)
         }
 
         binding.btnTransaksi.setOnClickListener {
@@ -56,18 +58,18 @@ class DetailBarangFragment : Fragment() {
         }
 
         binding.btnHapus.setOnClickListener {
-            barangViewModel.delete(Barang(barangId!!, "", "", 0, 0, ""))
+            barangViewModel.delete(Barang(barangId!!, "", "", 0, 0, "", 0))
             toBarangFragment()
         }
 
         return binding.root
     }
 
-    private fun onDetailClick(idBarang: Int) {
+    private fun onEditClick(idBarang: Int) {
         val bundle = Bundle().apply {
             putInt("barangId", idBarang ?: 0)
         }
-        val addEditFragment = AddEditBarangFragment()
+        val addEditFragment = EditBarangFragment()
         addEditFragment.arguments = bundle
 
         parentFragmentManager.beginTransaction()
