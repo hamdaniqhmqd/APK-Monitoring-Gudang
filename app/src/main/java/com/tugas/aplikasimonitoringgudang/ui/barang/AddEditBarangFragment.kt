@@ -31,6 +31,17 @@ class AddEditBarangFragment : Fragment() {
 
         barangViewModel = ViewModelProvider(this).get(BarangViewModel::class.java)
 
+        barangId = arguments?.getInt("barangId")
+        barangId?.let {
+            barangViewModel.getBarangById(it).observe(viewLifecycleOwner) { barang ->
+                binding.namaBarang.setText(barang.nama_barang)
+                binding.kategoriBarang.setText(barang.kategori_barang)
+                binding.hargaBarang.setText(barang.harga_barang)
+                binding.stokBarang.setText(barang.stok_barang)
+                binding.ukuranBarang.setText(barang.ukuran_barang)
+            }
+        }
+
         binding.btnSubmit.setOnClickListener {
             val nama = binding.namaBarang.text.toString()
             val kategori = binding.kategoriBarang.text.toString()
@@ -38,37 +49,36 @@ class AddEditBarangFragment : Fragment() {
             val stok = binding.stokBarang.text.toString().toInt()
             val ukuran = binding.ukuranBarang.text.toString()
 
-            barangViewModel.insert(
-                Barang(
-                    id_barang = 1,
-                    nama_barang = nama,
-                    kategori_barang = kategori,
-                    harga_barang = harga,
-                    stok_barang = stok,
-                    ukuran_barang = ukuran
+            if (barangId != null) {
+                barangViewModel.update(
+                    Barang(
+                        id_barang = barangId!!,
+                        nama_barang = nama,
+                        kategori_barang = kategori,
+                        harga_barang = harga,
+                        stok_barang = stok,
+                        ukuran_barang = ukuran
+                    )
                 )
-            )
-
-//            if (barangId != null) {
-//                barangViewModel.update(
-//                    Barang(
-//                        id_barang = barangId!!,
-//                        nama_barang = nama,
-//                        kategori_barang = kategori,
-//                        harga_barang = harga,
-//                        stok_barang = stok,
-//                        ukuran_barang = ukuran
-//                    )
-//                )
-//            } else {
-
-//            }
+            } else {
+                barangViewModel.insert(
+                    Barang(
+                        nama_barang = nama,
+                        kategori_barang = kategori,
+                        harga_barang = harga,
+                        stok_barang = stok,
+                        ukuran_barang = ukuran
+                    )
+                )
+            }
 
             toBarangFragment()
         }
 
         return binding.root
     }
+
+
 
 //    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 //        super.onViewCreated(view, savedInstanceState)
