@@ -30,7 +30,7 @@ class BarangInputActivity : AppCompatActivity() {
 //            val stok = binding.stokBarang.text.toString().toInt()
 //            val ukuran = binding.ukuranBarang.text.toString()
 //
-//            barangViewModel.insert(Barang(
+//               barangViewModel.insert(Barang(
 //                nama_barang = nama,
 //                kategori_barang = kategori,
 //                harga_barang = harga,
