@@ -1,6 +1,7 @@
 package com.tugas.aplikasimonitoringgudang.veiwModel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
@@ -19,19 +20,19 @@ class BarangViewModel(application: Application) : AndroidViewModel(application) 
         allBarang = repository.allBarang
     }
 
-    fun insert(transaksi: Barang) = viewModelScope.launch {
-        repository.insert(transaksi)
+    fun insert(barang: Barang) = viewModelScope.launch {
+        repository.insert(barang)
     }
 
-    fun update(transaksi: Barang) = viewModelScope.launch {
-        repository.update(transaksi)
+    fun update(barang: Barang) = viewModelScope.launch {
+        repository.update(barang)
     }
 
-    fun delete(transaksi: Barang) = viewModelScope.launch {
-        repository.delete(transaksi)
+    fun delete(barang: Barang) = viewModelScope.launch {
+        repository.delete(barang)
     }
 
-    suspend fun getBarangById(id: Int): Barang? {
+    fun getBarangById(id: Int): LiveData<Barang> {
         return repository.getBarangById(id)
     }
 }

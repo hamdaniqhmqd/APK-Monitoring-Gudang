@@ -23,6 +23,7 @@ abstract class GudangDatabase : RoomDatabase() {
     abstract fun transakasiDao(): TransaksiDao
     abstract fun barangDao(): BarangDao
 
+
     companion object {
         @Volatile
         private var INSTANCE: GudangDatabase? = null

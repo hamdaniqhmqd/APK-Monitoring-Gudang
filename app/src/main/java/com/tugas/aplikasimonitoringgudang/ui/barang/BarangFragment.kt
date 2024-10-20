@@ -7,55 +7,77 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tugas.aplikasimonitoringgudang.R
 import com.tugas.aplikasimonitoringgudang.adapter.AdapterBarang
+import com.tugas.aplikasimonitoringgudang.data.barang.Barang
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentBarangBinding
 import com.tugas.aplikasimonitoringgudang.veiwModel.BarangViewModel
 
 class BarangFragment : Fragment() {
-    private var _binding: FragmentBarangBinding? = null
+//    private var _binding: FragmentBarangBinding? = null
 
-    private val binding get() = _binding!!
+//    private val binding get() = _binding!!
 
-    private lateinit var BarangAdapter: AdapterBarang
+    private lateinit var Adapter: AdapterBarang
 
-    private lateinit var barangViewModel: BarangViewModel
+    private lateinit var viewModel: BarangViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(this).get(BarangViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentBarangBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+        val binding = FragmentBarangBinding.inflate(inflater, container, false)
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+        Adapter = AdapterBarang(emptyList()) { barang ->
+            onDetailClick(barang)
+        }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        binding.recyclerViewBarang.adapter = Adapter
+        binding.recyclerViewBarang.layoutManager = LinearLayoutManager(requireContext())
 
-        BarangAdapter = AdapterBarang { barang ->
-            barang.let {
-                barang.id_barang
-                barang.nama_barang
-                barang.kategori_barang
-                barang.stok_barang
-                barang.harga_barang
-                barang.ukuran_barang
+        viewModel.allBarang.observe(viewLifecycleOwner) { barang ->
+            barang?.let {
+                Adapter.setBarangList(it)
             }
         }
 
-        binding.recyclerViewBarang.layoutManager = LinearLayoutManager(context)
-        binding.recyclerViewBarang.adapter = BarangAdapter
-
-        binding.fabAdd.setOnClickListener{
-            val intent = Intent(context, BarangInputActivity::class.java)
-            startActivity(intent)
+        binding.fabAdd.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.FragmentMenu, AddEditBarangFragment())
+                .addToBackStack(null)
+                .commit()
         }
 
+        return binding.root
+    }
+
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        _binding = null
+//    }
+
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//    }
+
+    private fun onDetailClick(barang: Barang) {
+        // Navigasi ke CreateProductFragment dengan ID produk
+        val bundle = Bundle().apply {
+            putInt("barangId", barang.id_barang ?: 0)
+        }
+        val detailFragment = DetailBarangFragment()
+        detailFragment.arguments = bundle
+
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.FragmentMenu, detailFragment)
+            .addToBackStack(null)
+            .commit()
     }
 }

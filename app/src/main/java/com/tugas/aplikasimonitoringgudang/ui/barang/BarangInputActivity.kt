@@ -1,6 +1,7 @@
 package com.tugas.aplikasimonitoringgudang.ui.barang
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.tugas.aplikasimonitoringgudang.data.barang.Barang
@@ -19,24 +20,27 @@ class BarangInputActivity : AppCompatActivity() {
         binding = ActivityInputBarangBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        val database = GudangDatabase.getDatabase(this)
-//        barangDao = database.barangDao()
+        val database = GudangDatabase.getDatabase(this)
+        var barangDao = database.barangDao()
 
-        binding.btnSubmit.setOnClickListener {
-            val nama = binding.namaBarang.text.toString()
-            val kategori = binding.kategoriBarang.text.toString()
-            val harga = binding.hargaBarang.text.toString().toInt()
-            val stok = binding.stokBarang.text.toString().toInt()
-            val ukuran = binding.ukuranBarang.text.toString()
+//        binding.btnSubmit.setOnClickListener {
+//            val nama = binding.namaBarang.text.toString()
+//            val kategori = binding.kategoriBarang.text.toString()
+//            val harga = binding.hargaBarang.text.toString().toInt()
+//            val stok = binding.stokBarang.text.toString().toInt()
+//            val ukuran = binding.ukuranBarang.text.toString()
+//
+//            barangViewModel.insert(Barang(
+//                nama_barang = nama,
+//                kategori_barang = kategori,
+//                harga_barang = harga,
+//                stok_barang = stok,
+//                ukuran_barang = ukuran
+//            ))
+//        }
 
-            barangViewModel.insert(Barang(
-                nama_barang = nama,
-                kategori_barang = kategori,
-                harga_barang = harga,
-                stok_barang = stok,
-                ukuran_barang = ukuran
-            ))
-        }
+
+
 
     }
 }
