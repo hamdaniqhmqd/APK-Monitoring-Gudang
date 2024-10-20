@@ -6,20 +6,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.tugas.aplikasimonitoringgudang.R
+import com.tugas.aplikasimonitoringgudang.adapter.AdapterBarang
 import com.tugas.aplikasimonitoringgudang.adapter.AdapterSupplier
+import com.tugas.aplikasimonitoringgudang.data.barang.Barang
 import com.tugas.aplikasimonitoringgudang.data.supplier.Supplier
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentDetailSupplierBinding
-import com.tugas.aplikasimonitoringgudang.databinding.FragmentDetailTransaksiBinding
-import com.tugas.aplikasimonitoringgudang.ui.transaksi.AddEditTransaksiFragment
-import com.tugas.aplikasimonitoringgudang.ui.transaksi.TransaksiFragment
+import com.tugas.aplikasimonitoringgudang.ui.barang.AddEditBarangFragment
+import com.tugas.aplikasimonitoringgudang.ui.barang.DetailBarangFragment
+import com.tugas.aplikasimonitoringgudang.veiwModel.BarangViewModel
 import com.tugas.aplikasimonitoringgudang.veiwModel.SupplierViewModel
-import com.tugas.aplikasimonitoringgudang.veiwModel.TransaksiViewModel
 
 class DetailSupplierFragment : Fragment() {
 
     private lateinit var viewModel: SupplierViewModel
     private var supplierId: Int? = null
+
+    private lateinit var Adapter: AdapterBarang
+    private lateinit var viewModelBarang: BarangViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,25 +51,40 @@ class DetailSupplierFragment : Fragment() {
         }
 
         binding.btnEdit.setOnClickListener {
-            supplierId?.let { id ->
-                onEditClick(id)
-            }
+            onEditClick(supplierId!!)
         }
 
         binding.btnHapus.setOnClickListener {
-            supplierId?.let { id ->
-                viewModel.delete(Supplier(id, "", 0, 0))
+            viewModel.delete(Supplier(supplierId!!, "", 0, 0))
+            toSupplierFragment()
+        }
+
+        binding.btnTambahBarang.setOnClickListener {
+            onTambahBarangClick(supplierId!!)
+        }
+
+        viewModelBarang = ViewModelProvider(this).get(BarangViewModel::class.java)
+
+        Adapter = AdapterBarang(emptyList()) { barang ->
+            onDetailClick(barang)
+        }
+
+        binding.rvBarang.adapter = Adapter
+        binding.rvBarang.layoutManager = LinearLayoutManager(requireContext())
+
+        viewModelBarang.getBarangByIdSupplier(supplierId!!).observe(viewLifecycleOwner) { barang ->
+            barang?.let {
+                Adapter.setBarangList(it)
             }
-            toTransaksiFragment()
         }
 
         return binding.root
     }
 
-    private fun onEditClick(idTransaksi: Int) {
+    private fun onEditClick(idSupplier: Int) {
         // Navigasi ke CreateProductFragment dengan ID produk
         val bundle = Bundle().apply {
-            putInt("transaksiId", idTransaksi ?: 0)
+            putInt("supplierId", idSupplier ?: 0)
         }
         val addEditFragment = AddEditSupplierFragment()
         addEditFragment.arguments = bundle
@@ -73,9 +94,38 @@ class DetailSupplierFragment : Fragment() {
             .addToBackStack(null)
             .commit()
     }
-    private fun toTransaksiFragment() {
+
+    private fun toSupplierFragment() {
         parentFragmentManager.beginTransaction()
             .replace(R.id.FragmentMenu, SupplierFragment())
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun onDetailClick(barang: Barang) {
+        // Navigasi ke CreateProductFragment dengan ID produk
+        val bundle = Bundle().apply {
+            putInt("barangId", barang.id_barang ?: 0)
+        }
+        val detailFragment = DetailBarangFragment()
+        detailFragment.arguments = bundle
+
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.FragmentMenu, detailFragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun onTambahBarangClick(idSupplier: Int) {
+        // Navigasi ke CreateProductFragment dengan ID produk
+        val bundle = Bundle().apply {
+            putInt("supplierId", idSupplier ?: 0)
+        }
+        val addEditFragment = AddEditBarangFragment()
+        addEditFragment.arguments = bundle
+
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.FragmentMenu, addEditFragment)
             .addToBackStack(null)
             .commit()
     }

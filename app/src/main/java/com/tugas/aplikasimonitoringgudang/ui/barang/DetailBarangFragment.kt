@@ -56,7 +56,7 @@ class DetailBarangFragment : Fragment() {
         }
 
         binding.btnHapus.setOnClickListener {
-            barangViewModel.delete(Barang(barangId!!, "", "", 0, 0, ""))
+            barangViewModel.delete(Barang(barangId!!, "", "", 0, 0, "", 0))
             toBarangFragment()
         }
 

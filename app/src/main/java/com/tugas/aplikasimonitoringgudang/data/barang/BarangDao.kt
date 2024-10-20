@@ -19,4 +19,7 @@ interface BarangDao {
 
     @Query("SELECT * FROM barang_table WHERE id_barang = :id")
     fun getBarangById(id: Int): LiveData<Barang>
+
+    @Query("SELECT * FROM barang_table WHERE supplier_id = :supplierId ORDER BY supplier_id ASC")
+    fun getBarangByIdSuppler(supplierId: Int): LiveData<List<Barang>>
 }

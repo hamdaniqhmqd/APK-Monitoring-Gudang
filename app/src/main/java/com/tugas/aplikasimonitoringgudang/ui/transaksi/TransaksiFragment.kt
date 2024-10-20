@@ -47,12 +47,12 @@ class TransaksiFragment : Fragment() {
             }
         }
 
-        binding.fabAddBarang.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.FragmentMenu, AddEditTransaksiFragment())
-                .addToBackStack(null)
-                .commit()
-        }
+//        binding.fabAddBarang.setOnClickListener {
+//            parentFragmentManager.beginTransaction()
+//                .replace(R.id.FragmentMenu, AddEditTransaksiFragment())
+//                .addToBackStack(null)
+//                .commit()
+//        }
 
         return binding.root
     }

@@ -17,6 +17,7 @@ class AddEditBarangFragment : Fragment() {
     //    private lateinit var binding: FragmentAddEditBarangBinding
     private lateinit var barangViewModel: BarangViewModel
     private var barangId: Int? = null
+    private var supplierId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +43,8 @@ class AddEditBarangFragment : Fragment() {
             }
         }
 
+        supplierId = arguments?.getInt("supplierId")
+
         binding.btnSubmit.setOnClickListener {
             val nama = binding.namaBarang.text.toString()
             val kategori = binding.kategoriBarang.text.toString()
@@ -57,7 +60,8 @@ class AddEditBarangFragment : Fragment() {
                         kategori_barang = kategori,
                         harga_barang = harga,
                         stok_barang = stok,
-                        ukuran_barang = ukuran
+                        ukuran_barang = ukuran,
+                        supplier_id = supplierId!!
                     )
                 )
             } else {
@@ -67,7 +71,8 @@ class AddEditBarangFragment : Fragment() {
                         kategori_barang = kategori,
                         harga_barang = harga,
                         stok_barang = stok,
-                        ukuran_barang = ukuran
+                        ukuran_barang = ukuran,
+                        supplier_id = supplierId!!
                     )
                 )
             }
