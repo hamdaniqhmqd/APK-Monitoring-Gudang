@@ -17,8 +17,6 @@ class UserFragment : Fragment() {
 
     private val binding get() = _binding!!
 
-    private lateinit var UserAdapter: AdapterUser
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

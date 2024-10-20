@@ -32,7 +32,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         database = GudangDatabase.getDatabase(this)
-        userDao = database.userDao()
+//        userDao = database.userDao()
 
         val usernameInput = binding.inputUser
         val passwordInput = binding.inputPass
