@@ -1,13 +1,11 @@
 package com.tugas.aplikasimonitoringgudang.data.user
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
 import androidx.lifecycle.LiveData
+import androidx.room.*
 
 @Dao
 interface UserDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(vararg user: User)
 
     @Query("SELECT * FROM user_table WHERE username = :username AND password = :password")
@@ -16,3 +14,4 @@ interface UserDao {
     @Query("SELECT * FROM user_table WHERE username = :username")
     fun getAdminLiveData(username: String): LiveData<User?>
 }
+

@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -18,7 +18,10 @@
             android:name=".ui.barang.BarangActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.transaksi.TransaksiActivity"
+            android:name=".ui.transaksi.DetailTransaksiActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.barang.BarangInputActivity"
             android:exported="false" />
         <activity
             android:name=".ui.AwalActivity"
@@ -31,17 +34,15 @@
             android:exported="false" />
         <activity
             android:name=".ui.LoadScreenActivity"
+            android:exported="true"></activity>
+        <activity
+            android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.MainActivity"
-            android:exported="true">
-
         </activity>
         <activity
             android:name=".ui.admin.AdminProfileActivity"
