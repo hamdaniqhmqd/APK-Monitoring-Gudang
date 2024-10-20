@@ -19,7 +19,7 @@ class SupplierRepository(private val supplierDao: SupplierDao) {
         supplierDao.delete(supplier)
     }
 
-    suspend fun getSupplierById(id: Int): Supplier? {
+    fun getSupplierById(id: Int): LiveData<Supplier> {
         return supplierDao.getSupplierById(id)
     }
 }

@@ -78,8 +78,6 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
-
-
     <Button
         android:id="@+id/button_tambah"
         android:layout_width="wrap_content"
