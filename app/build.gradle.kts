@@ -67,6 +67,13 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.activity.ktx)
 
+    implementation("com.google.android.material:material:1.12.0")
+
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+
+    implementation("androidx.navigation:navigation-fragment-ktx:2.8.3")
+    implementation("androidx.navigation:navigation-ui-ktx:2.8.3")
+
     ksp(libs.androidx.room.compiler)
 
     val room_version = "2.6.1"

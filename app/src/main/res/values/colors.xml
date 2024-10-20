@@ -6,9 +6,11 @@
     <color name="kuning">#F4CE14</color>
     <color name="putih_bg">#F5F7F8</color>
     <color name="putih">#F5F7F8</color>
+    <color name="putih_smooth">#F0EEEE</color>
     <color name="hitam">#000000</color>
     <color name="hitam_smooth">#434244</color>
     <color name="hijau_masuk">#DEFFDD</color>
     <color name="merah_keluar">#FFDCDF</color>
+    <color name="merah_hapus">#990000</color>
 
 </resources>

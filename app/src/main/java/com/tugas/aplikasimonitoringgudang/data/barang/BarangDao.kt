@@ -18,5 +18,5 @@ interface BarangDao {
     fun getAllBarang(): LiveData<List<Barang>>
 
     @Query("SELECT * FROM barang_table WHERE id_barang = :id")
-    suspend fun getBarangById(id: Int): Barang?
+    fun getBarangById(id: Int): LiveData<Barang>
 }
