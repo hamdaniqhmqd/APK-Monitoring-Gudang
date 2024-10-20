@@ -46,6 +46,7 @@ android {
 
 dependencies {
     implementation(libs.androidx.annotation)
+    implementation(libs.androidx.espresso.core)
     androidTestImplementation("androidx.test:runner:1.6.2")
     androidTestUtil("androidx.test:orchestrator:1.5.0")
 

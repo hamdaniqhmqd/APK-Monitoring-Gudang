@@ -40,5 +40,4 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             binding.Navigasi.selectedItemId = R.id.HomeNavigasi
         }
-    }
-}
+    }}
