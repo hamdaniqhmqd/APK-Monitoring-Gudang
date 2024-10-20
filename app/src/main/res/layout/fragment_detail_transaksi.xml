@@ -345,15 +345,15 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnHapus"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
+                    android:paddingHorizontal="16dp"
                     app:cornerRadius="8dp"
                     android:backgroundTint="@color/merah_hapus"
                     android:text="Hapus"
                     android:textColor="@color/white"
-                    app:layout_constraintEnd_toStartOf="@id/btnBatal"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <com.google.android.material.button.MaterialButton

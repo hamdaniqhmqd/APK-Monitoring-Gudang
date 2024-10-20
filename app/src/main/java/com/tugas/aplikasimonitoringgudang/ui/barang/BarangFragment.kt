@@ -48,12 +48,12 @@ class BarangFragment : Fragment() {
             }
         }
 
-        binding.fabAdd.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.FragmentMenu, AddEditBarangFragment())
-                .addToBackStack(null)
-                .commit()
-        }
+//        binding.fabAdd.setOnClickListener {
+//            parentFragmentManager.beginTransaction()
+//                .replace(R.id.FragmentMenu, AddEditBarangFragment())
+//                .addToBackStack(null)
+//                .commit()
+//        }
 
         return binding.root
     }
@@ -71,6 +71,7 @@ class BarangFragment : Fragment() {
         // Navigasi ke CreateProductFragment dengan ID produk
         val bundle = Bundle().apply {
             putInt("barangId", barang.id_barang ?: 0)
+            putInt("supplierId", barang.supplier_id ?: 0)
         }
         val detailFragment = DetailBarangFragment()
         detailFragment.arguments = bundle

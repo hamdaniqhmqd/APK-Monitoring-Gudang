@@ -34,10 +34,10 @@ class AddEditSupplierFragment : Fragment() {
 
         supplierId = arguments?.getInt("supplierId")
         if (supplierId != null) {
-            viewModel.getSupplierById(supplierId!!).observe(viewLifecycleOwner) { barang ->
-                binding.etNamaSupplier.setText(barang.nama_supplier)
-                binding.etNoHp.setText(barang.no_hp_supplier.toString())
-                binding.etNIK.setText(barang.nik_supplier.toString())
+            viewModel.getSupplierById(supplierId!!).observe(viewLifecycleOwner) { supplier ->
+                binding.etNamaSupplier.setText(supplier.nama_supplier)
+                binding.etNoHp.setText(supplier.no_hp_supplier.toString())
+                binding.etNIK.setText(supplier.nik_supplier.toString())
             }
         }
 

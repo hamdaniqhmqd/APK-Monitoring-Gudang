@@ -8,11 +8,10 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.tugas.aplikasimonitoringgudang.R
 import com.tugas.aplikasimonitoringgudang.data.barang.Barang
-import com.tugas.aplikasimonitoringgudang.databinding.FragmentAddEditBarangBinding
+import com.tugas.aplikasimonitoringgudang.databinding.FragmentEditBarangBinding
 import com.tugas.aplikasimonitoringgudang.veiwModel.BarangViewModel
 
-class AddEditBarangFragment : Fragment() {
-    //    private lateinit var binding: FragmentAddEditBarangBinding
+class EditBarangFragment : Fragment() {
     private lateinit var barangViewModel: BarangViewModel
     private var barangId: Int? = -1
     private var supplierId: Int? = -1
@@ -25,10 +24,22 @@ class AddEditBarangFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        val binding = FragmentAddEditBarangBinding.inflate(inflater, container, false)
+        val binding = FragmentEditBarangBinding.inflate(inflater, container, false)
 
         barangViewModel = ViewModelProvider(this).get(BarangViewModel::class.java)
+
+        barangId = arguments?.getInt("barangId")
+        if (barangId != -1) {
+            barangViewModel.getBarangById(barangId!!).observe(viewLifecycleOwner) { barang ->
+                if (barang != null) {
+                    binding.namaBarang.setText(barang.nama_barang)
+                    binding.kategoriBarang.setText(barang.kategori_barang)
+                    binding.hargaBarang.setText(barang.harga_barang.toString())
+                    binding.stokBarang.setText(barang.stok_barang.toString())
+                    binding.ukuranBarang.setText(barang.ukuran_barang)
+                }
+            }
+        }
 
         supplierId = arguments?.getInt("supplierId")
 
@@ -39,27 +50,23 @@ class AddEditBarangFragment : Fragment() {
             val stok = binding.stokBarang.text.toString().toInt()
             val ukuran = binding.ukuranBarang.text.toString()
 
-            barangViewModel.insert(
-                Barang(
-                    nama_barang = nama,
-                    kategori_barang = kategori,
-                    harga_barang = harga,
-                    stok_barang = stok,
-                    ukuran_barang = ukuran,
-                    supplier_id = supplierId!!
+        barangViewModel.update(
+                    Barang(
+                        id_barang = barangId!!,
+                        nama_barang = nama,
+                        kategori_barang = kategori,
+                        harga_barang = harga,
+                        stok_barang = stok,
+                        ukuran_barang = ukuran,
+                        supplier_id = supplierId!!
+                    )
                 )
-            )
 
             toBarangFragment()
         }
 
         return binding.root
     }
-
-
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//    }
 
     private fun toBarangFragment() {
         parentFragmentManager.beginTransaction()

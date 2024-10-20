@@ -117,7 +117,6 @@ class DetailSupplierFragment : Fragment() {
     }
 
     private fun onTambahBarangClick(idSupplier: Int) {
-        // Navigasi ke CreateProductFragment dengan ID produk
         val bundle = Bundle().apply {
             putInt("supplierId", idSupplier ?: 0)
         }
