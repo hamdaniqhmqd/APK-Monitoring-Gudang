@@ -34,9 +34,9 @@ class TransaksiFragment : Fragment() {
     ): View? {
         _binding = FragmentTransaksiBinding.inflate(inflater, container, false)
 
-        Adapter = AdapterTransaksi(emptyList(), { transaksi ->
+        Adapter = AdapterTransaksi(emptyList()) { transaksi ->
             onDetailClick(transaksi)
-        })
+        }
 
         binding.recyclerViewTransaksi.adapter = Adapter
         binding.recyclerViewTransaksi.layoutManager = LinearLayoutManager(requireContext())

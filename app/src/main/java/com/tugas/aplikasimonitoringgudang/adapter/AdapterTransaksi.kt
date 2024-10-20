@@ -11,8 +11,7 @@ import com.tugas.aplikasimonitoringgudang.databinding.ItemTransaksiBinding
 class AdapterTransaksi(
     private var transaksiList: List<Transaksi>,
     private var onItemClick: (Transaksi) -> Unit
-) :
-    RecyclerView.Adapter<AdapterTransaksi.TransaksiViewHolder>() {
+) : RecyclerView.Adapter<AdapterTransaksi.TransaksiViewHolder>() {
 
     inner class TransaksiViewHolder(private val binding: ItemTransaksiBinding) :
         RecyclerView.ViewHolder(binding.root) {
