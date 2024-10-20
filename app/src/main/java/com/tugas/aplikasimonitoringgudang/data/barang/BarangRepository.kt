@@ -17,7 +17,5 @@ class BarangRepository(private val barangDao: BarangDao) {
         barangDao.delete(barang)
     }
 
-    suspend fun getBarangById(id: Int): Barang? {
-        return barangDao.getBarangById(id)
-    }
+    fun getBarangById(id: Int): LiveData<Barang> = barangDao.getBarangById(id)
 }

@@ -1,25 +1,29 @@
 package com.tugas.aplikasimonitoringgudang.adapter
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.tugas.aplikasimonitoringgudang.data.barang.Barang
 import com.tugas.aplikasimonitoringgudang.databinding.ItemBarangBinding
+import java.text.NumberFormat
+import java.util.Locale
 
-class AdapterBarang(private var onItemClick: (Barang) -> Unit) :
+class AdapterBarang(private var barangList: List<Barang>,
+                    private val onDetailClick: (Barang) -> Unit) :
     RecyclerView.Adapter<AdapterBarang.BarangViewHolder>() {
-
-    private var barang = listOf<Barang>()
 
     inner class BarangViewHolder(private val binding: ItemBarangBinding) :
         RecyclerView.ViewHolder(binding.root) {
-            val id = binding.idBarang
         val nama = binding.namaBarang
-//        fun bind(barang: Barang) {
-//            onItemClick(barang)
-//        }
+        val harga = binding.hargaBarang
+        val stok = binding.stokBarang
+
+        init {
+            itemView.setOnClickListener {
+                onDetailClick(barangList[adapterPosition])
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BarangViewHolder {
@@ -28,26 +32,21 @@ class AdapterBarang(private var onItemClick: (Barang) -> Unit) :
     }
 
     override fun onBindViewHolder(holder: BarangViewHolder, position: Int) {
-        val dataBarang = barang[position]
-        holder.id.text = dataBarang.id_barang.toString()
-        holder.nama.text = dataBarang.nama_barang
-
-        holder.itemView.setOnClickListener {
-//            holder.bind(dataBarang)
-//            val data = holder.itemView.context
-//            val intent = Intent(data, DetailBarangActivity::class.java)
-//            intent.putExtra("EXTRA_ID", dataBarang.id)
-//            intent.putExtra("EXTRA_NAME", dataBarang.name)
-//            intent.putExtra("EXTRA_QUANTITY", dataBarang.quantity)
-//            data.startActivity(intent)
-        }
+        val barang = barangList[position]
+        holder.nama.text = barang.nama_barang
+        val numberFormat = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
+        holder.harga.text = numberFormat.format(barang.harga_barang)
+        holder.stok.text = barang.stok_barang.toString()
     }
 
-    override fun getItemCount(): Int = barang.size
+    override fun getItemCount(): Int {
+        return barangList.size
+    }
 
+    // Fungsi untuk mengatur/mengupdate data di adapter
     @SuppressLint("NotifyDataSetChanged")
-    fun setDataBarang(barang: List<Barang>) {
-        this.barang = barang
-        notifyDataSetChanged()
+    fun setBarangList(newList: List<Barang>) {
+        barangList = newList
+        notifyDataSetChanged() // Memastikan RecyclerView diperbarui
     }
 }
