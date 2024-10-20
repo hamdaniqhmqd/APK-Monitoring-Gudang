@@ -73,7 +73,6 @@ class DetailSupplierFragment : Fragment() {
             .addToBackStack(null)
             .commit()
     }
-
     private fun toTransaksiFragment() {
         parentFragmentManager.beginTransaction()
             .replace(R.id.FragmentMenu, SupplierFragment())

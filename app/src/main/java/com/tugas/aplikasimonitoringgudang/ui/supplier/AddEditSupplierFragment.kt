@@ -7,8 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.tugas.aplikasimonitoringgudang.R
+import com.tugas.aplikasimonitoringgudang.data.barang.Barang
+import com.tugas.aplikasimonitoringgudang.data.supplier.Supplier
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentAddEditSupplierBinding
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentDetailSupplierBinding
+import com.tugas.aplikasimonitoringgudang.ui.barang.BarangFragment
 import com.tugas.aplikasimonitoringgudang.veiwModel.SupplierViewModel
 
 class AddEditSupplierFragment : Fragment() {
@@ -29,7 +32,30 @@ class AddEditSupplierFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(SupplierViewModel::class.java)
 
+        binding.btnSubmit.setOnClickListener {
+            val nama = binding.etNamaSupplier.text.toString()
+            val no_hp = binding.etNoHp.text.toString().toInt()
+            val nik = binding.etNIK.text.toString().toInt()
+
+            viewModel.insert(
+                Supplier(
+                    nama_supplier = nama,
+                    no_hp_supplier = no_hp,
+                    nik_supplier = nik
+                )
+            )
+
+            toSupplierFragment()
+        }
+
         return binding.root
 
+    }
+
+    private fun toSupplierFragment() {
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.FragmentMenu, SupplierFragment())
+            .addToBackStack(null)
+            .commit()
     }
 }

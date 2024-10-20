@@ -22,6 +22,5 @@ class SupplierInputActiivity : AppCompatActivity() {
 //        val database = GudangDatabase.getDatabase(this)
 //        barangDao = database.barangDao()
 
-
     }
 }
