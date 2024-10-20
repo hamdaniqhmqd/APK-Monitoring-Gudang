@@ -41,8 +41,8 @@ class AdapterTransaksi(
         holder.hargaBarang.text = dataTransaksi.harga_barang.toString()
         holder.jumlahTransaksi.text = dataTransaksi.jumlah_barang.toString()
         holder.totalHargaTransaksi.text = dataTransaksi.total_harga_barang.toString()
-        holder.namaSupplier.text = dataTransaksi.supplier_nama
-        holder.namaAdmin.text = dataTransaksi.user_nama
+//        holder.namaSupplier.text = dataTransaksi.supplier_nama
+//        holder.namaAdmin.text = dataTransaksi.user_nama
     }
 
     override fun getItemCount(): Int = transaksiList.size

@@ -31,7 +31,7 @@ class TransaksiViewModel(application: Application) : AndroidViewModel(applicatio
         repository.delete(transaksi)
     }
 
-    suspend fun getTransaksiById(id: Int): Transaksi? {
+    fun getTransaksiById(id: Int): LiveData<Transaksi> {
         return repository.getTransaksiById(id)
     }
 }

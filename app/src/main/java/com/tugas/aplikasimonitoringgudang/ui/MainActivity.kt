@@ -39,4 +39,26 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             binding.Navigasi.selectedItemId = R.id.HomeNavigasi
         }
-    }}
+    }
+
+    fun toSupplier() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.FragmentMenu, SupplierFragment())
+            .addToBackStack(null)
+            .commit()
+    }
+
+    fun toBarang() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.FragmentMenu, BarangFragment())
+            .addToBackStack(null)
+            .commit()
+    }
+
+    fun toTransaksi() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.FragmentMenu, TransaksiFragment())
+            .addToBackStack(null)
+            .commit()
+    }
+}

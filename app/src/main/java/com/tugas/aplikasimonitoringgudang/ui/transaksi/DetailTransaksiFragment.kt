@@ -28,11 +28,11 @@ class DetailTransaksiFragment : Fragment() {
 
         transaksiId = arguments?.getInt("transaksiId")
         transaksiId?.let {
-//            viewModel.getTransaksiById(it).observe(viewLifecycleOwner) { transaksi ->
-//                binding.tvNama.text = transaksi.nama
+            viewModel.getTransaksiById(it).observe(viewLifecycleOwner) { transaksi ->
+//                binding.textView.text = transaksi.nama
 //                binding.tvHarga.text = transaksi.harga.toString()
 //                binding.tvDeskripsi.text = transaksi.deskripsi
-//            }
+            }
         }
 
 //        binding.btnEdit.setOnClickListener {
@@ -46,7 +46,7 @@ class DetailTransaksiFragment : Fragment() {
 //                viewModel.delete(Transaksi(id, "", 0.0, ""))
 //            }
 
-            toTransaksiFragment()
+//            toTransaksiFragment()
 //        }
 
         return binding.root
