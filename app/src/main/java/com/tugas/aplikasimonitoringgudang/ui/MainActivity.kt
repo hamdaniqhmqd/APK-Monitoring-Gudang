@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
             var selectedFragment: Fragment? = null
 
             when (item.itemId) {
-//                R.id.HomeNavigasi -> selectedFragment = UserFragment()
+                R.id.HomeNavigasi -> selectedFragment = UserFragment()
                 R.id.BarangNavigasi -> selectedFragment = BarangFragment()
                 R.id.SupplierNavigasi -> selectedFragment = SupplierFragment()
                 R.id.TransaksiNavigasi -> selectedFragment = TransaksiFragment()

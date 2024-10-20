@@ -8,15 +8,24 @@ import com.tugas.aplikasimonitoringgudang.data.supplier.Supplier
 import com.tugas.aplikasimonitoringgudang.databinding.ItemSupplierBinding
 
 class AdapterSupplier(
+    private var supplierList: List<Supplier>,
     private val onItemClick: (Supplier) -> Unit
 ) : RecyclerView.Adapter<AdapterSupplier.SupplierViewHolder>() {
 
-    // List yang akan menampung data supplier
-    private var supplierList = listOf<Supplier>()
-
     // ViewHolder yang mengikat item dengan binding
-    class SupplierViewHolder(val binding: ItemSupplierBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    inner class SupplierViewHolder(val binding: ItemSupplierBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        val nama = binding.supplierName
+        val nik = binding.supplierNik
+        val no_hp = binding.supplierPhone
+
+        init {
+            itemView.setOnClickListener {
+                onItemClick(supplierList[adapterPosition])
+            }
+        }
+    }
+
 
     // Membuat ViewHolder baru dengan layout item_supplier.xml
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SupplierViewHolder {
@@ -29,10 +38,9 @@ class AdapterSupplier(
     // Mengikat data ke view dalam RecyclerView
     override fun onBindViewHolder(holder: SupplierViewHolder, position: Int) {
         val dataSupplier = supplierList[position]
-        holder.binding.idSupplier.text = dataSupplier.id_supplier.toString()
-        holder.binding.namaSupplier.text = dataSupplier.nama_supplier
-        holder.binding.noHpSupplier.text = dataSupplier.no_hp_supplier
-        holder.binding.nikSupplier.text = dataSupplier.nik_supplier
+        holder.nama.text = dataSupplier.nama_supplier
+        holder.no_hp.text = dataSupplier.no_hp_supplier.toString()
+        holder.nik.text = dataSupplier.nik_supplier.toString()
 
         // Menangani klik pada item
         holder.itemView.setOnClickListener {

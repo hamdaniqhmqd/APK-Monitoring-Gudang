@@ -10,6 +10,4 @@ data class Supplier(
     val nama_supplier: String,
     val nik_supplier: Int,
     val no_hp_supplier: Int,
-) {
-
-}
+)
