@@ -25,7 +25,7 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val database = GudangDatabase.getDatabase(this)
-        userDao = database.userDao()
+//        userDao = database.userDao()
 
         binding.btnRegister.setOnClickListener {
             val username = binding.inputUser.text.toString()
