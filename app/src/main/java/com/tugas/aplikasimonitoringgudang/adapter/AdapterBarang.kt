@@ -32,7 +32,7 @@ class AdapterBarang(private var onItemClick: (Barang) -> Unit) :
         holder.id.text = dataBarang.id_barang.toString()
         holder.nama.text = dataBarang.nama_barang
 
-//        holder.itemView.setOnClickListener {
+        holder.itemView.setOnClickListener {
 //            holder.bind(dataBarang)
 //            val data = holder.itemView.context
 //            val intent = Intent(data, DetailBarangActivity::class.java)
@@ -40,7 +40,7 @@ class AdapterBarang(private var onItemClick: (Barang) -> Unit) :
 //            intent.putExtra("EXTRA_NAME", dataBarang.name)
 //            intent.putExtra("EXTRA_QUANTITY", dataBarang.quantity)
 //            data.startActivity(intent)
-//        }
+        }
     }
 
     override fun getItemCount(): Int = barang.size
