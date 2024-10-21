@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import android.content.Context
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -28,7 +29,7 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
 
-    private val userLoginViewModel: UserViewModel by viewModels()
+    private val viewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,10 +61,17 @@ class LoginActivity : AppCompatActivity() {
                 runOnUiThread {
                     if (user != null) {
                         // Save login state
-                        userLoginViewModel.update(User(id = user.id, username = inputUsername, password = inputPassword, statusLoging = 1))
+                        viewModel.update(User(id = user.id, username = inputUsername, password = inputPassword, statusLoging = 1))
 
                         Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
-                        intentMainAct(inputUsername)
+                        intentMainAct()
+
+                        // In LoginActivity, after successful login
+                        val sharedPreferences = getSharedPreferences("AdminPrefs", Context.MODE_PRIVATE)
+                        sharedPreferences.edit().putString("username", inputUsername).apply()
+
+                        val sharedPreferencesLogin = getSharedPreferences("LoginPrefs", MODE_PRIVATE)
+                        sharedPreferencesLogin.edit().putBoolean("isLoggedIn", true).apply()
                     } else {
                         Toast.makeText(this@LoginActivity, "Invalid credentials", Toast.LENGTH_SHORT).show()
                     }
@@ -76,9 +84,8 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun intentMainAct(userName: String) {
+    private fun intentMainAct() {
         val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra("username", userName)
         startActivity(intent)
     }
 
