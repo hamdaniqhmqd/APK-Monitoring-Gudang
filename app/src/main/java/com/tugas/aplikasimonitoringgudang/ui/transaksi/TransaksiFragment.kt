@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.lifecycle.Observer
 import com.tugas.aplikasimonitoringgudang.R
 import com.tugas.aplikasimonitoringgudang.adapter.AdapterTransaksi
 import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
@@ -46,6 +47,10 @@ class TransaksiFragment : Fragment() {
                 Adapter.setDataTransaksi(it) // Update data di adapter
             }
         }
+
+//        viewModel.getUniqueBarangCountInTransaksiMasuk().observe(this, Observer { count ->
+//            binding.transaksiMasukCount.text = count.toString()
+//        })
 
 //        binding.fabAddBarang.setOnClickListener {
 //            parentFragmentManager.beginTransaction()

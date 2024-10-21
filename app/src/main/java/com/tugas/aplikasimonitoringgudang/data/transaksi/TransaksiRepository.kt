@@ -19,6 +19,11 @@ class TransaksiRepository(private val transaksiDao: TransaksiDao) {
     }
 
     fun getTransaksiById(id: Int): LiveData<Transaksi> {
-        return transaksiDao.getBarangById(id)
+        return transaksiDao.getTransaksiById(id)
     }
+
+    suspend fun getTransaksiMasukCount(): Int = transaksiDao.getTransaksiMasukCount()
+    suspend fun getTransaksiKeluarCount(): Int = transaksiDao.getTransaksiKeluarCount()
+
+    fun getUniqueBarangCountInTransaksiMasuk(): LiveData<Int> = transaksiDao.getUniqueBarangCountInTransaksiMasuk()
 }

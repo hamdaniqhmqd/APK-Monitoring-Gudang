@@ -1,20 +1,18 @@
 package com.tugas.aplikasimonitoringgudang.ui.user
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.content.Context
-import com.tugas.aplikasimonitoringgudang.R
-import com.tugas.aplikasimonitoringgudang.ui.admin.AdminProfileActivity
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentUserBinding
-import android.content.Intent
-import android.net.Uri
+import com.tugas.aplikasimonitoringgudang.ui.admin.AdminProfileActivity
 
 class UserFragment : Fragment() {
+    private lateinit var userViewModel: UserViewModel
     private var _binding: FragmentUserBinding? = null
-
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -25,37 +23,40 @@ class UserFragment : Fragment() {
         return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sharedPreferences = requireContext().getSharedPreferences("AdminPrefs", Context.MODE_PRIVATE)
-        val adminName = sharedPreferences.getString("adminName", "Admin")
-        val adminImageUri = sharedPreferences.getString("adminImageUri", null)
+        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
-        binding.greetingText.text = "Hi! $adminName"
-
-        binding.greetingText.setOnClickListener {
-            navigateToAdminProfile()
+        userViewModel.barangCount.observe(viewLifecycleOwner) { count ->
+            binding.barangCount.text = count.toString()
         }
 
+        userViewModel.supplierCount.observe(viewLifecycleOwner) { count ->
+            binding.supplierCount.text = count.toString()
+        }
+
+        userViewModel.transaksiMasukCount.observe(viewLifecycleOwner) { count ->
+            binding.transaksiMasukCount.text = count.toString()
+        }
+
+        userViewModel.transaksiKeluarCount.observe(viewLifecycleOwner) { count ->
+            binding.transaksiKeluarCount.text = count.toString()
+        }
+
+        // Trigger the count updates
+        userViewModel.updateCounts()
+
+        // Set click listener for admin profile
         binding.userIcon.setOnClickListener {
-            navigateToAdminProfile()
+            // Navigate to AdminProfileActivity
+            val intent = Intent(requireContext(), AdminProfileActivity::class.java)
+            startActivity(intent)
         }
-
-        if (adminImageUri != null) {
-            binding.userIcon.setImageURI(Uri.parse(adminImageUri))
-        }
-
-        //        kode user di bawah ini
     }
 
-    private fun navigateToAdminProfile() {
-        val intent = Intent(requireContext(), AdminProfileActivity::class.java)
-        startActivity(intent)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

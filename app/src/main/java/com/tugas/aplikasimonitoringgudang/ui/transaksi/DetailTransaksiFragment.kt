@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.Observer
 import com.tugas.aplikasimonitoringgudang.R
 import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentDetailTransaksiBinding
@@ -99,6 +100,11 @@ class DetailTransaksiFragment : Fragment() {
             viewModel.delete(Transaksi(transaksiId!!, "", "", "", 0, 0, 0, 0))
             toTransaksiFragment()
         }
+
+        // Remove or comment out this line if it's not needed in DetailTransaksiFragment
+        // viewModel.getUniqueBarangCountInTransaksiMasuk().observe(viewLifecycleOwner, Observer { count ->
+        //     binding.transaksiMasukCount.text = count.toString()
+        // })
 
         return binding.root
     }

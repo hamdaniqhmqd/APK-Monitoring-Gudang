@@ -1,27 +1,21 @@
 package com.tugas.aplikasimonitoringgudang.ui.login
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
-import android.content.Context
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.tugas.aplikasimonitoringgudang.R
-import com.tugas.aplikasimonitoringgudang.data.database.GudangDatabase // Ensure this import is correct
-import com.tugas.aplikasimonitoringgudang.data.user.UserDao
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import com.google.android.material.button.MaterialButton
+import com.tugas.aplikasimonitoringgudang.data.database.GudangDatabase
 import com.tugas.aplikasimonitoringgudang.data.user.User
+import com.tugas.aplikasimonitoringgudang.data.user.UserDao
 import com.tugas.aplikasimonitoringgudang.databinding.ActivityLoginBinding
 import com.tugas.aplikasimonitoringgudang.ui.MainActivity
 import com.tugas.aplikasimonitoringgudang.ui.register.RegisterActivity
-import com.tugas.aplikasimonitoringgudang.veiwModel.UserViewModel
+import com.tugas.aplikasimonitoringgudang.ui.user.UserViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var database: GudangDatabase

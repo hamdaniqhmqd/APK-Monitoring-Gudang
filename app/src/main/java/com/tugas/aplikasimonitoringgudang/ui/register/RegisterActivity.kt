@@ -11,7 +11,7 @@ import com.tugas.aplikasimonitoringgudang.ui.login.LoginActivity
 import com.tugas.aplikasimonitoringgudang.data.database.GudangDatabase
 import com.tugas.aplikasimonitoringgudang.data.user.User
 import com.tugas.aplikasimonitoringgudang.data.user.UserDao
-import com.tugas.aplikasimonitoringgudang.veiwModel.UserViewModel
+import com.tugas.aplikasimonitoringgudang.ui.user.UserViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
