@@ -1,5 +1,6 @@
 package com.tugas.aplikasimonitoringgudang.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -53,6 +54,11 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.FragmentMenu, BarangFragment())
             .addToBackStack(null)
             .commit()
+    }
+
+    fun intentUsername(): String? {
+        val username = intent.getStringExtra("username")
+        return username
     }
 
     fun toTransaksi() {

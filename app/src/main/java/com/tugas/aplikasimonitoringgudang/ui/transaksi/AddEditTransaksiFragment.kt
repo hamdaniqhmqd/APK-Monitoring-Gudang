@@ -30,10 +30,13 @@ class AddEditTransaksiFragment : Fragment() {
     private var transaksiId: Int? = null
     private var barangId: Int? = null
     private var supplierId: Int? = null
+    private var supplierNama: String? = ""
 
     private var jumlahBarang: Int = 0
     private var totalHargaBarang: Int? = 0
     private var hargaBarang: Int? = 0
+
+    private var username: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +59,7 @@ class AddEditTransaksiFragment : Fragment() {
 //                if (barang != null) {
                 binding.namaBarang.text = barang.nama_barang
                 binding.hargaBarang.text = barang.harga_barang.toString()
+                supplierNama = barang.supplier_nama
 //                }
             }
         }
@@ -94,6 +98,8 @@ class AddEditTransaksiFragment : Fragment() {
 //            }
 //        }
 
+        username = (requireActivity() as MainActivity).intentUsername().toString()
+
         binding.saveBtn.setOnClickListener {
             val namaBarang = binding.namaBarang.text.toString()
             val hargaBarang = binding.hargaBarang.text.toString().toInt()
@@ -104,6 +110,8 @@ class AddEditTransaksiFragment : Fragment() {
                 Transaksi(
                     barang_nama = namaBarang,
                     harga_barang = hargaBarang,
+                    user_nama = username,
+                    supplier_nama = supplierNama!!,
                     jumlah_barang = jumlahBarang,
                     total_harga_barang = totalHarga,
                     status = 1
