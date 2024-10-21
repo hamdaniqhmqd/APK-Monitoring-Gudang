@@ -49,30 +49,10 @@ class AddEditBarangFragment : Fragment() {
                 )
             )
 
-//            if (barangId != null) {
-//                barangViewModel.update(
-//                    Barang(
-//                        id_barang = barangId!!,
-//                        nama_barang = nama,
-//                        kategori_barang = kategori,
-//                        harga_barang = harga,
-//                        stok_barang = stok,
-//                        ukuran_barang = ukuran
-//                    )
-//                )
-//            } else {
-
-//            }
-
             toBarangFragment()
         }
-
         return binding.root
     }
-
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//    }
 
     private fun toBarangFragment() {
         parentFragmentManager.beginTransaction()
