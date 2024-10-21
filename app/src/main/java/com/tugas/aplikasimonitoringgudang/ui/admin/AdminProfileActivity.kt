@@ -8,9 +8,14 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import android.content.SharedPreferences
+import android.widget.Toast
+import android.content.Context
+import androidx.appcompat.app.AlertDialog
 import com.tugas.aplikasimonitoringgudang.R
 import com.tugas.aplikasimonitoringgudang.ui.login.LoginActivity
 import com.tugas.aplikasimonitoringgudang.ui.user.UserViewModel
+import android.util.Log
 
 class AdminProfileActivity : AppCompatActivity() {
     private lateinit var viewModel: UserViewModel
@@ -24,12 +29,21 @@ class AdminProfileActivity : AppCompatActivity() {
         val adminNameTextView = findViewById<TextView>(R.id.adminName)
         val adminImageView = findViewById<ImageView>(R.id.adminImage)
 
-        viewModel.getAdminLiveData("adminUsername").observe(this, { admin ->
-            admin?.let {
-                adminNameTextView.text = it.username
-                // Update other UI components as needed
+        // Get the username from SharedPreferences or wherever you store it
+        val sharedPreferences = getSharedPreferences("AdminPrefs", Context.MODE_PRIVATE)
+        val username = sharedPreferences.getString("username", "") ?: ""
+
+        try {
+            viewModel.getAdminLiveData(username).observe(this) { admin ->
+                admin?.let {
+                    adminNameTextView.text = it.username
+                    // Update other UI components as needed
+                }
             }
-        })
+        } catch (e: Exception) {
+            Log.e("AdminProfileActivity", "Error observing admin data", e)
+            Toast.makeText(this, "Error loading admin profile", Toast.LENGTH_SHORT).show()
+        }
 
         val logoutOption = findViewById<LinearLayout>(R.id.logoutOption)
         logoutOption.setOnClickListener {
