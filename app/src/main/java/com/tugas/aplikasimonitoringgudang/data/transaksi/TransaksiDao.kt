@@ -30,4 +30,7 @@ interface TransaksiDao {
 
     @Query("SELECT COUNT(*) FROM transaksi_table WHERE status = 1")
     suspend fun getTransaksiKeluarCount(): Int
+
+    @Query("SELECT COUNT(DISTINCT barang_nama) FROM transaksi_table WHERE status = 2")
+    fun getUniqueBarangCountInTransaksiMasuk(): LiveData<Int>
 }

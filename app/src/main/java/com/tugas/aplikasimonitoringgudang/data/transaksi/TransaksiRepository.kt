@@ -24,4 +24,6 @@ class TransaksiRepository(private val transaksiDao: TransaksiDao) {
 
     suspend fun getTransaksiMasukCount(): Int = transaksiDao.getTransaksiMasukCount()
     suspend fun getTransaksiKeluarCount(): Int = transaksiDao.getTransaksiKeluarCount()
+
+    fun getUniqueBarangCountInTransaksiMasuk(): LiveData<Int> = transaksiDao.getUniqueBarangCountInTransaksiMasuk()
 }
