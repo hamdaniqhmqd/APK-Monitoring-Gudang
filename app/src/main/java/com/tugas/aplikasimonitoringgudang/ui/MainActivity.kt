@@ -1,5 +1,6 @@
 package com.tugas.aplikasimonitoringgudang.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -39,4 +40,31 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             binding.Navigasi.selectedItemId = R.id.HomeNavigasi
         }
-    }}
+    }
+
+    fun toSupplier() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.FragmentMenu, SupplierFragment())
+            .addToBackStack(null)
+            .commit()
+    }
+
+    fun toBarang() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.FragmentMenu, BarangFragment())
+            .addToBackStack(null)
+            .commit()
+    }
+
+    fun intentUsername(): String? {
+        val username = intent.getStringExtra("username")
+        return username
+    }
+
+    fun toTransaksi() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.FragmentMenu, TransaksiFragment())
+            .addToBackStack(null)
+            .commit()
+    }
+}

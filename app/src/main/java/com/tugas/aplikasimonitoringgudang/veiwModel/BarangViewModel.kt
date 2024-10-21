@@ -35,4 +35,8 @@ class BarangViewModel(application: Application) : AndroidViewModel(application) 
     fun getBarangById(id: Int): LiveData<Barang> {
         return repository.getBarangById(id)
     }
+
+    fun getBarangByIdSupplier(idSupplier: Int): LiveData<List<Barang>> {
+        return repository.getBarangBySupplerId(idSupplier)
+    }
 }

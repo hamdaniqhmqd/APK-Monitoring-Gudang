@@ -32,24 +32,43 @@ class AddEditSupplierFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(SupplierViewModel::class.java)
 
+        supplierId = arguments?.getInt("supplierId")
+        if (supplierId != null) {
+            viewModel.getSupplierById(supplierId!!).observe(viewLifecycleOwner) { supplier ->
+                binding.etNamaSupplier.setText(supplier.nama_supplier)
+                binding.etNoHp.setText(supplier.no_hp_supplier.toString())
+                binding.etNIK.setText(supplier.nik_supplier.toString())
+            }
+        }
+
         binding.btnSubmit.setOnClickListener {
             val nama = binding.etNamaSupplier.text.toString()
             val no_hp = binding.etNoHp.text.toString().toInt()
             val nik = binding.etNIK.text.toString().toInt()
 
-            viewModel.insert(
-                Supplier(
-                    nama_supplier = nama,
-                    no_hp_supplier = no_hp,
-                    nik_supplier = nik
+            if (supplierId != null) {
+                viewModel.update(
+                    Supplier(
+                        id_supplier = supplierId!!,
+                        nama_supplier = nama,
+                        no_hp_supplier = no_hp,
+                        nik_supplier = nik
+                    )
                 )
-            )
+            } else {
+                viewModel.insert(
+                    Supplier(
+                        nama_supplier = nama,
+                        no_hp_supplier = no_hp,
+                        nik_supplier = nik
+                    )
+                )
+            }
 
             toSupplierFragment()
         }
 
         return binding.root
-
     }
 
     private fun toSupplierFragment() {

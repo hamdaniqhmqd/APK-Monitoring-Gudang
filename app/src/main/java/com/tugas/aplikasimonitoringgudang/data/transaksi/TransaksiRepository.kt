@@ -18,7 +18,7 @@ class TransaksiRepository(private val transaksiDao: TransaksiDao) {
         transaksiDao.delete(transaksi)
     }
 
-    suspend fun getTransaksiById(id: Int): Transaksi? {
+    fun getTransaksiById(id: Int): LiveData<Transaksi> {
         return transaksiDao.getBarangById(id)
     }
 }

@@ -62,10 +62,10 @@ class TransaksiFragment : Fragment() {
         _binding = null
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
 //        kode user di bawah ini
-    }
+//    }
 
     private fun onDetailClick(transaksi: Transaksi) {
         // Navigasi ke CreateProductFragment dengan ID produk

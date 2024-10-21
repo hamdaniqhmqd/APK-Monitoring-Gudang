@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="14dp"
             android:paddingVertical="10dp"
-            android:background="@color/hijau_masuk"
+            android:background="@color/merah_keluar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints">

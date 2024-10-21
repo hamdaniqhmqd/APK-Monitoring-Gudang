@@ -18,5 +18,5 @@ interface TransaksiDao {
     fun getAllTransaksi(): LiveData<List<Transaksi>>
 
     @Query("SELECT * FROM transaksi_table WHERE id_transaksi = :id LIMIT 1")
-    suspend fun getBarangById(id: Int): Transaksi?
+    fun getBarangById(id: Int): LiveData<Transaksi>
 }

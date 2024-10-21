@@ -5,16 +5,16 @@ import androidx.lifecycle.LiveData
 class UserRepository(private val userDao: UserDao) {
 //    val allUser: LiveData<List<User>> = userDao.getUser()
 
-    suspend fun insert(transaksi: User) {
-        userDao.insert(transaksi)
+    suspend fun insert(user: User) {
+        userDao.insert(user)
     }
 
-    suspend fun update(transaksi: User) {
-        userDao.update(transaksi)
+    suspend fun update(user: User) {
+        userDao.update(user)
     }
 
-    suspend fun delete(transaksi: User) {
-        userDao.delete(transaksi)
+    suspend fun delete(user: User) {
+        userDao.delete(user)
     }
 
     suspend fun getUserById(id: Int): User? {
