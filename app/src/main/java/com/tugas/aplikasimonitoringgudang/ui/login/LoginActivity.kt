@@ -63,7 +63,7 @@ class LoginActivity : AppCompatActivity() {
                         userLoginViewModel.update(User(id = user.id, username = inputUsername, password = inputPassword, statusLoging = 1))
 
                         Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
-                        intentMainAct()
+                        intentMainAct(inputUsername)
                     } else {
                         Toast.makeText(this@LoginActivity, "Invalid credentials", Toast.LENGTH_SHORT).show()
                     }
@@ -76,8 +76,9 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun intentMainAct() {
+    private fun intentMainAct(userName: String) {
         val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("username", userName)
         startActivity(intent)
     }
 

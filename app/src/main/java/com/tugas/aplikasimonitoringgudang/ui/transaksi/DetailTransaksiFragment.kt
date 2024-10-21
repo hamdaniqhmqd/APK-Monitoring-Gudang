@@ -10,12 +10,16 @@ import androidx.lifecycle.ViewModelProvider
 import com.tugas.aplikasimonitoringgudang.R
 import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentDetailTransaksiBinding
+import com.tugas.aplikasimonitoringgudang.ui.MainActivity
 import com.tugas.aplikasimonitoringgudang.veiwModel.TransaksiViewModel
 
 class DetailTransaksiFragment : Fragment() {
     private lateinit var viewModel: TransaksiViewModel
     private var transaksiId: Int? = null
     private var status: Int? = null
+
+    private var supplierNama: String? = ""
+    private var username: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +37,7 @@ class DetailTransaksiFragment : Fragment() {
         transaksiId?.let {
             viewModel.getTransaksiById(it).observe(viewLifecycleOwner) { transaksi ->
                 status = transaksi.status
+                supplierNama = transaksi.supplier_nama
                 binding.tvTransaksiName.text = transaksi.barang_nama
                 binding.tvTransaksiHarga.text = transaksi.harga_barang.toString()
                 binding.tvTransaksiJumlah.text = transaksi.jumlah_barang.toString()
@@ -66,6 +71,7 @@ class DetailTransaksiFragment : Fragment() {
             binding.status.text = "Batal Transaksi"
         }
 
+        username = (requireActivity() as MainActivity).intentUsername().toString()
 
         binding.btnBatal.setOnClickListener {
             val namaBarang = binding.tvTransaksiName.text.toString()
@@ -77,6 +83,8 @@ class DetailTransaksiFragment : Fragment() {
                 Transaksi(
                     id_transaksi = transaksiId!!,
                     barang_nama = namaBarang,
+                    user_nama = username,
+                    supplier_nama = supplierNama!!,
                     harga_barang = hargaBarang,
                     jumlah_barang = jumlahBarang,
                     total_harga_barang = totalHarga,
@@ -88,7 +96,7 @@ class DetailTransaksiFragment : Fragment() {
         }
 
         binding.btnHapus.setOnClickListener {
-            viewModel.delete(Transaksi(transaksiId!!, "", 0, 0, 0, 0))
+            viewModel.delete(Transaksi(transaksiId!!, "", "", "", 0, 0, 0, 0))
             toTransaksiFragment()
         }
 
