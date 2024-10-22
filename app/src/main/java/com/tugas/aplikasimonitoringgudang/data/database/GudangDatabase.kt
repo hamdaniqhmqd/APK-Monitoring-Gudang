@@ -24,8 +24,7 @@ abstract class GudangDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun transakasiDao(): TransaksiDao
     abstract fun barangDao(): BarangDao
-    abstract fun supplierDao():SupplierDao
-
+    abstract fun supplierDao(): SupplierDao
 
     companion object {
         @Volatile

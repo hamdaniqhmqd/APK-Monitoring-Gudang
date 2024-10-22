@@ -6,13 +6,13 @@ import androidx.room.*
 @Dao
 interface TransaksiDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(vararg barang: Transaksi)
+    suspend fun insert(vararg transaksi: Transaksi)
 
     @Update
-    suspend fun update(vararg barang: Transaksi)
+    suspend fun update(vararg transaksi: Transaksi)
 
     @Delete
-    suspend fun delete(vararg barang: Transaksi)
+    suspend fun delete(vararg transaksi: Transaksi)
 
     @Query("SELECT * FROM transaksi_table ORDER BY id_transaksi ASC")
     fun getAllTransaksi(): LiveData<List<Transaksi>>
