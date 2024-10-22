@@ -43,7 +43,6 @@ class AdapterBarang(private var barangList: List<Barang>,
         return barangList.size
     }
 
-    // Fungsi untuk mengatur/mengupdate data di adapter
     @SuppressLint("NotifyDataSetChanged")
     fun setBarangList(newList: List<Barang>) {
         barangList = newList

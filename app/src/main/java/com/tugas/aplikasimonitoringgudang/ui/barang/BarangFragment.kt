@@ -48,13 +48,6 @@ class BarangFragment : Fragment() {
             }
         }
 
-//        binding.fabAdd.setOnClickListener {
-//            parentFragmentManager.beginTransaction()
-//                .replace(R.id.FragmentMenu, AddEditBarangFragment())
-//                .addToBackStack(null)
-//                .commit()
-//        }
-
         return binding.root
     }
 

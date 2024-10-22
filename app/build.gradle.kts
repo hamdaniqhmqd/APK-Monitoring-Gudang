@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-
     id("com.google.devtools.ksp")
 }
 
@@ -17,7 +16,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        //        testInstrumentationRunnerArguments [clearPackageData] = "true"
+        testInstrumentationRunnerArguments ["clearPackageData"] = "true"
     }
 
     buildTypes {
@@ -45,48 +44,43 @@ android {
 }
 
 dependencies {
+    // Core Dependencies
     implementation(libs.androidx.annotation)
-    implementation(libs.androidx.espresso.core)
-    androidTestImplementation("androidx.test:runner:1.6.2")
-    androidTestUtil("androidx.test:orchestrator:1.5.0")
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
 
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.2.1")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
-
+    // Lifecycle
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.activity.ktx)
 
-    implementation("com.google.android.material:material:1.12.0")
-
+    // RecyclerView and Navigation
     implementation("androidx.recyclerview:recyclerview:1.3.2")
-
     implementation("androidx.navigation:navigation-fragment-ktx:2.8.3")
     implementation("androidx.navigation:navigation-ui-ktx:2.8.3")
 
-    ksp(libs.androidx.room.compiler)
+    // Material Components
+    implementation("com.google.android.material:material:1.12.0")
 
+    // Testing Dependencies
+    testImplementation(libs.junit.v412)
+    androidTestImplementation(libs.androidx.junit.v110)
+    androidTestImplementation("androidx.test:runner:1.6.1") // Sesuaikan ke 1.6.1
+
+    // AndroidX Test Orchestrator
+    androidTestUtil("androidx.test:orchestrator:1.5.0")
+
+    // Room Database
     val room_version = "2.6.1"
-
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
-
-    // To use Kotlin Symbol Processing (KSP)
     ksp("androidx.room:room-compiler:$room_version")
-
-    // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$room_version")
-
-    // optional - Test helpers
     testImplementation("androidx.room:room-testing:$room_version")
+
+    // Espresso
+    androidTestImplementation(libs.androidx.espresso.core)
 }
