@@ -38,9 +38,5 @@ class BarangInputActivity : AppCompatActivity() {
 //                ukuran_barang = ukuran
 //            ))
 //        }
-
-
-
-
     }
 }

@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-
     id("com.google.devtools.ksp")
 }
 
@@ -17,6 +16,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
         testInstrumentationRunnerArguments["clearPackageData"] = "true"
     }
 
@@ -45,6 +45,7 @@ android {
 }
 
 dependencies {
+    // Core Dependencies
     implementation(libs.androidx.annotation)
     implementation(libs.androidx.espresso.core)
     androidTestImplementation("androidx.test:runner:1.6.1")
@@ -71,4 +72,7 @@ dependencies {
     ksp("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
     testImplementation("androidx.room:room-testing:$room_version")
+
+    // Espresso
+    androidTestImplementation(libs.androidx.espresso.core)
 }
