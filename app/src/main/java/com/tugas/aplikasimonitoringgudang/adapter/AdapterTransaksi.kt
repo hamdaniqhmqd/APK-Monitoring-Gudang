@@ -33,17 +33,14 @@ class AdapterTransaksi(
             }
         }
     }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransaksiViewHolder {
         val binding =
             ItemTransaksiBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return TransaksiViewHolder(binding)
     }
-
     override fun onBindViewHolder(holder: TransaksiViewHolder, position: Int) {
         val dataTransaksi = transaksiList[position]
         val context = holder.itemView.context
-
         var status = dataTransaksi.status
         if (status == 1) {
             holder.status.setBackgroundColor(ContextCompat.getColor(context, com.tugas.aplikasimonitoringgudang.R.color.merah_keluar))
@@ -55,7 +52,6 @@ class AdapterTransaksi(
             holder.status.setBackgroundColor(ContextCompat.getColor(context, com.tugas.aplikasimonitoringgudang.R.color.putih_smooth))
             holder.namaStatus.text = "Batal Transaksi"
         }
-
         holder.namaAdmin.text = dataTransaksi.user_nama
         holder.namaBarang.text = dataTransaksi.barang_nama
         holder.namaSupplier.text = dataTransaksi.supplier_nama

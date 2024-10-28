@@ -17,7 +17,7 @@
             android:id="@+id/header_card"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/hijau_masuk"
+            android:background="@color/merah_keluar"
             android:paddingHorizontal="14dp"
             android:paddingVertical="10dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -131,8 +131,12 @@
                         android:id="@+id/plus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:backgroundTint="@color/putih"
                         android:text="+"
-                        app:layout_constraintStart_toStartOf="parent"/>
+                        android:textColor="@color/black"
+                        app:cornerRadius="6dp"
+                        android:fontFamily="@font/nunitoextrabold"
+                        app:layout_constraintEnd_toEndOf="parent" />
 
                     <TextView
                         android:id="@+id/jumlah_barang"
@@ -151,8 +155,12 @@
                         android:id="@+id/minus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:backgroundTint="@color/putih"
                         android:text="-"
-                        app:layout_constraintEnd_toEndOf="parent" />
+                        android:fontFamily="@font/nunitoextrabold"
+                        android:textColor="@color/black"
+                        app:cornerRadius="6dp"
+                        app:layout_constraintStart_toStartOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -185,11 +193,16 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/save_btn"
-            android:text="Submit"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:text="Submit"
+            app:cornerRadius="8dp"
+            android:fontFamily="@font/nunitoextrabold"
+            android:backgroundTint="@color/kuning"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/footer_card"
-            tools:ignore="MissingConstraints"/>
+            tools:ignore="MissingConstraints" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

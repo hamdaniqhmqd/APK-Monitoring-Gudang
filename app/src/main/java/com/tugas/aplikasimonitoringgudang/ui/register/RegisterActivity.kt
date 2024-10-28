@@ -20,14 +20,17 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
     private val viewModelUser: UserViewModel by viewModels()
 
+    private lateinit var database: GudangDatabase
+    private lateinit var userDao: UserDao
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        val database = GudangDatabase.getDatabase(this)
-//        userDao = database.userDao()
+        database = GudangDatabase.getDatabase(this)
+        userDao = database.userDao()
 
         binding.btnRegister.setOnClickListener {
             val username = binding.inputUser.text.toString()
@@ -35,10 +38,10 @@ class RegisterActivity : AppCompatActivity() {
             val repeatPassword = binding.inputRepeatPass.text.toString()
 
             if (password == repeatPassword) {
-//                CoroutineScope(Dispatchers.IO).launch {
-                viewModelUser.insert(User(username = username, password = password))
-                intentLoginAct()
-//                }
+                CoroutineScope(Dispatchers.IO).launch {
+                    userDao.insert(User(username = username, password = password))
+                    intentLoginAct()
+                }
             } else {
                 Toast.makeText(this, "Passwords tidak sama", Toast.LENGTH_SHORT).show()
             }
