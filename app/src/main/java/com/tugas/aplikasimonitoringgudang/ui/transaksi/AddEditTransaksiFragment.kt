@@ -69,7 +69,7 @@ class AddEditTransaksiFragment : Fragment() {
                     supplier_nama = supplierNama!!,
                     jumlah_barang = jumlahBarang,
                     total_harga_barang = totalHarga,
-                    status = 2
+                    status = 1
                 )
             )
             toTransaksiFragment()

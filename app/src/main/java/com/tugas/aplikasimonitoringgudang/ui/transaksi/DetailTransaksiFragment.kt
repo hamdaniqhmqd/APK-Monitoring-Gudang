@@ -36,31 +36,16 @@ class DetailTransaksiFragment : Fragment() {
                 binding.tvTransaksiTotal.text = transaksi.total_harga_barang.toString()
             }
         }
-        if (status == 1) {
-            binding.wadahStatus.setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    com.tugas.aplikasimonitoringgudang.R.color.merah_keluar
-                )
-            )
-            binding.status.text = "Barang Keluar"
-        } else if (status == 2) {
-            binding.wadahStatus.setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    com.tugas.aplikasimonitoringgudang.R.color.hijau_masuk
-                )
-            )
-            binding.status.text = "Barang Masuk"
-        } else if (status == 3) {
-            binding.wadahStatus.setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    com.tugas.aplikasimonitoringgudang.R.color.putih_smooth
-                )
-            )
-            binding.status.text = "Batal Transaksi"
+        val (backgroundColor, statusText) = when (status) {
+            1 -> R.color.merah_keluar to "Barang Keluar"
+            2 -> R.color.hijau_masuk to "Barang Masuk"
+            3 -> R.color.putih_smooth to "Batal Transaksi"
+            else -> R.color.kuning to "Status Tidak Diketahui"
         }
+
+        binding.wadahStatus.setBackgroundColor(ContextCompat.getColor(requireContext(), backgroundColor))
+        binding.status.text = statusText
+
         username = (requireActivity() as MainActivity).intentUsername().toString()
         binding.btnBatal.setOnClickListener {
             val namaBarang = binding.tvTransaksiName.text.toString()
