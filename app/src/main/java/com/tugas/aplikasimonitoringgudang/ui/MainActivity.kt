@@ -2,6 +2,7 @@ package com.tugas.aplikasimonitoringgudang.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.tugas.aplikasimonitoringgudang.R
@@ -45,5 +46,11 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.FragmentMenu, TransaksiFragment())
             .addToBackStack(null)
             .commit()
+    }
+    fun navigasiHilang() {
+        binding.Navigasi.visibility = View.GONE
+    }
+    fun navigasiMuncul() {
+        binding.Navigasi.visibility = View.VISIBLE
     }
 }
