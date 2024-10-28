@@ -17,22 +17,14 @@ class DetailTransaksiFragment : Fragment() {
     private lateinit var viewModel: TransaksiViewModel
     private var transaksiId: Int? = null
     private var status: Int? = null
-
     private var supplierNama: String? = ""
     private var username: String = ""
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentDetailTransaksiBinding.inflate(inflater, container, false)
-
         viewModel = ViewModelProvider(this).get(TransaksiViewModel::class.java)
-
         transaksiId = arguments?.getInt("transaksiId")
         transaksiId?.let {
             viewModel.getTransaksiById(it).observe(viewLifecycleOwner) { transaksi ->
@@ -44,11 +36,10 @@ class DetailTransaksiFragment : Fragment() {
                 binding.tvTransaksiTotal.text = transaksi.total_harga_barang.toString()
             }
         }
-
         if (status == 1) {
             binding.wadahStatus.setBackgroundColor(
                 ContextCompat.getColor(
-                    requireContext(), // Menggunakan requireContext untuk fragment
+                    requireContext(),
                     com.tugas.aplikasimonitoringgudang.R.color.merah_keluar
                 )
             )
@@ -70,15 +61,12 @@ class DetailTransaksiFragment : Fragment() {
             )
             binding.status.text = "Batal Transaksi"
         }
-
         username = (requireActivity() as MainActivity).intentUsername().toString()
-
         binding.btnBatal.setOnClickListener {
             val namaBarang = binding.tvTransaksiName.text.toString()
             val hargaBarang = binding.tvTransaksiHarga.text.toString().toInt()
             val jumlahBarang = binding.tvTransaksiJumlah.text.toString().toInt()
             val totalHarga = binding.tvTransaksiTotal.text.toString().toInt()
-
             viewModel.update(
                 Transaksi(
                     id_transaksi = transaksiId!!,
@@ -91,18 +79,14 @@ class DetailTransaksiFragment : Fragment() {
                     status = 3
                 )
             )
-
             toTransaksiFragment()
         }
-
         binding.btnHapus.setOnClickListener {
             viewModel.delete(Transaksi(transaksiId!!, "", "", "", 0, 0, 0, 0))
             toTransaksiFragment()
         }
-
         return binding.root
     }
-
     private fun toTransaksiFragment() {
         parentFragmentManager.beginTransaction()
             .replace(R.id.FragmentMenu, TransaksiFragment())

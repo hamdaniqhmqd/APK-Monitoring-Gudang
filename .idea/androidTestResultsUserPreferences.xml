@@ -4,6 +4,7 @@
     <option name="androidTestResultsTableState">
       <map>
         <entry key="-1267763780">
+        <entry key="-1814668857">
           <value>
             <AndroidTestResultsTableState>
               <option name="preferredColumnWidths">
@@ -24,12 +25,16 @@
                   <entry key="Duration" value="90" />
                   <entry key="Tests" value="360" />
                   <entry key="samsung SM-A235F" value="120" />
+                  <entry key="Duration" value="108" />
+                  <entry key="Tests" value="378" />
+                  <entry key="realme RMX2030" value="137" />
                 </map>
               </option>
             </AndroidTestResultsTableState>
           </value>
         </entry>
         <entry key="53470659">
+        <entry key="16622608">
           <value>
             <AndroidTestResultsTableState>
               <option name="preferredColumnWidths">
@@ -37,12 +42,14 @@
                   <entry key="Duration" value="90" />
                   <entry key="Tests" value="360" />
                   <entry key="samsung SM-A235F" value="120" />
+                  <entry key="realme RMX2030" value="120" />
                 </map>
               </option>
             </AndroidTestResultsTableState>
           </value>
         </entry>
         <entry key="1777520822">
+        <entry key="19662869">
           <value>
             <AndroidTestResultsTableState>
               <option name="preferredColumnWidths">
@@ -50,6 +57,7 @@
                   <entry key="Duration" value="90" />
                   <entry key="Tests" value="360" />
                   <entry key="samsung SM-A235F" value="120" />
+                  <entry key="realme RMX2030" value="120" />
                 </map>
               </option>
             </AndroidTestResultsTableState>

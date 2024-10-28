@@ -22,4 +22,6 @@ class SupplierRepository(private val supplierDao: SupplierDao) {
     fun getSupplierById(id: Int): LiveData<Supplier> {
         return supplierDao.getSupplierById(id)
     }
+
+    suspend fun getSupplierCount(): Int = supplierDao.getSupplierCount()
 }

@@ -23,6 +23,10 @@
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
       <SelectionState runConfigName="insertAndRetrieve() (1)">
+      <SelectionState runConfigName="DatabaseTestTransaksi">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="DatabaseTestTansaksi">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

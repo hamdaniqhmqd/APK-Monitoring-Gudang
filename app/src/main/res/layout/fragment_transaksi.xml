@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -22,9 +22,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
+                android:fontFamily="@font/nunitobold"
                 android:text="Transaksi List"
                 android:textColor="@color/hitam"
-                android:fontFamily="@font/nunitobold"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -35,12 +35,12 @@
                 android:id="@+id/pesan"
                 android:layout_width="260dp"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/nunitobold"
                 android:text="Data Transaksi Masuk dan Keluar Barang di dalam Gudang"
-                android:textSize="14sp"
+                android:textAlignment="center"
                 android:textColor="@color/hitam_smooth"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/label"
@@ -54,18 +54,19 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/pesan" />
+                app:layout_constraintTop_toBottomOf="@+id/pesan"
+                tools:listitem="@layout/item_transaksi" />
 
-<!--            <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--                android:id="@+id/fabAddBarang"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="end"-->
-<!--                android:layout_margin="16dp"-->
-<!--                android:contentDescription="Tambah Barang"-->
-<!--                android:src="@drawable/ic_add"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                app:layout_constraintEnd_toEndOf="parent" />-->
+            <!--            <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+            <!--                android:id="@+id/fabAddBarang"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_gravity="end"-->
+            <!--                android:layout_margin="16dp"-->
+            <!--                android:contentDescription="Tambah Barang"-->
+            <!--                android:src="@drawable/ic_add"-->
+            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent" />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
