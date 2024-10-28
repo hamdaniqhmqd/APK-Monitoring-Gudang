@@ -1,18 +1,14 @@
 package com.tugas.aplikasimonitoringgudang.ui.transaksi
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.tugas.aplikasimonitoringgudang.R
 import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentAddEditTransaksiBinding
-import com.tugas.aplikasimonitoringgudang.databinding.FragmentTransaksiBinding
 import com.tugas.aplikasimonitoringgudang.ui.MainActivity
-import com.tugas.aplikasimonitoringgudang.ui.barang.AddEditBarangFragment
-import com.tugas.aplikasimonitoringgudang.ui.barang.BarangFragment
 import com.tugas.aplikasimonitoringgudang.veiwModel.BarangViewModel
 import com.tugas.aplikasimonitoringgudang.veiwModel.SupplierViewModel
 import com.tugas.aplikasimonitoringgudang.veiwModel.TransaksiViewModel
@@ -73,7 +69,7 @@ class AddEditTransaksiFragment : Fragment() {
                     supplier_nama = supplierNama!!,
                     jumlah_barang = jumlahBarang,
                     total_harga_barang = totalHarga,
-                    status = 1
+                    status = 2
                 )
             )
             toTransaksiFragment()

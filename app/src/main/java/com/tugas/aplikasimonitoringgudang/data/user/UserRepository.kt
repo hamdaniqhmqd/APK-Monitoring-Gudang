@@ -1,9 +1,30 @@
 package com.tugas.aplikasimonitoringgudang.data.user
 
 import androidx.lifecycle.LiveData
+import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
 
 class UserRepository(private val userDao: UserDao) {
-//    val allUser: LiveData<List<User>> = userDao.getUser()
+    // Metode CRUD lainnya...
+
+    suspend fun getBarangCount(): Int {
+        return userDao.getBarangCount()
+    }
+
+    suspend fun getSupplierCount(): Int {
+        return userDao.getSupplierCount()
+    }
+
+    suspend fun getTransaksiMasukCount(): Int {
+        return userDao.getTransaksiMasukCount()
+    }
+
+    suspend fun getTransaksiKeluarCount(): Int {
+        return userDao.getTransaksiKeluarCount()
+    }
+
+    fun getAdminLiveData(username: String): LiveData<User?> {
+        return userDao.getAdminLiveData(username)
+    }
 
     suspend fun insert(user: User) {
         userDao.insert(user)
@@ -19,9 +40,5 @@ class UserRepository(private val userDao: UserDao) {
 
     suspend fun getUserById(id: Int): User? {
         return userDao.getUserById(id)
-    }
-    
-    fun getAdminLiveData(username: String): LiveData<User?> {
-        return userDao.getAdminLiveData(username)
     }
 }

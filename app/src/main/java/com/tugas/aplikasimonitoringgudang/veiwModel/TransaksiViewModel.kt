@@ -3,6 +3,7 @@ package com.tugas.aplikasimonitoringgudang.veiwModel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.tugas.aplikasimonitoringgudang.data.database.GudangDatabase
 import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
@@ -33,5 +34,9 @@ class TransaksiViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun getTransaksiById(id: Int): LiveData<Transaksi> {
         return repository.getTransaksiById(id)
+    }
+
+    fun getUniqueBarangCountInTransaksiMasuk(): LiveData<Int> {
+        return repository.getUniqueBarangCountInTransaksiMasuk()
     }
 }

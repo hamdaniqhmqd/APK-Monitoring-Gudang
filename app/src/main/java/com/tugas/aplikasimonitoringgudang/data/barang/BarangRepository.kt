@@ -22,4 +22,6 @@ class BarangRepository(private val barangDao: BarangDao) {
     fun getBarangBySupplerId(idSuppler: Int): LiveData<List<Barang>> {
         return barangDao.getBarangByIdSuppler(idSuppler)
     }
+
+    suspend fun getBarangCount(): Int = barangDao.getBarangCount()
 }

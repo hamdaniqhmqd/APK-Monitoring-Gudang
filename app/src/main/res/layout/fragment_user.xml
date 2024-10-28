@@ -105,9 +105,10 @@
                 android:textColor="#000000" />
 
             <TextView
+                android:id="@+id/barangCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="55"
+                android:text="0"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:textColor="#000000" />
@@ -140,9 +141,10 @@
                 android:textColor="#000000" />
 
             <TextView
+                android:id="@+id/supplierCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="55"
+                android:text="0"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:textColor="#000000" />
@@ -175,9 +177,10 @@
                 android:textColor="#000000" />
 
             <TextView
+                android:id="@+id/transaksiMasukCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="55"
+                android:text="0"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:textColor="#000000" />
@@ -210,13 +213,15 @@
                 android:textColor="#000000" />
 
             <TextView
+                android:id="@+id/transaksiKeluarCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="55"
+                android:text="0"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:textColor="#000000" />
         </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

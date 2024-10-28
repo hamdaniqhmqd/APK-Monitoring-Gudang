@@ -1,26 +1,21 @@
 package com.tugas.aplikasimonitoringgudang.ui.login
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.tugas.aplikasimonitoringgudang.R
-import com.tugas.aplikasimonitoringgudang.data.database.GudangDatabase // Ensure this import is correct
-import com.tugas.aplikasimonitoringgudang.data.user.UserDao
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import com.google.android.material.button.MaterialButton
+import com.tugas.aplikasimonitoringgudang.data.database.GudangDatabase
 import com.tugas.aplikasimonitoringgudang.data.user.User
+import com.tugas.aplikasimonitoringgudang.data.user.UserDao
 import com.tugas.aplikasimonitoringgudang.databinding.ActivityLoginBinding
 import com.tugas.aplikasimonitoringgudang.ui.MainActivity
 import com.tugas.aplikasimonitoringgudang.ui.register.RegisterActivity
-import com.tugas.aplikasimonitoringgudang.veiwModel.UserViewModel
+import com.tugas.aplikasimonitoringgudang.ui.user.UserViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var database: GudangDatabase
@@ -28,7 +23,7 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
 
-    private val userLoginViewModel: UserViewModel by viewModels()
+    private val viewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,10 +55,17 @@ class LoginActivity : AppCompatActivity() {
                 runOnUiThread {
                     if (user != null) {
                         // Save login state
-                        userLoginViewModel.update(User(id = user.id, username = inputUsername, password = inputPassword, statusLoging = 1))
+                        viewModel.update(User(id = user.id, username = inputUsername, password = inputPassword, statusLoging = 1))
 
                         Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
-                        intentMainAct(inputUsername)
+                        intentMainAct()
+
+                        // In LoginActivity, after successful login
+                        val sharedPreferences = getSharedPreferences("AdminPrefs", Context.MODE_PRIVATE)
+                        sharedPreferences.edit().putString("username", inputUsername).apply()
+
+                        val sharedPreferencesLogin = getSharedPreferences("LoginPrefs", MODE_PRIVATE)
+                        sharedPreferencesLogin.edit().putBoolean("isLoggedIn", true).apply()
                     } else {
                         Toast.makeText(this@LoginActivity, "Invalid credentials", Toast.LENGTH_SHORT).show()
                     }
@@ -76,9 +78,8 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun intentMainAct(userName: String) {
+    private fun intentMainAct() {
         val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra("username", userName)
         startActivity(intent)
     }
 

@@ -24,4 +24,7 @@ interface SupplierDao {
 
     @Query("SELECT * FROM supplier_table WHERE id_supplier = :id")
     fun getSupplierById(id: Int): LiveData<Supplier>
+
+    @Query("SELECT COUNT(*) FROM supplier_table")
+    suspend fun getSupplierCount(): Int
 }
