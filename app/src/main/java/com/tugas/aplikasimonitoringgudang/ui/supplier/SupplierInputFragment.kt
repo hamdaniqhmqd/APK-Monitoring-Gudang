@@ -13,7 +13,6 @@ import com.tugas.aplikasimonitoringgudang.adapter.AdapterBarang
 import com.tugas.aplikasimonitoringgudang.data.barang.Barang
 import com.tugas.aplikasimonitoringgudang.data.supplier.Supplier
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentSupplierInputBinding
-import com.tugas.aplikasimonitoringgudang.ui.barang.BarangInputActivity
 import com.tugas.aplikasimonitoringgudang.veiwModel.BarangViewModel
 import com.tugas.aplikasimonitoringgudang.veiwModel.SupplierViewModel
 
