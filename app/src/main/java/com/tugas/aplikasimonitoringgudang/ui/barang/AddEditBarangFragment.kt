@@ -13,7 +13,6 @@ import com.tugas.aplikasimonitoringgudang.veiwModel.BarangViewModel
 import com.tugas.aplikasimonitoringgudang.veiwModel.SupplierViewModel
 
 class AddEditBarangFragment : Fragment() {
-    //    private lateinit var binding: FragmentAddEditBarangBinding
     private lateinit var barangViewModel: BarangViewModel
     private lateinit var viewModel: SupplierViewModel
     private var barangId: Int? = -1
@@ -28,7 +27,7 @@ class AddEditBarangFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        // Inflate layout
         val binding = FragmentAddEditBarangBinding.inflate(inflater, container, false)
 
         barangViewModel = ViewModelProvider(this).get(BarangViewModel::class.java)
