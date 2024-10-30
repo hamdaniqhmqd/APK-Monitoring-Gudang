@@ -58,7 +58,7 @@ class LoginActivity : AppCompatActivity() {
                         viewModel.update(User(id = user.id, username = inputUsername, password = inputPassword, statusLoging = 1))
 
                         Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
-                        intentMainAct(user.username)
+                        intentMainAct(user.id ,user.username)
 
                         // In LoginActivity, after successful login
                         val sharedPreferences = getSharedPreferences("AdminPrefs", Context.MODE_PRIVATE)
@@ -78,8 +78,9 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun intentMainAct(username: String) {
+    private fun intentMainAct(id: Int, username: String) {
         val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("user_id", username)
             intent.putExtra("username", username)
         startActivity(intent)
     }

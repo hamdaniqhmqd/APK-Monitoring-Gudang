@@ -38,8 +38,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
     fun intentUsername(): String? {
-        val username = intent.getStringExtra("username")
-        return username
+        val user_name = intent.getStringExtra("username")
+        return user_name
+    }
+    fun intentUserid(): Int? {
+        val user_id = intent.getIntExtra("user_id", 0)
+        return user_id
     }
     fun toTransaksi() {
         supportFragmentManager.beginTransaction()

@@ -6,8 +6,8 @@ import androidx.room.*
 @Dao
 interface BarangDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-//    suspend fun insert(vararg barang: Barang)
-    fun insert(vararg barang: Barang)
+    suspend fun insert(vararg barang: Barang)
+//    fun insert(vararg barang: Barang)
 
     @Update
     suspend fun update(vararg barang: Barang)

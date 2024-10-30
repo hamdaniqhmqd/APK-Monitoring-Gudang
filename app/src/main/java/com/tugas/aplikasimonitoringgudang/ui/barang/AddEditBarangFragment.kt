@@ -8,16 +8,22 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.tugas.aplikasimonitoringgudang.R
 import com.tugas.aplikasimonitoringgudang.data.barang.Barang
+import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentAddEditBarangBinding
+import com.tugas.aplikasimonitoringgudang.ui.MainActivity
 import com.tugas.aplikasimonitoringgudang.veiwModel.BarangViewModel
 import com.tugas.aplikasimonitoringgudang.veiwModel.SupplierViewModel
+import com.tugas.aplikasimonitoringgudang.veiwModel.TransaksiViewModel
 
 class AddEditBarangFragment : Fragment() {
+    private lateinit var transaksiViewModel: TransaksiViewModel
     private lateinit var barangViewModel: BarangViewModel
     private lateinit var viewModel: SupplierViewModel
     private var barangId: Int? = -1
     private var supplierId: Int? = -1
     private var supplierNama: String? = ""
+    private var user_id: Int? = 0
+    private var username: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,11 +36,15 @@ class AddEditBarangFragment : Fragment() {
         // Inflate layout
         val binding = FragmentAddEditBarangBinding.inflate(inflater, container, false)
 
+        transaksiViewModel = ViewModelProvider(this).get(TransaksiViewModel::class.java)
         barangViewModel = ViewModelProvider(this).get(BarangViewModel::class.java)
         viewModel = ViewModelProvider(this).get(SupplierViewModel::class.java)
 
         supplierId = arguments?.getInt("supplierId")
         supplierNama = arguments?.getString("supplierNama")
+
+        user_id = (requireActivity() as MainActivity).intentUserid().toString().toInt()
+        username = (requireActivity() as MainActivity).intentUsername().toString()
 
         binding.btnSubmit.setOnClickListener {
             val nama = binding.namaBarang.text.toString()
@@ -42,6 +52,8 @@ class AddEditBarangFragment : Fragment() {
             val harga = binding.hargaBarang.text.toString().toInt()
             val stok = binding.stokBarang.text.toString().toInt()
             val ukuran = binding.ukuranBarang.text.toString()
+
+            val totalHarga = harga * stok
 
             barangViewModel.insert(
                 Barang(
@@ -52,6 +64,21 @@ class AddEditBarangFragment : Fragment() {
                     ukuran_barang = ukuran,
                     supplier_id = supplierId!!,
                     supplier_nama = supplierNama!!
+                )
+            )
+
+            transaksiViewModel.insert(
+                Transaksi(
+//                    barang_id = barangId!!,
+                    barang_nama = nama,
+                    harga_barang = harga,
+                    jumlah_barang = stok,
+                    total_harga_barang = totalHarga,
+                    user_id = user_id!!,
+                    user_nama = username,
+                    supplier_id = supplierId!!,
+                    supplier_nama = supplierNama!!,
+                    status = 2
                 )
             )
 

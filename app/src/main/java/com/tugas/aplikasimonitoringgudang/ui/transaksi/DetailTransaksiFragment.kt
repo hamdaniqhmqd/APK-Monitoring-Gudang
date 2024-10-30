@@ -17,7 +17,11 @@ class DetailTransaksiFragment : Fragment() {
     private lateinit var viewModel: TransaksiViewModel
     private var transaksiId: Int? = null
     private var status: Int? = null
+
+    private var supplierId: Int? = 0
     private var supplierNama: String? = ""
+
+    private var user_id: Int? = 0
     private var username: String = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,6 +38,8 @@ class DetailTransaksiFragment : Fragment() {
                 binding.tvTransaksiHarga.text = transaksi.harga_barang.toString()
                 binding.tvTransaksiJumlah.text = transaksi.jumlah_barang.toString()
                 binding.tvTransaksiTotal.text = transaksi.total_harga_barang.toString()
+                supplierId = transaksi.supplier_id
+                user_id = transaksi.user_id
             }
         }
         val (backgroundColor, statusText) = when (status) {
@@ -43,7 +49,12 @@ class DetailTransaksiFragment : Fragment() {
             else -> R.color.kuning to "Status Tidak Diketahui"
         }
 
-        binding.wadahStatus.setBackgroundColor(ContextCompat.getColor(requireContext(), backgroundColor))
+        binding.wadahStatus.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                backgroundColor
+            )
+        )
         binding.status.text = statusText
 
         username = (requireActivity() as MainActivity).intentUsername().toString()
@@ -56,22 +67,31 @@ class DetailTransaksiFragment : Fragment() {
                 Transaksi(
                     id_transaksi = transaksiId!!,
                     barang_nama = namaBarang,
-                    user_nama = username,
-                    supplier_nama = supplierNama!!,
                     harga_barang = hargaBarang,
                     jumlah_barang = jumlahBarang,
                     total_harga_barang = totalHarga,
+                    user_id = user_id!!,
+                    user_nama = username,
+                    supplier_id = supplierId!!,
+                    supplier_nama = supplierNama!!,
                     status = 3
                 )
             )
             toTransaksiFragment()
         }
         binding.btnHapus.setOnClickListener {
-            viewModel.delete(Transaksi(transaksiId!!, "", "", "", 0, 0, 0, 0))
+            viewModel.delete(
+                Transaksi(
+                    transaksiId!!, "", 0, 0,
+                    0, 0, "", 0,
+                    "", 0
+                )
+            )
             toTransaksiFragment()
         }
         return binding.root
     }
+
     private fun toTransaksiFragment() {
         parentFragmentManager.beginTransaction()
             .replace(R.id.FragmentMenu, TransaksiFragment())
