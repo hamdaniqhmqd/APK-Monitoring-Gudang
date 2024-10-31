@@ -8,9 +8,9 @@
     </data>
 
     <ScrollView
-        android:fillViewport="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -25,6 +25,7 @@
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/nunitobold"
                 android:text="Detail Transaksi"
+                android:textColor="@color/black"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -37,22 +38,32 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="24dp"
-                android:background="@drawable/card_rounded"
-                android:backgroundTint="@color/merah_keluar"
+                android:background="@color/merah_keluar"
                 android:padding="16dp"
                 app:layout_constraintTop_toBottomOf="@+id/label"
                 tools:ignore="MissingConstraints">
+
+                <ImageView
+                    android:id="@+id/status_gambar"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/transaksi_masuk"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunitosemibold"
+                    android:fontFamily="@font/nunitobold"
+                    android:paddingStart="16dp"
                     android:text="Barang Keluar"
-                    android:textColor="@color/putih_smooth"
+                    android:textColor="@color/hitam_smooth"
                     android:textSize="16sp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/status_gambar"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -65,7 +76,7 @@
                 android:layout_marginTop="24dp"
                 android:background="@drawable/card_rounded"
                 android:backgroundTint="@color/white"
-                android:padding="16dp"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/wadah_status">
@@ -74,7 +85,8 @@
                     android:id="@+id/transaksi_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
+                    android:background="@color/putih_smooth"
+                    android:paddingVertical="12dp"
                     android:text="Detail Transaksi"
                     android:textAlignment="center"
                     android:textColor="@color/black"
@@ -84,64 +96,121 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/tv_transaksi_name"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:id="@+id/wadah_data_transaksi"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
-                    android:text="Nama Barang"
-                    android:textColor="@color/hitam"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/transaksi_title" />
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    app:layout_constraintTop_toBottomOf="@+id/transaksi_title"
+                    tools:ignore="MissingConstraints">
 
-                <TextView
-                    android:id="@+id/tv_transaksi_harga"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/hitam"
-                    android:text="111111"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_transaksi_name" />
+                    <TextView
+                        android:id="@+id/tv_transaksi_name_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Nama Barang : "
+                        android:textColor="@color/hitam_smooth"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/transaksi_title" />
 
-                <TextView
-                    android:id="@+id/tv_transaksi_jumlah"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="233070198989"
-                    android:textSize="16sp"
-                    android:textColor="@color/hitam"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_transaksi_harga" />
+                    <TextView
+                        android:id="@+id/tv_transaksi_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Nama Barang"
+                        android:textColor="@color/hitam"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/transaksi_title" />
 
-                <TextView
-                    android:id="@+id/tv_transaksi_total"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="10000"
-                    android:textSize="16sp"
-                    android:textColor="@color/hitam"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_transaksi_jumlah" />
+                    <TextView
+                        android:id="@+id/tv_transaksi_harga_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Harga Barang : "
+                        android:textColor="@color/hitam_smooth"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/transaksi_title" />
+
+                    <TextView
+                        android:id="@+id/tv_transaksi_harga"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="100.000"
+                        android:textColor="@color/hitam"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_transaksi_name" />
+
+                    <TextView
+                        android:id="@+id/tv_transaksi_jumlah_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Jumlah Barang : "
+                        android:textColor="@color/hitam_smooth"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/transaksi_title" />
+
+                    <TextView
+                        android:id="@+id/tv_transaksi_jumlah"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="233070198989"
+                        android:textColor="@color/hitam"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_transaksi_harga" />
+
+                    <TextView
+                        android:id="@+id/tv_transaksi_total_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Total Harga Barang : "
+                        android:textColor="@color/hitam_smooth"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/transaksi_title" />
+
+                    <TextView
+                        android:id="@+id/tv_transaksi_total"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="10000"
+                        android:textColor="@color/hitam"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_transaksi_jumlah" />
+
+                </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/dataDetail"
+                android:id="@+id/data_detail_barang"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="24dp"
                 android:background="@drawable/card_rounded"
                 android:backgroundTint="@color/white"
-                android:padding="16dp"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/dataTransaksi">
@@ -150,112 +219,147 @@
                     android:id="@+id/barang_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
+                    android:background="@color/putih_smooth"
+                    android:paddingVertical="12dp"
                     android:text="Detail Barang"
                     android:textAlignment="center"
+                    android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/tv_item_name"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:id="@+id/wadah_data_detail"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
-                    android:text="Kaos Bulu"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/barang_title" />
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    app:layout_constraintTop_toBottomOf="@+id/barang_title"
+                    tools:ignore="MissingConstraints">
 
-                <TextView
-                    android:id="@+id/tv_item_category"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
-                    android:text="Kategori : "
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_item_name" />
+                    <TextView
+                        android:id="@+id/tv_barang_nama_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Nama Barang : "
+                        android:textColor="@color/hitam_smooth"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_item_name" />
 
-                <TextView
-                    android:id="@+id/tv_item_category_isi"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
-                    android:text="Wanita"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_item_category" />
+                    <TextView
+                        android:id="@+id/tv_barang_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="8dp"
+                        android:text="Kaos Bulu"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/hitam"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/barang_title_label" />
 
-                <TextView
-                    android:id="@+id/tv_item_price"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
-                    android:text="Harga : "
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_item_category_isi" />
+                    <TextView
+                        android:id="@+id/tv_item_category_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Kategori : "
+                        android:textColor="@color/hitam_smooth"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_item_name" />
 
-                <TextView
-                    android:id="@+id/tv_item_price_isi"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
-                    android:text="Rp. 200.000,-"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_item_price" />
+                    <TextView
+                        android:id="@+id/tv_item_category"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="8dp"
+                        android:text="Wanita"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/hitam"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_item_category_label" />
 
-                <TextView
-                    android:id="@+id/tv_item_stock"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
-                    android:text="Stok : "
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_item_price_isi" />
+                    <TextView
+                        android:id="@+id/tv_item_price_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Harga : "
+                        android:textColor="@color/hitam_smooth"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_item_category" />
 
-                <TextView
-                    android:id="@+id/tv_item_stock_isi"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
-                    android:text="150 pcs"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_item_stock" />
+                    <TextView
+                        android:id="@+id/tv_item_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="8dp"
+                        android:text="Rp. 200.000,-"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/hitam"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_item_price_label" />
 
-                <TextView
-                    android:id="@+id/tv_item_sizes"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="Ukuran : "
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_item_stock_isi" />
+                    <TextView
+                        android:id="@+id/tv_item_stock_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Stok : "
+                        android:textColor="@color/hitam_smooth"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_item_price" />
 
-                <TextView
-                    android:id="@+id/tv_item_sizes_isi"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="S, M, L, XL, XXL, XXXL"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_item_sizes" />
+                    <TextView
+                        android:id="@+id/tv_item_stock"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="8dp"
+                        android:text="150 pcs"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/hitam"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_item_stock_label" />
+
+                    <TextView
+                        android:id="@+id/tv_item_sizes_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ukuran : "
+                        android:textColor="@color/hitam_smooth"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_item_stock" />
+
+                    <TextView
+                        android:id="@+id/tv_item_sizes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="S, M, L, XL, XXL, XXXL"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/hitam"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_item_sizes_label" />
+
+                </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -267,78 +371,106 @@
                 android:layout_marginTop="24dp"
                 android:background="@drawable/card_rounded"
                 android:backgroundTint="@color/white"
-                android:padding="16dp"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/dataDetail">
+                app:layout_constraintTop_toBottomOf="@id/data_detail_barang">
 
                 <TextView
                     android:id="@+id/supplier_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
+                    android:background="@color/putih_smooth"
+                    android:paddingVertical="12dp"
                     android:text="Detail Supplier"
                     android:textAlignment="center"
+                    android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/tv_supplier_name"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:id="@+id/wadah_data_barang"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
-                    android:text="Aminah"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/supplier_title" />
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    app:layout_constraintTop_toBottomOf="@+id/supplier_title"
+                    tools:ignore="MissingConstraints">
 
-                <TextView
-                    android:id="@+id/tv_supplier_nik"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
-                    android:text="NIK : "
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_supplier_name" />
+                    <TextView
+                        android:id="@+id/tv_supplier_nama_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nama : "
+                        android:textColor="@color/hitam_smooth"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_supplier_name" />
 
-                <TextView
-                    android:id="@+id/tv_supplier_nik_isi"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
-                    android:text="233070198989"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_supplier_nik" />
+                    <TextView
+                        android:id="@+id/tv_supplier_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Aminah"
+                        android:textColor="@color/hitam"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/supplier_title" />
 
-                <TextView
-                    android:id="@+id/tv_supplier_phone"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="Nomor Hp : "
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_supplier_nik_isi" />
+                    <TextView
+                        android:id="@+id/tv_supplier_nik_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="NIK : "
+                        android:textColor="@color/hitam_smooth"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_supplier_name" />
 
-                <TextView
-                    android:id="@+id/tv_supplier_phone_isi"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="082172627834"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_supplier_phone" />
+                    <TextView
+                        android:id="@+id/tv_supplier_nik"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="233070198989"
+                        android:textColor="@color/hitam"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_supplier_nik" />
+
+                    <TextView
+                        android:id="@+id/tv_supplier_phone_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nomor Hp : "
+                        android:textColor="@color/hitam_smooth"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_supplier_nik" />
+
+                    <TextView
+                        android:id="@+id/tv_supplier_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="082172627834"
+                        android:textColor="@color/hitam"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_supplier_phone" />
+
+                </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -346,8 +478,8 @@
                 android:id="@+id/grpButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="24dp"
                 android:layout_marginTop="24dp"
+                android:paddingHorizontal="24dp"
                 app:layout_constraintTop_toBottomOf="@id/dataSupplier"
                 tools:ignore="MissingConstraints">
 
@@ -357,25 +489,25 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
-                    android:paddingHorizontal="32dp"
-                    app:cornerRadius="8dp"
                     android:backgroundTint="@color/merah_hapus"
+                    android:paddingHorizontal="32dp"
                     android:text="Hapus"
                     android:textColor="@color/white"
+                    app:cornerRadius="8dp"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnBatal"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="@color/kuning"
                     android:text="Batalkan Transaksi"
                     android:textColor="@color/white"
-                    android:backgroundTint="@color/kuning"
                     app:cornerRadius="8dp"
-                    app:layout_constraintStart_toEndOf="@id/btnHapus"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginStart="8dp" />
+                    app:layout_constraintStart_toEndOf="@id/btnHapus" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

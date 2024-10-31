@@ -16,7 +16,7 @@ import com.tugas.aplikasimonitoringgudang.veiwModel.TransaksiViewModel
 class DetailTransaksiFragment : Fragment() {
     private lateinit var viewModel: TransaksiViewModel
     private var transaksiId: Int? = null
-    private var status: Int? = null
+    private var status: Int? = 0
 
     private var supplierId: Int? = 0
     private var supplierNama: String? = ""
@@ -32,7 +32,6 @@ class DetailTransaksiFragment : Fragment() {
         transaksiId = arguments?.getInt("transaksiId")
         transaksiId?.let {
             viewModel.getTransaksiById(it).observe(viewLifecycleOwner) { transaksi ->
-                status = transaksi.status
                 supplierNama = transaksi.supplier_nama
                 binding.tvTransaksiName.text = transaksi.barang_nama
                 binding.tvTransaksiHarga.text = transaksi.harga_barang.toString()
@@ -40,24 +39,26 @@ class DetailTransaksiFragment : Fragment() {
                 binding.tvTransaksiTotal.text = transaksi.total_harga_barang.toString()
                 supplierId = transaksi.supplier_id
                 user_id = transaksi.user_id
+                status = transaksi.status
+                if (transaksi.status == 1) {
+                    binding.wadahStatus.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.merah_keluar))
+                    binding.status.text = "Barang Keluar"
+                } else if (transaksi.status == 2) {
+                    binding.wadahStatus.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.hijau_masuk))
+                    binding.status.text = "Barang Masuk"
+                } else if (transaksi.status == 3) {
+                    binding.wadahStatus.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.putih_smooth))
+                    binding.status.text = "Batal Transaksi"
+                }
+                if (transaksi.status == 3) {
+                    binding.btnBatal.isEnabled = false
+                    binding.btnBatal.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.putih_smooth))
+                }
             }
         }
-        val (backgroundColor, statusText) = when (status) {
-            1 -> R.color.merah_keluar to "Barang Keluar"
-            2 -> R.color.hijau_masuk to "Barang Masuk"
-            3 -> R.color.putih_smooth to "Batal Transaksi"
-            else -> R.color.kuning to "Status Tidak Diketahui"
-        }
-
-        binding.wadahStatus.setBackgroundColor(
-            ContextCompat.getColor(
-                requireContext(),
-                backgroundColor
-            )
-        )
-        binding.status.text = statusText
 
         username = (requireActivity() as MainActivity).intentUsername().toString()
+
         binding.btnBatal.setOnClickListener {
             val namaBarang = binding.tvTransaksiName.text.toString()
             val hargaBarang = binding.tvTransaksiHarga.text.toString().toInt()
