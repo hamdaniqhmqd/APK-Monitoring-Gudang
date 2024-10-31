@@ -30,7 +30,6 @@ class EditBarangFragment : Fragment() {
         barangViewModel = ViewModelProvider(this).get(BarangViewModel::class.java)
 
         barangId = arguments?.getInt("barangId")
-        supplierNama = arguments?.getString("supplierNama")
         if (barangId != -1) {
             barangViewModel.getBarangById(barangId!!).observe(viewLifecycleOwner) { barang ->
                 if (barang != null) {
@@ -39,6 +38,9 @@ class EditBarangFragment : Fragment() {
                     binding.hargaBarang.setText(barang.harga_barang.toString())
                     binding.stokBarang.setText(barang.stok_barang.toString())
                     binding.ukuranBarang.setText(barang.ukuran_barang)
+
+                    supplierId = barang.supplier_id
+                    supplierNama = barang.supplier_nama
                 }
             }
         }
