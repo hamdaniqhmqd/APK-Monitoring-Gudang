@@ -249,7 +249,7 @@
                         android:textSize="14sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_item_name" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_barang_name" />
 
                     <TextView
                         android:id="@+id/tv_barang_name"
@@ -265,7 +265,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/barang_title_label" />
 
                     <TextView
-                        android:id="@+id/tv_item_category_label"
+                        android:id="@+id/tv_barang_category_label"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Kategori : "
@@ -273,10 +273,10 @@
                         android:textSize="14sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_item_name" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_barang_name" />
 
                     <TextView
-                        android:id="@+id/tv_item_category"
+                        android:id="@+id/tv_barang_category"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingBottom="8dp"
@@ -286,10 +286,10 @@
                         android:textColor="@color/hitam"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_item_category_label" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_barang_category_label" />
 
                     <TextView
-                        android:id="@+id/tv_item_price_label"
+                        android:id="@+id/tv_barang_price_label"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Harga : "
@@ -297,10 +297,10 @@
                         android:textSize="14sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_item_category" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_barang_category" />
 
                     <TextView
-                        android:id="@+id/tv_item_price"
+                        android:id="@+id/tv_barang_price"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingBottom="8dp"
@@ -310,10 +310,10 @@
                         android:textColor="@color/hitam"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_item_price_label" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_barang_price_label" />
 
                     <TextView
-                        android:id="@+id/tv_item_stock_label"
+                        android:id="@+id/tv_barang_stock_label"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Stok : "
@@ -321,10 +321,10 @@
                         android:textSize="14sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_item_price" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_barang_price" />
 
                     <TextView
-                        android:id="@+id/tv_item_stock"
+                        android:id="@+id/tv_barang_stock"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingBottom="8dp"
@@ -334,10 +334,10 @@
                         android:textColor="@color/hitam"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_item_stock_label" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_barang_stock_label" />
 
                     <TextView
-                        android:id="@+id/tv_item_sizes_label"
+                        android:id="@+id/tv_barang_sizes_label"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Ukuran : "
@@ -345,10 +345,10 @@
                         android:textSize="14sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_item_stock" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_barang_stock" />
 
                     <TextView
-                        android:id="@+id/tv_item_sizes"
+                        android:id="@+id/tv_barang_sizes"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="S, M, L, XL, XXL, XXXL"
@@ -357,7 +357,7 @@
                         android:textColor="@color/hitam"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_item_sizes_label" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_barang_sizes_label" />
 
                 </LinearLayout>
 

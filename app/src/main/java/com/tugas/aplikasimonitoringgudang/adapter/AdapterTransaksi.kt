@@ -4,11 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.R
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
 import com.tugas.aplikasimonitoringgudang.databinding.ItemTransaksiBinding
+import java.text.NumberFormat
+import java.util.Locale
 
 
 class AdapterTransaksi(
@@ -55,9 +56,10 @@ class AdapterTransaksi(
         holder.namaAdmin.text = dataTransaksi.user_nama
         holder.namaBarang.text = dataTransaksi.barang_nama
         holder.namaSupplier.text = dataTransaksi.supplier_nama
-        holder.hargaBarang.text = dataTransaksi.harga_barang.toString()
+        val numberFormat = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
+        holder.hargaBarang.text = numberFormat.format(dataTransaksi.harga_barang)
         holder.jumlahTransaksi.text = dataTransaksi.jumlah_barang.toString()
-        holder.totalHargaTransaksi.text = dataTransaksi.total_harga_barang.toString()
+        holder.totalHargaTransaksi.text = numberFormat.format(dataTransaksi.total_harga_barang)
     }
 
     override fun getItemCount(): Int = transaksiList.size

@@ -7,9 +7,12 @@ import androidx.room.PrimaryKey
 data class Transaksi(
     @PrimaryKey(autoGenerate = true)
     val id_transaksi: Int = 0,
-//    val barang_id: Int,
+    val barang_id: Int = 0,
     val barang_nama: String,
+    val kategori_barang: String,
     val harga_barang: Int,
+    val stok_barang: Int,
+    val ukuran_barang: String,
     val jumlah_barang: Int,
     val total_harga_barang: Int,
     val user_id: Int,

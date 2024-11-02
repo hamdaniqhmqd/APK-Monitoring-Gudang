@@ -80,8 +80,8 @@ class LoginActivity : AppCompatActivity() {
 
     private fun intentMainAct(id: Int, username: String) {
         val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra("user_id", username)
-            intent.putExtra("username", username)
+        intent.putExtra("user_id", id)
+        intent.putExtra("username", username)
         startActivity(intent)
     }
 
