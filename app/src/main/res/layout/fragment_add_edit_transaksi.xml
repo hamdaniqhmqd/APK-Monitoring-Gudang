@@ -13,6 +13,19 @@
         android:layout_height="match_parent"
         android:background="@drawable/card_rounded">
 
+        <TextView
+            android:id="@+id/label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunitobold"
+            android:text="Tambah Transaksi"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/header_card"
             android:layout_width="0dp"
@@ -20,8 +33,10 @@
             android:background="@color/merah_keluar"
             android:paddingHorizontal="14dp"
             android:paddingVertical="10dp"
+            android:layout_marginTop="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label"
             tools:ignore="MissingConstraints">
 
             <ImageView
@@ -69,8 +84,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunitobold"
+                    android:fontFamily="@font/nunitosemibold"
                     android:text="Nama Barang : "
+                    android:textColor="@color/hitam_smooth"
                     android:textAlignment="textStart"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -85,6 +101,7 @@
                     android:text="Barang"
                     android:textAlignment="textStart"
                     android:textSize="20sp"
+                    android:layout_marginBottom="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -92,9 +109,10 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunitobold"
+                    android:fontFamily="@font/nunitosemibold"
                     android:text="Harga Barang : "
                     android:textAlignment="textStart"
+                    android:textColor="@color/hitam_smooth"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -108,6 +126,7 @@
                     android:text="0"
                     android:textAlignment="textStart"
                     android:textSize="20sp"
+                    android:layout_marginBottom="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -115,7 +134,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunitobold"
+                    android:fontFamily="@font/nunitosemibold"
+                    android:textColor="@color/hitam_smooth"
                     android:text="Jumlah Barang : "
                     android:textAlignment="textStart"
                     android:textSize="16sp"
@@ -125,7 +145,8 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp">
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/plus"
@@ -167,7 +188,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunitobold"
+                    android:fontFamily="@font/nunitosemibold"
+                    android:textColor="@color/hitam_smooth"
                     android:text="Total Harga Barang : "
                     android:textAlignment="textStart"
                     android:textSize="16sp"

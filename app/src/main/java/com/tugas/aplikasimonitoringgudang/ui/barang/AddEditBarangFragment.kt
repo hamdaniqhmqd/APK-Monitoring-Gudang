@@ -43,8 +43,8 @@ class AddEditBarangFragment : Fragment() {
         supplierId = arguments?.getInt("supplierId")
         supplierNama = arguments?.getString("supplierNama")
 
-        user_id = (requireActivity() as MainActivity).intentUserid().toString().toInt()
-        username = (requireActivity() as MainActivity).intentUsername().toString()
+        user_id = (requireActivity() as MainActivity).intentUserid()
+        username = (requireActivity() as MainActivity).intentUsername()
 
         binding.btnSubmit.setOnClickListener {
             val nama = binding.namaBarang.text.toString()
@@ -71,7 +71,10 @@ class AddEditBarangFragment : Fragment() {
                 Transaksi(
 //                    barang_id = barangId!!,
                     barang_nama = nama,
+                    kategori_barang = kategori,
                     harga_barang = harga,
+                    stok_barang = stok,
+                    ukuran_barang = ukuran,
                     jumlah_barang = stok,
                     total_harga_barang = totalHarga,
                     user_id = user_id!!,

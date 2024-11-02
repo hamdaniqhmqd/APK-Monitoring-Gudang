@@ -30,8 +30,8 @@ class AddEditTransaksiFragment : Fragment() {
     private var supplierId: Int? = 0
     private var supplierNama: String? = ""
 
-    private var user_id: Int? = 0
-    private var username: String = ""
+    //    private var user_id: Int? = 0
+//    private var username: String = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -70,8 +70,8 @@ class AddEditTransaksiFragment : Fragment() {
             totalHargaBarang = hargaBarang!! * jumlahBarang
             binding.totalHargaBarang.text = totalHargaBarang.toString()
         }
-        user_id = (requireActivity() as MainActivity).intentUserid().toString().toInt()
-        username = (requireActivity() as MainActivity).intentUsername().toString()
+        var user_id = (requireActivity() as MainActivity).intentUserid()
+        var username = (requireActivity() as MainActivity).intentUsername()
         binding.saveBtn.setOnClickListener {
             val namaBarang = binding.namaBarang.text.toString()
             val hargaBarang = binding.hargaBarang.text.toString().toInt()
@@ -80,12 +80,15 @@ class AddEditTransaksiFragment : Fragment() {
             val sisa_stok = stokBarang!! - jumlahBarang
             viewModel.insert(
                 Transaksi(
-//                    barang_id = barangId!!,
+                    barang_id = barangId!!,
                     barang_nama = namaBarang,
+                    kategori_barang = kategoriBarang!!,
                     harga_barang = hargaBarang,
+                    stok_barang = sisa_stok,
+                    ukuran_barang = ukuranBarang!!,
                     jumlah_barang = jumlahBarang,
                     total_harga_barang = totalHarga,
-                    user_id = user_id!!,
+                    user_id = user_id,
                     user_nama = username,
                     supplier_id = supplierId!!,
                     supplier_nama = supplierNama!!,
