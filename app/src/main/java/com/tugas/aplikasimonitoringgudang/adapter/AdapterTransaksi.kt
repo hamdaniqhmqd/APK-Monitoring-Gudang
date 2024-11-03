@@ -5,6 +5,8 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
 import com.tugas.aplikasimonitoringgudang.databinding.ItemTransaksiBinding
@@ -13,9 +15,9 @@ import java.util.Locale
 
 
 class AdapterTransaksi(
-    private var transaksiList: List<Transaksi>,
-    private var onItemClick: (Transaksi) -> Unit
-) : RecyclerView.Adapter<AdapterTransaksi.TransaksiViewHolder>() {
+//    private var transaksiList: List<Transaksi>,
+    private val onItemClick: (Transaksi) -> Unit
+) : ListAdapter<Transaksi, AdapterTransaksi.TransaksiViewHolder>(TransaksiDiffCallback()) {
 
     inner class TransaksiViewHolder(private val binding: ItemTransaksiBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -30,7 +32,7 @@ class AdapterTransaksi(
 
         init {
             itemView.setOnClickListener {
-                onItemClick(transaksiList[adapterPosition])
+                onItemClick(getItem(adapterPosition))
             }
         }
     }
@@ -40,7 +42,7 @@ class AdapterTransaksi(
         return TransaksiViewHolder(binding)
     }
     override fun onBindViewHolder(holder: TransaksiViewHolder, position: Int) {
-        val dataTransaksi = transaksiList[position]
+        val dataTransaksi = getItem(position)
         val context = holder.itemView.context
         var status = dataTransaksi.status
         if (status == 1) {
@@ -62,11 +64,21 @@ class AdapterTransaksi(
         holder.totalHargaTransaksi.text = numberFormat.format(dataTransaksi.total_harga_barang)
     }
 
-    override fun getItemCount(): Int = transaksiList.size
+//    override fun getItemCount(): Int = transaksiList.size
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun setDataTransaksi(transaksiList: List<Transaksi>) {
-        this.transaksiList = transaksiList
-        notifyDataSetChanged()
+//    @SuppressLint("NotifyDataSetChanged")
+//    fun setDataTransaksi(transaksiList: List<Transaksi>) {
+//        this.transaksiList = transaksiList
+//        notifyDataSetChanged()
+//    }
+
+    class TransaksiDiffCallback : DiffUtil.ItemCallback<Transaksi>() {
+        override fun areItemsTheSame(oldItem: Transaksi, newItem: Transaksi): Boolean {
+            return oldItem.id_transaksi == newItem.id_transaksi
+        }
+
+        override fun areContentsTheSame(oldItem: Transaksi, newItem: Transaksi): Boolean {
+            return oldItem == newItem
+        }
     }
 }

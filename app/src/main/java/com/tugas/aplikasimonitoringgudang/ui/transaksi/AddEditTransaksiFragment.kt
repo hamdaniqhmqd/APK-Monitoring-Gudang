@@ -32,6 +32,10 @@ class AddEditTransaksiFragment : Fragment() {
 
     //    private var user_id: Int? = 0
 //    private var username: String = ""
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        (requireActivity() as MainActivity).navigasiHilang()
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -111,8 +115,13 @@ class AddEditTransaksiFragment : Fragment() {
         }
         return binding.root
     }
+    override fun onDestroy() {
+        super.onDestroy()
+        (requireActivity() as MainActivity).navigasiMuncul()
+    }
 
     private fun toTransaksiFragment() {
         (requireActivity() as MainActivity).toTransaksi()
+        (requireActivity() as MainActivity).navigasiMuncul()
     }
 }

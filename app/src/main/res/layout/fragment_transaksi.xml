@@ -7,62 +7,67 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/wadah"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.transaksi.TransaksiFragment">
+        android:fillViewport="true">
 
-        <TextView
-            android:id="@+id/label"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/wadah"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:fontFamily="@font/nunitobold"
-            android:text="Transaksi List"
-            android:textColor="@color/hitam"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints" />
+            tools:context=".ui.transaksi.TransaksiFragment">
 
-        <TextView
-            android:id="@+id/pesan"
-            android:layout_width="260dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/nunitobold"
-            android:text="Data Transaksi Masuk dan Keluar Barang di dalam Gudang"
-            android:textAlignment="center"
-            android:textColor="@color/hitam_smooth"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/label"
-            tools:ignore="MissingConstraints" />
+            <TextView
+                android:id="@+id/label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:fontFamily="@font/nunitobold"
+                android:text="Transaksi List"
+                android:textColor="@color/hitam"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_transaksi"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pesan"
-            tools:listitem="@layout/item_transaksi" />
+            <TextView
+                android:id="@+id/pesan"
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/nunitobold"
+                android:text="Data Transaksi Masuk dan Keluar Barang di dalam Gudang"
+                android:textAlignment="center"
+                android:textColor="@color/hitam_smooth"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/label"
+                tools:ignore="MissingConstraints" />
 
-        <!--            <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-        <!--                android:id="@+id/fabAddBarang"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_gravity="end"-->
-        <!--                android:layout_margin="16dp"-->
-        <!--                android:contentDescription="Tambah Barang"-->
-        <!--                android:src="@drawable/ic_add"-->
-        <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--                app:layout_constraintEnd_toEndOf="parent" />-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_transaksi"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/pesan"
+                tools:listitem="@layout/item_transaksi" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 </layout>
+
+    <!--            <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+    <!--                android:id="@+id/fabAddBarang"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_gravity="end"-->
+    <!--                android:layout_margin="16dp"-->
+    <!--                android:contentDescription="Tambah Barang"-->
+    <!--                android:src="@drawable/ic_add"-->
+    <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--                app:layout_constraintEnd_toEndOf="parent" />-->
