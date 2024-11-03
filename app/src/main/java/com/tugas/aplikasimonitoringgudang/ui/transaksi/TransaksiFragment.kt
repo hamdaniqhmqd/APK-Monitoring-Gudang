@@ -28,14 +28,14 @@ class TransaksiFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentTransaksiBinding.inflate(inflater, container, false)
-        Adapter = AdapterTransaksi(emptyList()) { transaksi ->
+        Adapter = AdapterTransaksi { transaksi ->
             onDetailClick(transaksi)
         }
         binding.recyclerViewTransaksi.adapter = Adapter
         binding.recyclerViewTransaksi.layoutManager = LinearLayoutManager(requireContext())
         viewModel.allTransaksi.observe(viewLifecycleOwner) { products ->
             products?.let {
-                Adapter.setDataTransaksi(it)
+                Adapter.submitList(it)
             }
         }
         return binding.root
