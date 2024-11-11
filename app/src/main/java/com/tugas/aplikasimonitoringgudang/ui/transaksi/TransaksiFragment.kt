@@ -19,10 +19,12 @@ class TransaksiFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var Adapter: AdapterTransaksi
     private lateinit var viewModel: TransaksiViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this).get(TransaksiViewModel::class.java)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,15 +37,40 @@ class TransaksiFragment : Fragment() {
         binding.recyclerViewTransaksi.layoutManager = LinearLayoutManager(requireContext())
         viewModel.allTransaksi.observe(viewLifecycleOwner) { products ->
             products?.let {
-                Adapter.submitList(it)
+                setHeader(it)
             }
         }
         return binding.root
     }
+
+    fun setHeader(transaksiList: List<Transaksi>) {
+        val data: MutableList<Any> = mutableListOf()
+        data.clear()
+
+        val sortedMap = transaksiList.sortedBy { transaksi ->
+            transaksi.bulan
+        }
+
+        if (sortedMap.isNotEmpty()) {
+            var dataBulan = sortedMap[0].bulan
+            data.add(dataBulan)
+            for (element in sortedMap) {
+                if (element.bulan != dataBulan) {
+                    dataBulan = element.bulan
+                    data.add(dataBulan)
+                }
+                data.add(element)
+            }
+        }
+
+        Adapter.submitList(data)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
     private fun onDetailClick(transaksi: Transaksi) {
         val bundle = Bundle().apply {
             putInt("transaksiId", transaksi.id_transaksi ?: 0)

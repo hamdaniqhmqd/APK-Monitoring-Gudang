@@ -19,5 +19,7 @@ data class Transaksi(
     val user_nama: String,
     val supplier_id: Int,
     val supplier_nama: String,
+    val bulan: String,
+    val tanggal: String,
     val status: Int,
 )
