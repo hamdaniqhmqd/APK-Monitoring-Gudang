@@ -15,6 +15,9 @@ import com.tugas.aplikasimonitoringgudang.ui.MainActivity
 import com.tugas.aplikasimonitoringgudang.veiwModel.BarangViewModel
 import com.tugas.aplikasimonitoringgudang.veiwModel.SupplierViewModel
 import com.tugas.aplikasimonitoringgudang.veiwModel.TransaksiViewModel
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class DetailTransaksiFragment : Fragment() {
     private lateinit var transaksiViewModel: TransaksiViewModel
@@ -29,6 +32,10 @@ class DetailTransaksiFragment : Fragment() {
     private var barang_id: Int = 0
     private var user_id: Int = 0
     private var username: String = ""
+
+    private var tanggalSaatIni = ""
+    private var bulanSaatIni = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (requireActivity() as MainActivity).navigasiHilang()
@@ -54,6 +61,9 @@ class DetailTransaksiFragment : Fragment() {
                 binding.tvBarangPrice.text = transaksi.harga_barang.toString()
                 binding.tvBarangStock.text = transaksi.stok_barang.toString()
                 binding.tvBarangSizes.text = transaksi.ukuran_barang
+
+                bulanSaatIni = transaksi.bulan
+                tanggalSaatIni = transaksi.tanggal
 
                 supplierId = transaksi.supplier_id
                 var supplier_id = transaksi.supplier_id
@@ -110,6 +120,8 @@ class DetailTransaksiFragment : Fragment() {
                     user_nama = username,
                     supplier_id = supplierId,
                     supplier_nama = supplierNama,
+                    bulan = bulanSaatIni,
+                    tanggal = tanggalSaatIni,
                     status = 3
                 )
             )
@@ -136,7 +148,7 @@ class DetailTransaksiFragment : Fragment() {
                 Transaksi(
                     transaksiId!!, 0,"", "", 0,
                     0, "",0, 0, 0,
-                    "", 0, "", 0
+                    "", 0, "", "", "", 0
                 )
             )
             toTransaksiFragment()
