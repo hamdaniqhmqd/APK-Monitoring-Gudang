@@ -56,4 +56,12 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             _transaksiKeluarCount.value = repository.getTransaksiKeluarCount()
         }
     }
+
+    fun updateAdminProfile(username: String, adminName: String, profileImagePath: String) = viewModelScope.launch {
+        repository.updateAdminProfile(username, adminName, profileImagePath)
+    }
+
+    fun getAdminName(username: String): LiveData<String> {
+        return repository.getAdminName(username)
+    }
 }

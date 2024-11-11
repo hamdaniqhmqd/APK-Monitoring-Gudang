@@ -39,4 +39,13 @@ interface UserDao {
 
     @Query("SELECT COUNT(*) FROM transaksi_table WHERE status = 1")
     suspend fun getTransaksiKeluarCount(): Int
+
+    @Query("SELECT * FROM user_table WHERE username = :username")
+    fun getUserByUsername(username: String): LiveData<User?>
+
+    @Query("UPDATE user_table SET adminName = :adminName, profileImagePath = :profileImagePath WHERE username = :username")
+    suspend fun updateAdminProfile(username: String, adminName: String, profileImagePath: String)
+
+    @Query("SELECT adminName FROM user_table WHERE username = :username")
+    fun getAdminName(username: String): LiveData<String>
 }
