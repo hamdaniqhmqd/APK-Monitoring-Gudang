@@ -23,7 +23,7 @@ class UserRepository(private val userDao: UserDao) {
     }
 
     fun getAdminLiveData(username: String): LiveData<User?> {
-        return userDao.getAdminLiveData(username)
+        return userDao.getUserByUsername(username)
     }
 
     suspend fun insert(user: User) {
@@ -40,5 +40,13 @@ class UserRepository(private val userDao: UserDao) {
 
     suspend fun getUserById(id: Int): User? {
         return userDao.getUserById(id)
+    }
+
+    suspend fun updateAdminProfile(username: String, adminName: String, profileImagePath: String) {
+        userDao.updateAdminProfile(username, adminName, profileImagePath)
+    }
+
+    fun getAdminName(username: String): LiveData<String> {
+        return userDao.getAdminName(username)
     }
 }

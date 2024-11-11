@@ -2,6 +2,7 @@ package com.tugas.aplikasimonitoringgudang.ui.admin
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
@@ -13,9 +14,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.tugas.aplikasimonitoringgudang.R
 import com.tugas.aplikasimonitoringgudang.ui.login.LoginActivity
 import com.tugas.aplikasimonitoringgudang.ui.user.UserViewModel
+import java.io.File
 
 class AdminProfileActivity : AppCompatActivity() {
     private lateinit var viewModel: UserViewModel
+    private lateinit var adminNameTextView: TextView
+    private lateinit var adminImageView: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,18 +27,40 @@ class AdminProfileActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
-        val adminNameTextView = findViewById<TextView>(R.id.adminName)
-        val adminImageView = findViewById<ImageView>(R.id.adminImage)
+        adminNameTextView = findViewById(R.id.adminName)
+        adminImageView = findViewById(R.id.adminImage)
 
         // Get the username from SharedPreferences or wherever you store it
         val sharedPreferences = getSharedPreferences("AdminPrefs", Context.MODE_PRIVATE)
         val username = sharedPreferences.getString("username", "") ?: ""
 
+        val imagePath = sharedPreferences.getString("adminImagePath", null)
+        if (imagePath != null) {
+            try {
+                val imageFile = File(imagePath)
+                if (imageFile.exists()) {
+                    val imageUri = Uri.fromFile(imageFile)
+                    adminImageView.setImageURI(imageUri)
+                } else {
+                    Log.e("AdminProfileActivity", "Image file does not exist")
+                    Toast.makeText(this, "Image file not found", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Log.e("AdminProfileActivity", "Error setting image from path", e)
+                Toast.makeText(this, "Error loading profile image", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            Log.e("AdminProfileActivity", "Image path is null")
+        }
+
         try {
             viewModel.getAdminLiveData(username).observe(this) { admin ->
                 admin?.let {
-                    adminNameTextView.text = it.username
-                    // Update other UI components as needed
+                    adminNameTextView.text = it.adminName
+                    if (it.profileImagePath != null) {
+                        val imageUri = Uri.fromFile(File(it.profileImagePath))
+                        adminImageView.setImageURI(imageUri)
+                    }
                 }
             }
         } catch (e: Exception) {
@@ -57,8 +83,46 @@ class AdminProfileActivity : AppCompatActivity() {
 
         val settingsOption = findViewById<LinearLayout>(R.id.settingsOption)
         settingsOption.setOnClickListener {
-//            val intent = Intent(this, AdminProfileSettingActivity::class.java)
-//            startActivity(intent)
+            val intent = Intent(this, AdminProfileSettingActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadProfileImage()
+        loadAdminName()
+    }
+
+    private fun loadProfileImage() {
+        val sharedPreferences = getSharedPreferences("AdminPrefs", Context.MODE_PRIVATE)
+        val imagePath = sharedPreferences.getString("adminImagePath", null)
+        if (imagePath != null) {
+            try {
+                val imageFile = File(imagePath)
+                if (imageFile.exists()) {
+                    val imageUri = Uri.fromFile(imageFile)
+                    adminImageView.setImageURI(imageUri)
+                } else {
+                    Log.e("AdminProfileActivity", "Image file does not exist")
+                    Toast.makeText(this, "Image file not found", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Log.e("AdminProfileActivity", "Error setting image from path", e)
+                Toast.makeText(this, "Error loading profile image", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            Log.e("AdminProfileActivity", "Image path is null")
+        }
+    }
+
+    private fun loadAdminName() {
+        val sharedPreferences = getSharedPreferences("AdminPrefs", Context.MODE_PRIVATE)
+        val username = sharedPreferences.getString("username", "") ?: ""
+        
+        viewModel.getAdminName(username).observe(this) { adminName ->
+            val displayName = if (adminName.isNullOrEmpty()) "Admin" else adminName
+            adminNameTextView.text = "Hi! $displayName"
         }
     }
 }
