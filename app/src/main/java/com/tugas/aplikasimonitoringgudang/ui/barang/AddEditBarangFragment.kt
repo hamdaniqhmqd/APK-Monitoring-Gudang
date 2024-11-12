@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.lifecycle.ViewModelProvider
 import com.tugas.aplikasimonitoringgudang.R
 import com.tugas.aplikasimonitoringgudang.data.barang.Barang
@@ -55,12 +56,24 @@ class AddEditBarangFragment : Fragment() {
         user_id = (requireActivity() as MainActivity).intentUserid()
         username = (requireActivity() as MainActivity).intentUsername()
 
+        val kategori = binding.kategoriBarang
+        val kategori_item = listOf("Dewasa", "Remaja", "Anak-Anak")
+        val adapterKategori = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, kategori_item)
+        adapterKategori.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        kategori.adapter = adapterKategori
+
+        val ukuran = binding.ukuranBarang
+        val ukuran_item = listOf("XXXL", "XXL", "XL", "L", "M", "S")
+        val adapterUkuran = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, ukuran_item)
+        adapterUkuran.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        ukuran.adapter = adapterUkuran
+
         binding.btnSubmit.setOnClickListener {
             val nama = binding.namaBarang.text.toString()
-            val kategori = binding.kategoriBarang.text.toString()
+            val kategori = binding.kategoriBarang.selectedItem.toString()
             val harga = binding.hargaBarang.text.toString().toInt()
             val stok = binding.stokBarang.text.toString().toInt()
-            val ukuran = binding.ukuranBarang.text.toString()
+            val ukuran = binding.ukuranBarang.selectedItem.toString()
 
             val totalHarga = harga * stok
 

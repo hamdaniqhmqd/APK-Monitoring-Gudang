@@ -67,7 +67,7 @@ class DetailSupplierFragment : Fragment() {
 
         viewModelBarang = ViewModelProvider(this).get(BarangViewModel::class.java)
 
-        Adapter = AdapterBarang(emptyList()) { barang ->
+        Adapter = AdapterBarang() { barang ->
             onDetailClick(barang)
         }
 
@@ -76,13 +76,35 @@ class DetailSupplierFragment : Fragment() {
 
         viewModelBarang.getBarangByIdSupplier(supplierId!!).observe(viewLifecycleOwner) { barang ->
             barang?.let {
-                Adapter.setBarangList(it)
+                setHeader(it)
             }
         }
 
         return binding.root
     }
 
+    fun setHeader(barangList: List<Barang>) {
+        val data: MutableList<Any> = mutableListOf()
+        data.clear()
+
+        val sortedMap = barangList.sortedBy {
+            it.kategori_barang
+        }
+
+        if (sortedMap.isNotEmpty()) {
+            var dataKategori = sortedMap[0].kategori_barang
+            data.add(dataKategori)
+            for (element in sortedMap) {
+                if (element.kategori_barang != dataKategori) {
+                    dataKategori = element.kategori_barang
+                    data.add(dataKategori)
+                }
+                data.add(element)
+            }
+        }
+
+        Adapter.submitList(data)
+    }
     private fun onEditClick(idSupplier: Int) {
         // Navigasi ke CreateProductFragment dengan ID produk
         val bundle = Bundle().apply {
