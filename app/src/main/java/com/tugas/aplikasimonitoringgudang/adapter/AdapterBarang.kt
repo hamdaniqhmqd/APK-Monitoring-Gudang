@@ -3,49 +3,129 @@ package com.tugas.aplikasimonitoringgudang.adapter
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.tugas.aplikasimonitoringgudang.data.barang.Barang
 import com.tugas.aplikasimonitoringgudang.databinding.ItemBarangBinding
+import com.tugas.aplikasimonitoringgudang.databinding.ItemHeaderBarangBinding
 import java.text.NumberFormat
 import java.util.Locale
 
-class AdapterBarang(private var barangList: List<Barang>,
-                    private val onDetailClick: (Barang) -> Unit) :
-    RecyclerView.Adapter<AdapterBarang.BarangViewHolder>() {
+class AdapterBarang(
+//    private var barangList: List<Barang>,
+    private val onDetailClick: (Barang) -> Unit
+) :
+    ListAdapter<Any, RecyclerView.ViewHolder>(BarangDiffCallback()) {
 
-    inner class BarangViewHolder(private val binding: ItemBarangBinding) :
+    enum class ItemType {
+        HEADER,
+        BARANG
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return when (getItem(position)) {
+            is Barang -> ItemType.BARANG.ordinal
+            else -> ItemType.HEADER.ordinal
+        }
+    }
+
+    class HeaderViewHolder private constructor(val binding: ItemHeaderBarangBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        val nama = binding.namaBarang
-        val harga = binding.hargaBarang
-        val stok = binding.stokBarang
 
-        init {
-            itemView.setOnClickListener {
-                onDetailClick(barangList[adapterPosition])
+        companion object {
+            fun from(parent: ViewGroup): HeaderViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = ItemHeaderBarangBinding.inflate(layoutInflater, parent, false)
+                return HeaderViewHolder(binding)
             }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BarangViewHolder {
-        val binding = ItemBarangBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return BarangViewHolder(binding)
+    class BarangViewHolder private constructor(val binding: ItemBarangBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        companion object {
+            fun from(parent: ViewGroup): BarangViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = ItemBarangBinding.inflate(layoutInflater, parent, false)
+                return BarangViewHolder(binding)
+            }
+        }
     }
 
-    override fun onBindViewHolder(holder: BarangViewHolder, position: Int) {
-        val barang = barangList[position]
-        holder.nama.text = barang.nama_barang
-        val numberFormat = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
-        holder.harga.text = numberFormat.format(barang.harga_barang)
-        holder.stok.text = barang.stok_barang.toString()
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+
+            ItemType.BARANG.ordinal -> {
+                BarangViewHolder.from(parent)
+            }
+
+            else -> {
+                HeaderViewHolder.from(parent)
+            }
+        }
     }
 
-    override fun getItemCount(): Int {
-        return barangList.size
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder) {
+            is BarangViewHolder -> {
+                val barang = getItem(position) as Barang
+                holder.binding.namaBarang.text = barang.nama_barang
+                val numberFormat = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
+                holder.binding.hargaBarang.text = numberFormat.format(barang.harga_barang)
+                holder.binding.stokBarang.text = barang.stok_barang.toString()
+
+                holder.itemView.setOnClickListener {
+                    onDetailClick(barang)
+                }
+            }
+
+            is HeaderViewHolder -> {
+                holder.binding.headerText.text = (getItem(position) as String)
+            }
+        }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun setBarangList(newList: List<Barang>) {
-        barangList = newList
-        notifyDataSetChanged() // Memastikan RecyclerView diperbarui
+    class BarangDiffCallback : DiffUtil.ItemCallback<Any>() {
+        override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean {
+            return when (oldItem) {
+                is Barang -> {
+                    if (newItem is Barang) {
+                        oldItem.id_barang == newItem.id_barang
+                    } else {
+                        false
+                    }
+                }
+
+                else -> {
+                    if (newItem is Barang) {
+                        false
+                    } else {
+                        newItem == oldItem
+                    }
+                }
+            }
+        }
+
+        override fun areContentsTheSame(oldItem: Any, newItem: Any): Boolean {
+            return when (oldItem) {
+                is Barang -> {
+                    if (newItem is Barang) {
+                        (oldItem) == (newItem)
+                    } else {
+                        false
+                    }
+                }
+
+                else -> {
+                    if (newItem is Barang) {
+                        false
+                    } else {
+                        (oldItem) == (newItem)
+                    }
+                }
+            }
+        }
     }
 }

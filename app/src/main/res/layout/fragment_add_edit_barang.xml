@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.barang.AddEditBarangFragment">
@@ -39,13 +39,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivSupplier" />
 
-    <EditText
+    <Spinner
         android:id="@+id/kategori_barang"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="8dp"
-        android:hint="Kategori"
+        android:layout_height="36dp"
+        android:layout_margin="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nama_barang" />
@@ -69,29 +67,28 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
         android:hint="Stok Barang"
-        android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/harga_barang" />
 
-    <EditText
+    <Spinner
         android:id="@+id/ukuran_barang"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="8dp"
-        android:hint="Ukuran Barang"
+        android:layout_height="36dp"
+        android:layout_margin="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/stok_barang" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSubmit"
-        android:layout_width="95dp"
+        android:layout_width="0dp"
         android:layout_height="45dp"
-        android:text="Submit"
+        android:layout_marginHorizontal="24dp"
         android:layout_marginTop="24dp"
         android:backgroundTint="@color/kuning"
+        android:text="Submit"
+        android:textColor="@color/putih"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ukuran_barang" />

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.lifecycle.ViewModelProvider
 import com.tugas.aplikasimonitoringgudang.R
 import com.tugas.aplikasimonitoringgudang.data.barang.Barang
@@ -34,10 +35,24 @@ class EditBarangFragment : Fragment() {
             barangViewModel.getBarangById(barangId!!).observe(viewLifecycleOwner) { barang ->
                 if (barang != null) {
                     binding.namaBarang.setText(barang.nama_barang)
-                    binding.kategoriBarang.setText(barang.kategori_barang)
                     binding.hargaBarang.setText(barang.harga_barang.toString())
                     binding.stokBarang.setText(barang.stok_barang.toString())
-                    binding.ukuranBarang.setText(barang.ukuran_barang)
+
+                    val kategori_item = listOf("Dewasa", "Remaja", "Anak-Anak")
+                    val ukuran_item = listOf("XXXL", "XXL", "XL", "L", "M", "S")
+                    binding.kategoriBarang.post {
+                        val kategoriIndex = kategori_item.indexOf(barang.kategori_barang)
+                        if (kategoriIndex != -1) {
+                            binding.kategoriBarang.setSelection(kategoriIndex)
+                        }
+                    }
+
+                    binding.ukuranBarang.post {
+                        val ukuranIndex = ukuran_item.indexOf(barang.ukuran_barang)
+                        if (ukuranIndex != -1) {
+                            binding.ukuranBarang.setSelection(ukuranIndex)
+                        }
+                    }
 
                     supplierId = barang.supplier_id
                     supplierNama = barang.supplier_nama
@@ -47,12 +62,24 @@ class EditBarangFragment : Fragment() {
 
         supplierId = arguments?.getInt("supplierId")
 
+        val kategori = binding.kategoriBarang
+        val kategori_item = listOf("Dewasa", "Remaja", "Anak-Anak")
+        val adapterKategori = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, kategori_item)
+        adapterKategori.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        kategori.adapter = adapterKategori
+
+        val ukuran = binding.ukuranBarang
+        val ukuran_item = listOf("XXXL", "XXL", "XL", "L", "M", "S")
+        val adapterUkuran = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, ukuran_item)
+        adapterUkuran.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        ukuran.adapter = adapterUkuran
+
         binding.btnSubmit.setOnClickListener {
             val nama = binding.namaBarang.text.toString()
-            val kategori = binding.kategoriBarang.text.toString()
+            val kategori = binding.kategoriBarang.selectedItem.toString()
             val harga = binding.hargaBarang.text.toString().toInt()
             val stok = binding.stokBarang.text.toString().toInt()
-            val ukuran = binding.ukuranBarang.text.toString()
+            val ukuran = binding.ukuranBarang.selectedItem.toString()
 
         barangViewModel.update(
                     Barang(

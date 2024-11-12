@@ -21,9 +21,10 @@
 
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
             android:src="@drawable/kotak_paket"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,12 +32,14 @@
             android:id="@+id/namaBarang"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:fontFamily="@font/nunitobold"
             android:text="Id Barang"
+            android:textColor="@color/hitam"
+            android:layout_marginTop="8dp"
             android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@id/icon"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/icon" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -56,10 +59,11 @@
             android:id="@+id/hargaBarang"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/nunitosemibold"
+            android:fontFamily="@font/nunitoextrabold"
             android:text="12.000,00"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textStyle="bold"
+            android:textColor="@color/hitam"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -69,10 +73,11 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunitosemibold"
             android:text="120"
+            android:textColor="@color/hitam_smooth"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hargaBarang" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

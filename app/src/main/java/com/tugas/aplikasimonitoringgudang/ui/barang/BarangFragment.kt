@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tugas.aplikasimonitoringgudang.R
 import com.tugas.aplikasimonitoringgudang.adapter.AdapterBarang
@@ -35,20 +36,56 @@ class BarangFragment : Fragment() {
     ): View? {
         _binding = FragmentBarangBinding.inflate(inflater, container, false)
 
-        Adapter = AdapterBarang(emptyList()) { barang ->
+        Adapter = AdapterBarang() { barang ->
             onDetailClick(barang)
         }
 
         binding.recyclerViewBarang.adapter = Adapter
-        binding.recyclerViewBarang.layoutManager = LinearLayoutManager(requireContext())
+
+        binding.recyclerViewBarang.apply {
+            layoutManager = GridLayoutManager(requireContext(), 2).apply {
+                spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                    override fun getSpanSize(position: Int): Int {
+                        return when (adapter?.getItemViewType(position)) {
+                            AdapterBarang.ItemType.BARANG.ordinal -> 1
+                            AdapterBarang.ItemType.HEADER.ordinal -> 2
+                            else -> 1
+                        }
+                    }
+                }
+            }
+        }
 
         viewModel.allBarang.observe(viewLifecycleOwner) { barang ->
             barang?.let {
-                Adapter.setBarangList(it)
+                setHeader(it)
             }
         }
 
         return binding.root
+    }
+
+    fun setHeader(barangList: List<Barang>) {
+        val data: MutableList<Any> = mutableListOf()
+        data.clear()
+
+        val sortedMap = barangList.sortedBy { barang ->
+            barang.kategori_barang
+        }
+
+        if (sortedMap.isNotEmpty()) {
+            var dataKategori = sortedMap[0].kategori_barang
+            data.add(dataKategori)
+            for (element in sortedMap) {
+                if (element.kategori_barang != dataKategori) {
+                    dataKategori = element.kategori_barang
+                    data.add(dataKategori)
+                }
+                data.add(element)
+            }
+        }
+
+        Adapter.submitList(data)
     }
 
     override fun onDestroyView() {

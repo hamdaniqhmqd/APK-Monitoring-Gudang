@@ -33,24 +33,6 @@ class AdapterTransaksi(
         }
     }
 
-//    class TransaksiViewHolder(private val binding: ItemTransaksiBinding) :
-//        RecyclerView.ViewHolder(binding.root) {
-//        val status = binding.headerCard
-//        val namaStatus = binding.labelCard
-//        val namaBarang = binding.namaBarang
-//        val hargaBarang = binding.HargaBarang
-//        val jumlahTransaksi = binding.JumlahBarang
-//        val totalHargaTransaksi = binding.TotalHargaBarang
-//        val namaSupplier = binding.NamaSupplier
-//        val namaAdmin = binding.NamaAdmin
-//
-//        init {
-//            itemView.setOnClickListener {
-//                onItemClick(getItem(adapterPosition))
-//            }
-//        }
-//    }
-
     class TransaksiViewHolder private constructor(val binding: ItemTransaksiBinding) :
         RecyclerView.ViewHolder(binding.root) {
         companion object {
@@ -146,6 +128,7 @@ class AdapterTransaksi(
         }
     }
 
+
     class TransaksiDiffCallback : DiffUtil.ItemCallback<Any>() {
         override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean {
             return when (oldItem) {
@@ -166,7 +149,6 @@ class AdapterTransaksi(
                 }
             }
         }
-
         override fun areContentsTheSame(oldItem: Any, newItem: Any): Boolean {
             return when (oldItem) {
                 is Transaksi -> {
@@ -188,5 +170,3 @@ class AdapterTransaksi(
         }
     }
 }
-
-
