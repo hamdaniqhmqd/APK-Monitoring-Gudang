@@ -6,27 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.tugas.aplikasimonitoringgudang.R
-import com.tugas.aplikasimonitoringgudang.adapter.AdapterBarang
 import com.tugas.aplikasimonitoringgudang.adapter.AdapterSupplier
-import com.tugas.aplikasimonitoringgudang.data.barang.Barang
 import com.tugas.aplikasimonitoringgudang.data.supplier.Supplier
-import com.tugas.aplikasimonitoringgudang.databinding.FragmentBarangBinding
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentSupplierBinding
-import com.tugas.aplikasimonitoringgudang.databinding.FragmentUserBinding
-import com.tugas.aplikasimonitoringgudang.ui.barang.AddEditBarangFragment
-import com.tugas.aplikasimonitoringgudang.ui.barang.DetailBarangFragment
-import com.tugas.aplikasimonitoringgudang.veiwModel.BarangViewModel
+import com.tugas.aplikasimonitoringgudang.ui.supplier.AddEditSupplierFragment
+import com.tugas.aplikasimonitoringgudang.ui.supplier.DetailSupplierFragment
 import com.tugas.aplikasimonitoringgudang.veiwModel.SupplierViewModel
 
 class SupplierFragment : Fragment() {
     private var _binding: FragmentSupplierBinding? = null
-
     private val binding get() = _binding!!
 
-    private lateinit var Adapter: AdapterSupplier
-
+    private lateinit var adapter: AdapterSupplier
     private lateinit var viewModel: SupplierViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,18 +33,19 @@ class SupplierFragment : Fragment() {
     ): View? {
         _binding = FragmentSupplierBinding.inflate(inflater, container, false)
 
-        val binding = FragmentSupplierBinding.inflate(inflater, container, false)
-
-        Adapter = AdapterSupplier(emptyList()) { supplier ->
+        // Initialize AdapterSupplier with explicit type for the lambda parameter
+        adapter = AdapterSupplier { supplier: Supplier ->
             onDetailClick(supplier)
         }
 
-        binding.recyclerViewSupplier.adapter = Adapter
-        binding.recyclerViewSupplier.layoutManager = LinearLayoutManager(requireContext())
+        // Set up RecyclerView
+        binding.recyclerViewSupplier.adapter = adapter
+        binding.recyclerViewSupplier.layoutManager = GridLayoutManager(requireContext(), 2)
 
-        viewModel.allSupplier.observe(viewLifecycleOwner) { supplier ->
-            supplier?.let {
-                Adapter.setDataSupplier(it)
+        // Observe data from ViewModel and submit to adapter
+        viewModel.allSupplier.observe(viewLifecycleOwner) { supplierList ->
+            supplierList?.let {
+                adapter.submitList(it)
             }
         }
 
@@ -70,13 +64,7 @@ class SupplierFragment : Fragment() {
         _binding = null
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-//        kode user di bawah ini
-    }
-
     private fun onDetailClick(supplier: Supplier) {
-        // Navigasi ke CreateProductFragment dengan ID produk
         val bundle = Bundle().apply {
             putInt("supplierId", supplier.id_supplier ?: 0)
         }

@@ -13,6 +13,9 @@ import com.tugas.aplikasimonitoringgudang.ui.MainActivity
 import com.tugas.aplikasimonitoringgudang.veiwModel.BarangViewModel
 import com.tugas.aplikasimonitoringgudang.veiwModel.SupplierViewModel
 import com.tugas.aplikasimonitoringgudang.veiwModel.TransaksiViewModel
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class AddEditTransaksiFragment : Fragment() {
     private lateinit var viewModel: TransaksiViewModel
@@ -29,6 +32,12 @@ class AddEditTransaksiFragment : Fragment() {
 
     private var supplierId: Int? = 0
     private var supplierNama: String? = ""
+
+    private val formatTanggal = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    private val tanggalSaatIni = formatTanggal.format(Date())
+
+    private val formatBulan = SimpleDateFormat("yyyy-MM", Locale.getDefault())
+    private val bulanSaatIni = formatBulan.format(Date())
 
     //    private var user_id: Int? = 0
 //    private var username: String = ""
@@ -96,6 +105,8 @@ class AddEditTransaksiFragment : Fragment() {
                     user_nama = username,
                     supplier_id = supplierId!!,
                     supplier_nama = supplierNama!!,
+                    bulan = bulanSaatIni,
+                    tanggal = tanggalSaatIni,
                     status = 1
                 )
             )
