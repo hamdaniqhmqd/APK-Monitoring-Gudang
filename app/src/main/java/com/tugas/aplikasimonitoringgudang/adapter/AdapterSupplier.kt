@@ -3,14 +3,15 @@ package com.tugas.aplikasimonitoringgudang.adapter
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.tugas.aplikasimonitoringgudang.data.supplier.Supplier
 import com.tugas.aplikasimonitoringgudang.databinding.ItemSupplierBinding
 
 class AdapterSupplier(
-    private var supplierList: List<Supplier>,
     private val onItemClick: (Supplier) -> Unit
-) : RecyclerView.Adapter<AdapterSupplier.SupplierViewHolder>() {
+) : ListAdapter<Supplier, AdapterSupplier.SupplierViewHolder>(SupplierDiffCallback()) {
 
     // ViewHolder yang mengikat item dengan binding
     inner class SupplierViewHolder(val binding: ItemSupplierBinding) :
@@ -21,11 +22,10 @@ class AdapterSupplier(
 
         init {
             itemView.setOnClickListener {
-                onItemClick(supplierList[adapterPosition])
+                onItemClick(getItem(adapterPosition))
             }
         }
     }
-
 
     // Membuat ViewHolder baru dengan layout item_supplier.xml
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SupplierViewHolder {
@@ -37,7 +37,7 @@ class AdapterSupplier(
 
     // Mengikat data ke view dalam RecyclerView
     override fun onBindViewHolder(holder: SupplierViewHolder, position: Int) {
-        val dataSupplier = supplierList[position]
+        val dataSupplier = getItem(position)
         holder.nama.text = dataSupplier.nama_supplier
         holder.no_hp.text = dataSupplier.no_hp_supplier.toString()
         holder.nik.text = dataSupplier.nik_supplier.toString()
@@ -47,14 +47,15 @@ class AdapterSupplier(
             onItemClick(dataSupplier)
         }
     }
+}
 
-    // Menghitung jumlah item di list
-    override fun getItemCount(): Int = supplierList.size
+// DiffUtil implementation for Supplier
+class SupplierDiffCallback : DiffUtil.ItemCallback<Supplier>() {
+    override fun areItemsTheSame(oldItem: Supplier, newItem: Supplier): Boolean {
+        return oldItem.nik_supplier == newItem.nik_supplier
+    }
 
-    // Memperbarui data dalam RecyclerView
-    @SuppressLint("NotifyDataSetChanged")
-    fun setDataSupplier(suppliers: List<Supplier>) {
-        this.supplierList = suppliers
-        notifyDataSetChanged()
+    override fun areContentsTheSame(oldItem: Supplier, newItem: Supplier): Boolean {
+        return oldItem == newItem
     }
 }
