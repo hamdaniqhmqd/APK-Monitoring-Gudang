@@ -43,8 +43,8 @@ class AddEditSupplierFragment : Fragment() {
 
         binding.btnSubmit.setOnClickListener {
             val nama = binding.etNamaSupplier.text.toString()
-            val no_hp = binding.etNoHp.text.toString().toInt()
-            val nik = binding.etNIK.text.toString().toInt()
+            val no_hp = binding.etNoHp.text.toString()
+            val nik = binding.etNIK.text.toString()
 
             if (supplierId != null) {
                 viewModel.update(
