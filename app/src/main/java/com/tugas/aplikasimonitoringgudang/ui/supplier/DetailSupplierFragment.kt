@@ -57,7 +57,7 @@ class DetailSupplierFragment : Fragment() {
         }
 
         binding.btnHapus.setOnClickListener {
-            viewModel.delete(Supplier(supplierId!!, "", 0, 0))
+            viewModel.delete(Supplier(supplierId!!, "", "", ""))
             toSupplierFragment()
         }
 

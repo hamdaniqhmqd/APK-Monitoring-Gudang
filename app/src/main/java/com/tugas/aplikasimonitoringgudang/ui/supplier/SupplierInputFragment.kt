@@ -30,7 +30,6 @@ class SupplierInputFragment : Fragment() {
     ): View? {
         binding = FragmentSupplierInputBinding.inflate(inflater, container, false)
         return binding.root
-//        return inflater.inflate(R.layout.fragment_supplier_input, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,8 +37,8 @@ class SupplierInputFragment : Fragment() {
 
         binding.btnSubmit.setOnClickListener {
             val nama = binding.etNamaSupplier.text.toString()
-            val nik = binding.etNIK.text.toString().toInt()
-            val no_hp = binding.etNoHp.text.toString().toInt()
+            val nik = binding.etNIK.text.toString()
+            val no_hp = binding.etNoHp.text.toString()
 
             supplierViewModel.insert(
                 Supplier(
