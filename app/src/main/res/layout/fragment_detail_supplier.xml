@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/putih_bg"
     android:padding="16dp"
     tools:context=".ui.supplier.DetailSupplierFragment">
 
@@ -30,16 +31,18 @@
         android:id="@+id/cvSupplierInfo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
+        android:background="@color/white"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp"
-        app:layout_constraintTop_toBottomOf="@id/ivSupplierIcon"
+        app:layout_constraintTop_toBottomOf="@id/tvDetailSupplier"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -47,6 +50,7 @@
                 android:id="@+id/nama"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/hitam"
                 android:text="Nama Supplier" />
 
             <TextView
@@ -54,6 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No Hp"
+                android:textColor="@color/hitam"
                 android:layout_marginTop="8dp" />
 
             <TextView
@@ -61,6 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="NIK"
+                android:textColor="@color/hitam"
                 android:layout_marginTop="8dp" />
 
         </LinearLayout>
@@ -97,7 +103,7 @@
         android:id="@+id/btnTambahBarang"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Tambah Brang"
+        android:text="Tambah Barang"
         android:backgroundTint="#4B994B"
         app:layout_constraintTop_toBottomOf="@id/btnHapus"
         app:layout_constraintStart_toStartOf="parent"

@@ -8,6 +8,6 @@ data class Supplier(
     @PrimaryKey(autoGenerate = true)
     val id_supplier: Int = 0,
     val nama_supplier: String,
-    val nik_supplier: Int,
-    val no_hp_supplier: Int,
+    val nik_supplier: String,
+    val no_hp_supplier: String,
 )

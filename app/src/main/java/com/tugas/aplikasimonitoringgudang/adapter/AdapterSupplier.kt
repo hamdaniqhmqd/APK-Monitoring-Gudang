@@ -47,15 +47,16 @@ class AdapterSupplier(
             onItemClick(dataSupplier)
         }
     }
+
+    // DiffUtil implementation for Supplier
+    class SupplierDiffCallback : DiffUtil.ItemCallback<Supplier>() {
+        override fun areItemsTheSame(oldItem: Supplier, newItem: Supplier): Boolean {
+            return oldItem.nik_supplier == newItem.nik_supplier
+        }
+
+        override fun areContentsTheSame(oldItem: Supplier, newItem: Supplier): Boolean {
+            return oldItem == newItem
+        }
+    }
 }
 
-// DiffUtil implementation for Supplier
-class SupplierDiffCallback : DiffUtil.ItemCallback<Supplier>() {
-    override fun areItemsTheSame(oldItem: Supplier, newItem: Supplier): Boolean {
-        return oldItem.nik_supplier == newItem.nik_supplier
-    }
-
-    override fun areContentsTheSame(oldItem: Supplier, newItem: Supplier): Boolean {
-        return oldItem == newItem
-    }
-}
