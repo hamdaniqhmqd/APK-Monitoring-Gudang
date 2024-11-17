@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import androidx.core.view.marginTop
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tugas.aplikasimonitoringgudang.R
@@ -42,9 +44,17 @@ class TransaksiFragment : Fragment() {
             } else {
                 binding.recyclerViewTransaksi.visibility = View.VISIBLE
                 binding.infoDataKosong.visibility = View.GONE
-                products.let {
-                    setHeader(it)
-                }
+                setHeader(products)
+            }
+        }
+
+        val searchEditText = binding.inputSearch.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
+
+        searchEditText.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                binding.label.visibility = View.GONE
+            } else {
+                binding.label.visibility = View.VISIBLE
             }
         }
 

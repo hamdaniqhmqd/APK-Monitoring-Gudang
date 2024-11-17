@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.tugas.aplikasimonitoringgudang.R
@@ -36,6 +37,9 @@ class DetailTransaksiFragment : Fragment() {
     private var tanggalSaatIni = ""
     private var bulanSaatIni = ""
 
+    private val formatTanggal = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+    private val tanggalSekarang = formatTanggal.format(Date())
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (requireActivity() as MainActivity).navigasiHilang()
@@ -61,6 +65,10 @@ class DetailTransaksiFragment : Fragment() {
                 binding.tvBarangPrice.text = transaksi.harga_barang.toString()
                 binding.tvBarangStock.text = transaksi.stok_barang.toString()
                 binding.tvBarangSizes.text = transaksi.ukuran_barang
+                val formatTanggalDetail = SimpleDateFormat("HH:mm EEEE, d MMMM yyyy", Locale("id", "ID"))
+                val awal = formatTanggal.parse(transaksi.tanggal)
+                val tanggalAwal = formatTanggalDetail.format(awal!!)
+                binding.tanggalTransaksi.text = tanggalAwal
 
                 bulanSaatIni = transaksi.bulan
                 tanggalSaatIni = transaksi.tanggal
@@ -70,8 +78,8 @@ class DetailTransaksiFragment : Fragment() {
                 supplier_id.let {
                     supplierViewModel.getSupplierById(it).observe(viewLifecycleOwner) { supplier ->
                         binding.tvSupplierName.text = supplier.nama_supplier
-                        binding.tvSupplierPhone.text = supplier.no_hp_supplier.toString()
-                        binding.tvSupplierNik.text = supplier.nik_supplier.toString()
+                        binding.tvSupplierPhone.text = supplier.no_hp_supplier
+                        binding.tvSupplierNik.text = supplier.nik_supplier
                     }
                 }
                 barang_id = transaksi.barang_id
@@ -83,72 +91,83 @@ class DetailTransaksiFragment : Fragment() {
                 } else if (transaksi.status == 2) {
                     binding.wadahStatus.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.hijau_masuk))
                     binding.status.text = "Barang Masuk"
-                } else if (transaksi.status == 3) {
-                    binding.wadahStatus.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.putih_smooth))
-                    binding.status.text = "Batal Transaksi"
-                }
-                if (transaksi.status == 3) {
                     binding.btnBatal.isEnabled = false
                     binding.btnBatal.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.putih_smooth))
                 }
-            }
-        }
-//        binding.tvSupplierName.text = supplierId.toString()
 
-        username = (requireActivity() as MainActivity).intentUsername().toString()
-        binding.btnBatal.setOnClickListener {
-            val namaBarang = binding.tvTransaksiName.text.toString()
-            val hargaBarang = binding.tvTransaksiHarga.text.toString().toInt()
-            val jumlahBarang = binding.tvTransaksiJumlah.text.toString().toInt()
-            val totalHarga = binding.tvTransaksiTotal.text.toString().toInt()
-            val kategoriBarang = binding.tvBarangCategory.text.toString()
-            val stokBarang = binding.tvBarangStock.text.toString().toInt()
-            val ukuranBarang = binding.tvBarangSizes.text.toString()
+                if (transaksi.statusAkhir == 3) {
+                    binding.wadahStatusAkhir.visibility = View.VISIBLE
+                    binding.wadahStatusAkhir.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.putih_smooth))
+                    binding.statusAkhir.text = "Batal Transaksi"
+                    val akhir = formatTanggal.parse(transaksi.tanggalAkhir)
+                    val tanggalAkhir = formatTanggalDetail.format(akhir!!)
+                    binding.tanggalTransaksiAkhir.text = tanggalAkhir
+                    binding.btnBatal.isEnabled = false
+                    binding.btnBatal.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.putih_smooth))
+                }
 
-            val supplierNama = binding.tvSupplierName.text.toString()
-            transaksiViewModel.update(
-                Transaksi(
-                    id_transaksi = transaksiId!!,
-                    barang_nama = namaBarang,
-                    kategori_barang = kategoriBarang,
-                    harga_barang = hargaBarang,
-                    stok_barang = stokBarang,
-                    ukuran_barang = ukuranBarang,
-                    jumlah_barang = jumlahBarang,
-                    total_harga_barang = totalHarga,
-                    user_id = user_id,
-                    user_nama = username,
-                    supplier_id = supplierId,
-                    supplier_nama = supplierNama,
-                    bulan = bulanSaatIni,
-                    tanggal = tanggalSaatIni,
-                    status = 3
-                )
-            )
+                username = (requireActivity() as MainActivity).intentUsername().toString()
+                binding.btnBatal.setOnClickListener {
+                    val namaBarang = binding.tvTransaksiName.text.toString()
+                    val hargaBarang = binding.tvTransaksiHarga.text.toString().toInt()
+                    val jumlahBarang = binding.tvTransaksiJumlah.text.toString().toInt()
+                    val totalHarga = binding.tvTransaksiTotal.text.toString().toInt()
+                    val kategoriBarang = binding.tvBarangCategory.text.toString()
+                    val stokBarang = binding.tvBarangStock.text.toString().toInt()
+                    val ukuranBarang = binding.tvBarangSizes.text.toString()
 
-            if (status!! == 1) {
-                val stokKembali = stokBarang + jumlahBarang
-                barangViewModel.update(
-                    Barang(
-                        id_barang = barang_id,
-                        nama_barang = namaBarang,
-                        kategori_barang = kategoriBarang,
-                        harga_barang = hargaBarang,
-                        stok_barang = stokKembali,
-                        ukuran_barang = ukuranBarang,
-                        supplier_id = supplierId,
-                        supplier_nama = supplierNama
+                    val supplierNama = binding.tvSupplierName.text.toString()
+                    transaksiViewModel.update(
+                        Transaksi(
+                            id_transaksi = transaksiId!!,
+                            barang_nama = namaBarang,
+                            kategori_barang = kategoriBarang,
+                            harga_barang = hargaBarang,
+                            stok_barang = stokBarang,
+                            ukuran_barang = ukuranBarang,
+                            jumlah_barang = jumlahBarang,
+                            total_harga_barang = totalHarga,
+                            user_id = user_id,
+                            user_nama = username,
+                            supplier_id = supplierId,
+                            supplier_nama = supplierNama,
+                            bulan = bulanSaatIni,
+                            tanggal = tanggalSaatIni,
+                            tanggalAkhir = tanggalSekarang,
+                            status = transaksi.status,
+                            statusAkhir = 3
+                        )
                     )
-                )
+
+                    if (transaksi.status == 1) {
+                        val stokKembali = stokBarang + jumlahBarang
+                        barangViewModel.update(
+                            Barang(
+                                id_barang = barang_id,
+                                nama_barang = namaBarang,
+                                kategori_barang = kategoriBarang,
+                                harga_barang = hargaBarang,
+                                stok_barang = stokKembali,
+                                ukuran_barang = ukuranBarang,
+                                supplier_id = supplierId,
+                                supplier_nama = supplierNama
+                            )
+                        )
+                    }
+
+                    toTransaksiFragment()
+                }
             }
-            toTransaksiFragment()
         }
+
+
         binding.btnHapus.setOnClickListener {
             transaksiViewModel.delete(
                 Transaksi(
                     transaksiId!!, 0,"", "", 0,
                     0, "",0, 0, 0,
-                    "", 0, "", "", "", 0
+                    "", 0, "", "", "", "",
+                    0, 0
                 )
             )
             toTransaksiFragment()

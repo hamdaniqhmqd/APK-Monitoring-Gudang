@@ -16,6 +16,7 @@
             android:id="@+id/wadah"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="24dp"
             android:background="@color/putih_bg"
             tools:context=".ui.transaksi.TransaksiFragment">
 
@@ -26,8 +27,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:paddingTop="32dp"
-                android:paddingBottom="24dp"
+                android:paddingVertical="24dp"
                 android:background="@drawable/card_rounded_bawah"
                 android:backgroundTint="@color/kuning"
                 tools:ignore="MissingConstraints">
@@ -40,6 +40,8 @@
                     android:text="Transaksi List"
                     android:textColor="@color/white"
                     android:textSize="24sp"
+                    android:paddingBottom="14dp"
+                    android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -54,7 +56,6 @@
                     android:layout_marginHorizontal="24dp"
                     android:textColor="@color/black"
                     android:textSize="16sp"
-                    android:layout_marginTop="14dp"
                     android:background="@drawable/rounded_input"
                     android:fontFamily="@font/nunitosemibold"
                     app:layout_constraintEnd_toEndOf="parent"

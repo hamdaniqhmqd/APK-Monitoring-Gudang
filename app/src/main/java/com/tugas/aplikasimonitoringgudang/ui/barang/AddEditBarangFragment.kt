@@ -23,13 +23,13 @@ class AddEditBarangFragment : Fragment() {
     private lateinit var transaksiViewModel: TransaksiViewModel
     private lateinit var barangViewModel: BarangViewModel
     private lateinit var viewModel: SupplierViewModel
-    private var barangId: Int? = -1
-    private var supplierId: Int? = -1
+    private var barangId: Int = 0
+    private var supplierId: Int? = 0
     private var supplierNama: String? = ""
     private var user_id: Int? = 0
     private var username: String = ""
 
-    private val formatTanggal = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    private val formatTanggal = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
     private val tanggalSaatIni = formatTanggal.format(Date())
 
     private val formatBulan = SimpleDateFormat("yyyy-MM", Locale.getDefault())

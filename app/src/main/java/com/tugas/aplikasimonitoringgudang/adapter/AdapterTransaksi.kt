@@ -72,13 +72,13 @@ class AdapterTransaksi(
         when (holder) {
             is TransaksiViewHolder -> {
                 val transaksi = getItem(position) as Transaksi
-                val formatTanggal = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                val formatTanggalDetail = SimpleDateFormat("EEEE, d MMMM yyyy", Locale("id", "ID"))
+                val formatTanggal = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+                val formatTanggalDetail = SimpleDateFormat("HH:mm EEEE, d MMMM yyyy", Locale("id", "ID"))
                 val date = formatTanggal.parse(transaksi.tanggal)
                 val numberFormat = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
                 val context = holder.itemView.context
-                var status = transaksi.status
-                if (status == 1) {
+
+                if (transaksi.status == 1) {
                     holder.binding.headerCard.setBackgroundColor(
                         ContextCompat.getColor(
                             context,
@@ -86,7 +86,7 @@ class AdapterTransaksi(
                         )
                     )
                     holder.binding.labelCard.text = "Barang Keluar"
-                } else if (status == 2) {
+                } else if (transaksi.status == 2) {
                     holder.binding.headerCard.setBackgroundColor(
                         ContextCompat.getColor(
                             context,
@@ -94,7 +94,9 @@ class AdapterTransaksi(
                         )
                     )
                     holder.binding.labelCard.text = "Barang Masuk"
-                } else if (status == 3) {
+                }
+
+                if (transaksi.statusAkhir == 3) {
                     holder.binding.headerCard.setBackgroundColor(
                         ContextCompat.getColor(
                             context,
@@ -103,6 +105,7 @@ class AdapterTransaksi(
                     )
                     holder.binding.labelCard.text = "Batal Transaksi"
                 }
+
                 holder.binding.NamaAdmin.text = transaksi.user_nama
                 holder.binding.namaBarang.text = transaksi.barang_nama
                 holder.binding.NamaSupplier.text = transaksi.supplier_nama
