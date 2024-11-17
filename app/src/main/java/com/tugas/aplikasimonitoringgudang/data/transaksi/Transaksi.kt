@@ -21,5 +21,7 @@ data class Transaksi(
     val supplier_nama: String,
     val bulan: String,
     val tanggal: String,
+    val tanggalAkhir: String = "",
     val status: Int,
+    val statusAkhir: Int = 0,
 )

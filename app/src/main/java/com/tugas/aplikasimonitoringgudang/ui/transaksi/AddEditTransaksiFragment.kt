@@ -33,7 +33,7 @@ class AddEditTransaksiFragment : Fragment() {
     private var supplierId: Int? = 0
     private var supplierNama: String? = ""
 
-    private val formatTanggal = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    private val formatTanggal = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
     private val tanggalSaatIni = formatTanggal.format(Date())
 
     private val formatBulan = SimpleDateFormat("yyyy-MM", Locale.getDefault())
