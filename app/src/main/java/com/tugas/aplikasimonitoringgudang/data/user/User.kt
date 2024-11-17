@@ -10,5 +10,4 @@ data class User(
     val password: String,
     val adminName: String? = null,
     val profileImagePath: String? = null,
-    val statusLoging: Int = 0,
 )

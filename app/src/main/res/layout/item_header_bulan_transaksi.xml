@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:paddingHorizontal="16dp"
-    android:paddingTop="16dp"
+    android:paddingVertical="4dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -11,9 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingHorizontal="14dp"
+        android:paddingHorizontal="16dp"
         android:paddingVertical="8dp"
-        android:background="@color/putih_smooth"
+        android:background="@color/kuning_smooth"
         tools:ignore="MissingConstraints">
 
         <TextView

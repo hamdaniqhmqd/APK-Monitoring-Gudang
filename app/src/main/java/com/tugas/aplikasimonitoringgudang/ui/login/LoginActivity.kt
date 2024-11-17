@@ -55,13 +55,14 @@ class LoginActivity : AppCompatActivity() {
                 runOnUiThread {
                     if (user != null) {
                         // Save login state
-                        viewModel.update(User(id = user.id, username = inputUsername, password = inputPassword, statusLoging = 1))
+                        viewModel.update(User(id = user.id, username = inputUsername, password = inputPassword))
 
                         Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
                         intentMainAct(user.id ,user.username)
 
                         // In LoginActivity, after successful login
                         val sharedPreferences = getSharedPreferences("AdminPrefs", Context.MODE_PRIVATE)
+                        sharedPreferences.edit().putInt("id_user", user.id).apply()
                         sharedPreferences.edit().putString("username", inputUsername).apply()
 
                         val sharedPreferencesLogin = getSharedPreferences("LoginPrefs", MODE_PRIVATE)

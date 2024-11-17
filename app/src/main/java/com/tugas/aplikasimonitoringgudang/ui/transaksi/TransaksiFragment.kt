@@ -36,10 +36,33 @@ class TransaksiFragment : Fragment() {
         binding.recyclerViewTransaksi.adapter = Adapter
         binding.recyclerViewTransaksi.layoutManager = LinearLayoutManager(requireContext())
         viewModel.allTransaksi.observe(viewLifecycleOwner) { products ->
-            products?.let {
-                setHeader(it)
+            if (products.isNullOrEmpty()) {
+                binding.recyclerViewTransaksi.visibility = View.GONE
+                binding.infoDataKosong.visibility = View.VISIBLE
+            } else {
+                binding.recyclerViewTransaksi.visibility = View.VISIBLE
+                binding.infoDataKosong.visibility = View.GONE
+                products.let {
+                    setHeader(it)
+                }
             }
         }
+
+        binding.inputSearch.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(searchText: String?): Boolean {
+                val pencarian = viewModel.allTransaksi.value?.filter {
+                    it.barang_nama.contains(searchText ?: "", ignoreCase = true)
+                } ?: emptyList()
+
+                setHeader(pencarian)
+                return true
+            }
+        })
+
         return binding.root
     }
 
