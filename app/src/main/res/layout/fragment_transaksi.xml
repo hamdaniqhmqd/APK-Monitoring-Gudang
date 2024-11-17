@@ -16,45 +16,100 @@
             android:id="@+id/wadah"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/putih_bg"
             tools:context=".ui.transaksi.TransaksiFragment">
 
-            <TextView
-                android:id="@+id/label"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/header"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:fontFamily="@font/nunitobold"
-                android:text="Transaksi List"
-                android:textColor="@color/hitam"
-                android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="MissingConstraints" />
+                android:paddingTop="32dp"
+                android:paddingBottom="24dp"
+                android:background="@drawable/card_rounded_bawah"
+                android:backgroundTint="@color/kuning"
+                tools:ignore="MissingConstraints">
 
-            <TextView
-                android:id="@+id/pesan"
-                android:layout_width="260dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/nunitobold"
-                android:text="Data Transaksi Masuk dan Keluar Barang di dalam Gudang"
-                android:textAlignment="center"
-                android:textColor="@color/hitam_smooth"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/label"
-                tools:ignore="MissingConstraints" />
+                <TextView
+                    android:id="@+id/label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunitobold"
+                    android:text="Transaksi List"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="MissingConstraints" />
+
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/input_search"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:queryHint="Pencarian"
+                    app:iconifiedByDefault="false"
+                    android:layout_marginHorizontal="24dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:layout_marginTop="14dp"
+                    android:background="@drawable/rounded_input"
+                    android:fontFamily="@font/nunitosemibold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/label" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_transaksi"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:paddingTop="14dp"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/pesan"
+                app:layout_constraintTop_toBottomOf="@+id/header"
                 tools:listitem="@layout/item_transaksi" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/info_data_kosong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints">
+
+                <ImageView
+                    android:id="@+id/gambar_null"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/warehouse_null"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/teks_null"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:fontFamily="@font/nunitobold"
+                    android:text="Data Transaksi Tidak Ditemukan"
+                    android:textColor="@color/hitam"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/gambar_null" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
