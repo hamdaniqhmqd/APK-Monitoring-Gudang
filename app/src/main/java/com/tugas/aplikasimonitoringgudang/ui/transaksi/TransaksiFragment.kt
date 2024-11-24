@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.marginTop
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -58,7 +59,7 @@ class TransaksiFragment : Fragment() {
             }
         }
 
-        binding.inputSearch.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+        binding.inputSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
@@ -68,7 +69,14 @@ class TransaksiFragment : Fragment() {
                     it.barang_nama.contains(searchText ?: "", ignoreCase = true)
                 } ?: emptyList()
 
-                setHeader(pencarian)
+                if (pencarian.isEmpty()) {
+                    binding.recyclerViewTransaksi.visibility = View.GONE
+                    binding.infoDataKosong.visibility = View.VISIBLE
+                } else {
+                    binding.recyclerViewTransaksi.visibility = View.VISIBLE
+                    binding.infoDataKosong.visibility = View.GONE
+                    setHeader(pencarian)
+                }
                 return true
             }
         })

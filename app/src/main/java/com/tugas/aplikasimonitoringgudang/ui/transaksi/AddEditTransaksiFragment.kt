@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.tugas.aplikasimonitoringgudang.data.barang.Barang
+import com.tugas.aplikasimonitoringgudang.data.session.AppPreferences
 import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentAddEditTransaksiBinding
 import com.tugas.aplikasimonitoringgudang.ui.MainActivity
@@ -50,9 +51,16 @@ class AddEditTransaksiFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = FragmentAddEditTransaksiBinding.inflate(inflater, container, false)
+
+        AppPreferences.init(requireContext())
+        val user_id = AppPreferences.getUserId()
+        val username = AppPreferences.getUsername()
+        val isLoggedIn = AppPreferences.isLoggedIn()
+
         viewModel = ViewModelProvider(this).get(TransaksiViewModel::class.java)
         barangViewModel = ViewModelProvider(this).get(BarangViewModel::class.java)
         supplierViewModel = ViewModelProvider(this).get(SupplierViewModel::class.java)
+
         barangId = arguments?.getInt("barangId").toString().toInt()
         if (barangId != 0) {
             barangViewModel.getBarangById(barangId!!).observe(viewLifecycleOwner) { barang ->
@@ -65,6 +73,7 @@ class AddEditTransaksiFragment : Fragment() {
                 supplierNama = barang.supplier_nama
             }
         }
+
         binding.plus.setOnClickListener {
             if (stokBarang!! > jumlahBarang) {
                 jumlahBarang += 1
@@ -74,6 +83,7 @@ class AddEditTransaksiFragment : Fragment() {
             totalHargaBarang = hargaBarang!! * jumlahBarang
             binding.totalHargaBarang.text = totalHargaBarang.toString()
         }
+
         binding.minus.setOnClickListener {
             if (jumlahBarang > 0) {
                 jumlahBarang -= 1
@@ -83,14 +93,14 @@ class AddEditTransaksiFragment : Fragment() {
             totalHargaBarang = hargaBarang!! * jumlahBarang
             binding.totalHargaBarang.text = totalHargaBarang.toString()
         }
-        var user_id = (requireActivity() as MainActivity).intentUserid()
-        var username = (requireActivity() as MainActivity).intentUsername()
+
         binding.saveBtn.setOnClickListener {
             val namaBarang = binding.namaBarang.text.toString()
             val hargaBarang = binding.hargaBarang.text.toString().toInt()
             val jumlahBarang = binding.jumlahBarang.text.toString().toInt()
             val totalHarga = binding.totalHargaBarang.text.toString().toInt()
             val sisa_stok = stokBarang!! - jumlahBarang
+
             viewModel.insert(
                 Transaksi(
                     barang_id = barangId!!,
@@ -102,7 +112,7 @@ class AddEditTransaksiFragment : Fragment() {
                     jumlah_barang = jumlahBarang,
                     total_harga_barang = totalHarga,
                     user_id = user_id,
-                    user_nama = username,
+                    user_nama = username.toString(),
                     supplier_id = supplierId!!,
                     supplier_nama = supplierNama!!,
                     bulan = bulanSaatIni,
@@ -110,6 +120,7 @@ class AddEditTransaksiFragment : Fragment() {
                     status = 1
                 )
             )
+
             barangViewModel.update(
                 Barang(
                     id_barang = barangId!!,
@@ -122,10 +133,12 @@ class AddEditTransaksiFragment : Fragment() {
                     supplier_nama = supplierNama!!
                 )
             )
+
             toTransaksiFragment()
         }
         return binding.root
     }
+
     override fun onDestroy() {
         super.onDestroy()
         (requireActivity() as MainActivity).navigasiMuncul()

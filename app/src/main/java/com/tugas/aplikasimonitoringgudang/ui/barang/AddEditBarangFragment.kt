@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter
 import androidx.lifecycle.ViewModelProvider
 import com.tugas.aplikasimonitoringgudang.R
 import com.tugas.aplikasimonitoringgudang.data.barang.Barang
+import com.tugas.aplikasimonitoringgudang.data.session.AppPreferences
 import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentAddEditBarangBinding
 import com.tugas.aplikasimonitoringgudang.ui.MainActivity
@@ -26,8 +27,6 @@ class AddEditBarangFragment : Fragment() {
     private var barangId: Int = 0
     private var supplierId: Int? = 0
     private var supplierNama: String? = ""
-    private var user_id: Int? = 0
-    private var username: String = ""
 
     private val formatTanggal = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
     private val tanggalSaatIni = formatTanggal.format(Date())
@@ -43,8 +42,12 @@ class AddEditBarangFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate layout
         val binding = FragmentAddEditBarangBinding.inflate(inflater, container, false)
+
+        AppPreferences.init(requireContext())
+        val user_id = AppPreferences.getUserId()
+        val username = AppPreferences.getUsername()
+        val isLoggedIn = AppPreferences.isLoggedIn()
 
         transaksiViewModel = ViewModelProvider(this).get(TransaksiViewModel::class.java)
         barangViewModel = ViewModelProvider(this).get(BarangViewModel::class.java)
@@ -52,9 +55,6 @@ class AddEditBarangFragment : Fragment() {
 
         supplierId = arguments?.getInt("supplierId")
         supplierNama = arguments?.getString("supplierNama")
-
-        user_id = (requireActivity() as MainActivity).intentUserid()
-        username = (requireActivity() as MainActivity).intentUsername()
 
         val kategori = binding.kategoriBarang
         val kategori_item = listOf("Dewasa", "Remaja", "Anak-Anak")
@@ -99,8 +99,8 @@ class AddEditBarangFragment : Fragment() {
                     ukuran_barang = ukuran,
                     jumlah_barang = stok,
                     total_harga_barang = totalHarga,
-                    user_id = user_id!!,
-                    user_nama = username,
+                    user_id = user_id,
+                    user_nama = username.toString(),
                     supplier_id = supplierId!!,
                     supplier_nama = supplierNama!!,
                     bulan = bulanSaatIni,
