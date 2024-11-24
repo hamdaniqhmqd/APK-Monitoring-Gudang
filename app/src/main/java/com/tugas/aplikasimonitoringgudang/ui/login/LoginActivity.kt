@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.tugas.aplikasimonitoringgudang.data.database.GudangDatabase
+import com.tugas.aplikasimonitoringgudang.data.session.AppPreferences
 import com.tugas.aplikasimonitoringgudang.data.user.User
 import com.tugas.aplikasimonitoringgudang.data.user.UserDao
 import com.tugas.aplikasimonitoringgudang.databinding.ActivityLoginBinding
@@ -30,6 +31,8 @@ class LoginActivity : AppCompatActivity() {
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        AppPreferences.init(this)
 
         database = GudangDatabase.getDatabase(this)
         userDao = database.userDao()
@@ -55,18 +58,25 @@ class LoginActivity : AppCompatActivity() {
                 runOnUiThread {
                     if (user != null) {
                         // Save login state
-                        viewModel.update(User(id = user.id, username = inputUsername, password = inputPassword))
+                        viewModel.update(User(id = user.id, username = inputUsername, password = inputPassword, adminName = inputUsername))
 
                         Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
-                        intentMainAct(user.id ,user.username)
+
+                        AppPreferences.setUserId(user.id)
+                        AppPreferences.setUsername(inputUsername)
+                        AppPreferences.setLoggedIn(true)
+
+                        intentMainAct()
+
+//                        intentMainAct(user.id ,user.username)
 
                         // In LoginActivity, after successful login
-                        val sharedPreferences = getSharedPreferences("AdminPrefs", Context.MODE_PRIVATE)
-                        sharedPreferences.edit().putInt("id_user", user.id).apply()
-                        sharedPreferences.edit().putString("username", inputUsername).apply()
-
-                        val sharedPreferencesLogin = getSharedPreferences("LoginPrefs", MODE_PRIVATE)
-                        sharedPreferencesLogin.edit().putBoolean("isLoggedIn", true).apply()
+//                        val sharedPreferences = getSharedPreferences("AdminPrefs", Context.MODE_PRIVATE)
+//                        sharedPreferences.edit().putInt("id_user", user.id).apply()
+//                        sharedPreferences.edit().putString("username", inputUsername).apply()
+//
+//                        val sharedPreferencesLogin = getSharedPreferences("LoginPrefs", MODE_PRIVATE)
+//                        sharedPreferencesLogin.edit().putBoolean("isLoggedIn", true).apply()
                     } else {
                         Toast.makeText(this@LoginActivity, "Invalid credentials", Toast.LENGTH_SHORT).show()
                     }
@@ -79,10 +89,10 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun intentMainAct(id: Int, username: String) {
+    private fun intentMainAct() {
         val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra("user_id", id)
-        intent.putExtra("username", username)
+//        intent.putExtra("user_id", id)
+//        intent.putExtra("username", username)
         startActivity(intent)
     }
 

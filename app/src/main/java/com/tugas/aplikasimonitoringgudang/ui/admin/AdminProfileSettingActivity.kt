@@ -16,16 +16,24 @@ import android.widget.Toast
 import com.tugas.aplikasimonitoringgudang.ui.user.UserViewModel
 import androidx.appcompat.app.AppCompatActivity
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import androidx.activity.result.contract.ActivityResultContracts
 import com.tugas.aplikasimonitoringgudang.R
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
+import com.tugas.aplikasimonitoringgudang.data.session.AppPreferences
+import com.tugas.aplikasimonitoringgudang.data.user.User
 import java.io.File
+import java.io.FileOutputStream
 
 class AdminProfileSettingActivity : AppCompatActivity() {
 
     private lateinit var adminImageView: ImageView
     private lateinit var adminNameTextView: TextView
-    private var selectedImage: Uri? = null
+    private var imageUri: Uri? = null
+    private var imagePath: String? = null
     private lateinit var viewModel: UserViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,9 +47,44 @@ class AdminProfileSettingActivity : AppCompatActivity() {
         adminImageView = findViewById(R.id.adminImage)
         adminNameTextView = findViewById(R.id.adminName)
 
-        // Initialize username
-        val sharedPreferences = getSharedPreferences("AdminPrefs", Context.MODE_PRIVATE)
-        val username = sharedPreferences.getString("username", "") ?: ""
+        AppPreferences.init(this)
+        val userId = AppPreferences.getUserId()
+        val username = AppPreferences.getUsername().toString()
+        val isLoggedIn = AppPreferences.isLoggedIn()
+
+        userId.let {
+            viewModel.getUserById(it).observe(this) { user ->
+                adminNameTextView.text = user.adminName
+                adminNameInput.setText(user.adminName)
+
+                if (user.profileImagePath != null) {
+                    Glide.with(adminImageView.context)
+                        .load(user.profileImagePath)
+                        .placeholder(R.drawable.profile)
+                        .into(adminImageView)
+                } else {
+                    adminImageView.setImageResource(R.drawable.profile)
+                }
+
+                okButton.setOnClickListener {
+                    val newName = adminNameInput.text.toString()
+                    // Menyimpan path gambar
+                    val updatedImagePath = imageUri?.let { uri ->
+                        uriToBitmap(uri)?.let { bitmap ->
+                            saveImageToLocalStorage(bitmap, username)
+                        }
+                    } ?: imagePath ?: user.profileImagePath
+
+                    if (newName != "") {
+                        viewModel.update(User(id = userId, username = username, password = user.password, adminName = newName, profileImagePath = updatedImagePath))
+                    } else {
+                        viewModel.update(User(id = userId, username = username, password = user.password, adminName = user.adminName, profileImagePath = user.profileImagePath))
+                    }
+                    
+                    finish()
+                }
+            }
+        }
 
         adminNameInput.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -53,88 +96,35 @@ class AdminProfileSettingActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
-        okButton.setOnClickListener {
-            val newName = adminNameInput.text.toString()
-            val imagePath = selectedImage?.let { getPathFromUri(it) } ?: ""
-            viewModel.updateAdminProfile(username, newName, imagePath)
-            finish()
-        }
-
         adminImageView.setOnClickListener {
-            openImagePicker()
-        }
-
-        viewModel.getAdminLiveData(username).observe(this) { admin ->
-            admin?.let {
-                adminNameTextView.text = it.adminName
-                if (it.profileImagePath != null) {
-                    val imageUri = Uri.fromFile(File(it.profileImagePath))
-                    adminImageView.setImageURI(imageUri)
-                }
-            }
+            pickImageLauncher.launch("image/*")
         }
     }
 
-    private fun openImagePicker() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(intent, REQUEST_IMAGE_PICK)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_IMAGE_PICK && resultCode == Activity.RESULT_OK) {
-            selectedImage = data?.data
-            selectedImage?.let { uri ->
-                val imagePath = getPathFromUri(uri)
-                if (imagePath != null) {
-                    adminImageView.setImageURI(uri)
-
-                    // Save the selected image path
-                    val sharedPreferences = getSharedPreferences("AdminPrefs", MODE_PRIVATE)
-                    val editor = sharedPreferences.edit()
-                    editor.putString("adminImagePath", imagePath)
-                    editor.apply()
-                } else {
-                    Log.e("AdminProfileSetting", "Failed to get image path")
-                    Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show()
-                }
-            } ?: run {
-                Log.e("AdminProfileSetting", "Selected image URI is null")
-                Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show()
-            }
+    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        uri?.let {
+            imageUri = it
+            Glide.with(this).load(it).into(adminImageView) // Preview image
         }
     }
 
-    private fun getPathFromUri(uri: Uri): String? {
-        var path: String? = null
-        val projection = arrayOf(MediaStore.Images.Media.DATA)
-        contentResolver.query(uri, projection, null, null, null)?.use { cursor ->
-            if (cursor.moveToFirst()) {
-                val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-                path = cursor.getString(columnIndex)
-            }
-        }
-        return path
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val sharedPreferences = getSharedPreferences("AdminPrefs", Context.MODE_PRIVATE)
-        val username = sharedPreferences.getString("username", "") ?: ""
-        adminNameTextView.text = username
-        try {
-            val imagePath = sharedPreferences.getString("adminImagePath", null)
-            if (imagePath != null) {
-                val imageUri = Uri.parse(imagePath)
-                adminImageView.setImageURI(imageUri)
-            }
+    private fun uriToBitmap(uri: Uri): Bitmap? {
+        return try {
+            val inputStream = this.contentResolver.openInputStream(uri)
+            BitmapFactory.decodeStream(inputStream)
         } catch (e: Exception) {
-            Log.e("AdminProfileActivity", "Error setting image URI", e)
-            Toast.makeText(this, "Error loading profile image", Toast.LENGTH_SHORT).show()
+            e.printStackTrace()
+            null
         }
     }
 
-    companion object {
-        private const val REQUEST_IMAGE_PICK = 1
+    private fun saveImageToLocalStorage(imageBitmap: Bitmap, username: String): String {
+        val filename = "image_profile_${username}_${System.currentTimeMillis()}.jpg"
+        val file = File(this?.filesDir, filename)
+        val outputStream = FileOutputStream(file)
+        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+        outputStream.flush()
+        outputStream.close()
+        return file.absolutePath
     }
 }
