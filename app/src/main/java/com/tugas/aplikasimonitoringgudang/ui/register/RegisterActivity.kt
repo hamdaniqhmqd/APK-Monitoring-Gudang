@@ -39,7 +39,7 @@ class RegisterActivity : AppCompatActivity() {
 
             if (password == repeatPassword) {
                 CoroutineScope(Dispatchers.IO).launch {
-                    userDao.insert(User(username = username, password = password))
+                    userDao.insert(User(username = username, password = password, adminName = username))
                     intentLoginAct()
                 }
             } else {

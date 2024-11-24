@@ -11,6 +11,9 @@ import androidx.lifecycle.ViewModelProvider
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
+import com.tugas.aplikasimonitoringgudang.R
+import com.tugas.aplikasimonitoringgudang.data.session.AppPreferences
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentUserBinding
 import com.tugas.aplikasimonitoringgudang.ui.admin.AdminProfileActivity
 import java.io.File
@@ -31,7 +34,26 @@ class UserFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        AppPreferences.init(requireContext())
+        val userId = AppPreferences.getUserId()
+        val username = AppPreferences.getUsername()
+        val isLoggedIn = AppPreferences.isLoggedIn()
+
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+
+        userId.let {
+            userViewModel.getUserById(it).observe(viewLifecycleOwner) { user ->
+                binding.greetingText.text = "Hi! ${user.adminName}"
+                if (user.profileImagePath != null) {
+                    Glide.with(binding.userIcon.context)
+                        .load(user.profileImagePath)
+                        .placeholder(R.drawable.profile)
+                        .into(binding.userIcon)
+                } else {
+                    binding.userIcon.setImageResource(R.drawable.profile)
+                }
+            }
+        }
 
         userViewModel.barangCount.observe(viewLifecycleOwner) { count ->
             binding.barangCount.text = count.toString()
@@ -53,48 +75,10 @@ class UserFragment : Fragment() {
         userViewModel.updateCounts()
 
         // Set click listener for admin profile
-        binding.userIcon.setOnClickListener {
+        binding.header.setOnClickListener {
             // Navigate to AdminProfileActivity
             val intent = Intent(requireContext(), AdminProfileActivity::class.java)
             startActivity(intent)
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        loadProfileImage()
-        loadAdminName()
-    }
-
-    private fun loadProfileImage() {
-        val sharedPreferences = requireContext().getSharedPreferences("AdminPrefs", Context.MODE_PRIVATE)
-        val imagePath = sharedPreferences.getString("adminImagePath", null)
-        if (imagePath != null) {
-            try {
-                val imageFile = File(imagePath)
-                if (imageFile.exists()) {
-                    val imageUri = Uri.fromFile(imageFile)
-                    binding.userIcon.setImageURI(imageUri)
-                } else {
-                    Log.e("UserFragment", "Image file does not exist")
-                    Toast.makeText(requireContext(), "Image file not found", Toast.LENGTH_SHORT).show()
-                }
-            } catch (e: Exception) {
-                Log.e("UserFragment", "Error setting image from path", e)
-                Toast.makeText(requireContext(), "Error loading profile image", Toast.LENGTH_SHORT).show()
-            }
-        } else {
-            Log.e("UserFragment", "Image path is null")
-        }
-    }
-
-    private fun loadAdminName() {
-        val sharedPreferences = requireContext().getSharedPreferences("AdminPrefs", Context.MODE_PRIVATE)
-        val username = sharedPreferences.getString("username", "") ?: ""
-        
-        userViewModel.getAdminName(username).observe(viewLifecycleOwner) { adminName ->
-            val displayName = if (adminName.isNullOrEmpty()) "Admin" else adminName
-            binding.greetingText.text = "Hi! $displayName"
         }
     }
 
