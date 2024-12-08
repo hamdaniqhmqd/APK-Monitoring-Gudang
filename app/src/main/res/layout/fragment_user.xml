@@ -67,6 +67,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="8dp" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/leftGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/rightGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75" />
+
     <!-- Menu Grid -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/menuGrid"
@@ -88,8 +102,8 @@
             android:layout_margin="8dp"
             android:background="@drawable/menu_background"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/supplierCard"
+            app:layout_constraintStart_toStartOf="@id/leftGuideline"
+            app:layout_constraintEnd_toStartOf="@id/rightGuideline"
             app:layout_constraintWidth_percent="0.5">
 
             <ImageView
@@ -124,8 +138,8 @@
             android:layout_margin="8dp"
             android:background="@drawable/menu_background"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/barangCard"
+            app:layout_constraintEnd_toEndOf="@id/rightGuideline"
             app:layout_constraintWidth_percent="0.5">
 
             <ImageView
@@ -160,8 +174,8 @@
             android:layout_margin="8dp"
             android:background="@drawable/menu_background"
             app:layout_constraintTop_toBottomOf="@id/barangCard"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/transaksiKeluarCard"
+            app:layout_constraintStart_toStartOf="@id/leftGuideline"
+            app:layout_constraintEnd_toStartOf="@id/rightGuideline"
             app:layout_constraintWidth_percent="0.5">
 
             <ImageView
@@ -196,8 +210,8 @@
             android:layout_margin="8dp"
             android:background="@drawable/menu_background"
             app:layout_constraintTop_toBottomOf="@id/supplierCard"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/transaksiMasukCard"
+            app:layout_constraintEnd_toEndOf="@id/rightGuideline"
             app:layout_constraintWidth_percent="0.5">
 
             <ImageView
