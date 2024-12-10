@@ -9,7 +9,7 @@ import com.tugas.aplikasimonitoringgudang.data.barang.BarangDao
 import com.tugas.aplikasimonitoringgudang.data.supplier.Supplier
 import com.tugas.aplikasimonitoringgudang.data.supplier.SupplierDao
 import com.tugas.aplikasimonitoringgudang.data.user.User
-import com.tugas.aplikasimonitoringgudang.data.user.UserDao
+import com.tugas.aplikasimonitoringgudang.local.UserDao
 import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
 import com.tugas.aplikasimonitoringgudang.local.TransaksiDao
 

@@ -7,15 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.widget.SearchView
-import androidx.core.view.marginTop
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tugas.aplikasimonitoringgudang.R
 import com.tugas.aplikasimonitoringgudang.adapter.AdapterTransaksi
 import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentTransaksiBinding
-import com.tugas.aplikasimonitoringgudang.databinding.FragmentUserBinding
-import com.tugas.aplikasimonitoringgudang.ui.user.UserViewModel
+import com.tugas.aplikasimonitoringgudang.veiwModel.UserViewModel
 import com.tugas.aplikasimonitoringgudang.veiwModel.BarangViewModel
 import com.tugas.aplikasimonitoringgudang.veiwModel.TransaksiViewModel
 

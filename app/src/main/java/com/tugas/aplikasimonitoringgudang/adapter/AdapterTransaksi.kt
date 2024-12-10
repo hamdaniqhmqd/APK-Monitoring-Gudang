@@ -1,8 +1,6 @@
 package com.tugas.aplikasimonitoringgudang.adapter
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -13,9 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
 import com.tugas.aplikasimonitoringgudang.databinding.ItemHeaderBulanTransaksiBinding
 import com.tugas.aplikasimonitoringgudang.databinding.ItemTransaksiBinding
-import com.tugas.aplikasimonitoringgudang.ui.user.UserViewModel
+import com.tugas.aplikasimonitoringgudang.veiwModel.UserViewModel
 import com.tugas.aplikasimonitoringgudang.veiwModel.BarangViewModel
-import com.tugas.aplikasimonitoringgudang.veiwModel.TransaksiViewModel
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Locale

@@ -1,21 +1,16 @@
 package com.tugas.aplikasimonitoringgudang.ui
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.tugas.aplikasimonitoringgudang.R
 import com.tugas.aplikasimonitoringgudang.databinding.ActivityMainBinding
 import com.tugas.aplikasimonitoringgudang.ui.barang.BarangFragment
 import com.tugas.aplikasimonitoringgudang.ui.supplier.SupplierFragment
 import com.tugas.aplikasimonitoringgudang.ui.transaksi.TransaksiFragment
-import com.tugas.aplikasimonitoringgudang.ui.user.UserFragment
-import com.tugas.aplikasimonitoringgudang.ui.user.UserViewModel
+import com.tugas.aplikasimonitoringgudang.ui.admin.UserFragment
+import com.tugas.aplikasimonitoringgudang.veiwModel.UserViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

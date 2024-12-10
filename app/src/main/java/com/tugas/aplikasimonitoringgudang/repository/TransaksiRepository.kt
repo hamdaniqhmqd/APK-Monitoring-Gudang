@@ -226,25 +226,25 @@ class TransaksiRepository(
     }
 
     // Fungsi untuk menghapus transaksi
-    suspend fun deleteTransaksi(id: Int) {
+    suspend fun deleteTransaksi(transaksi: Transaksi) {
         return withContext(Dispatchers.IO) {
             if (networkHelper.isConnected()) {
                 try {
-                    val response = apiService.deleteTransaksi(id)
+                    val response = apiService.deleteTransaksi(transaksi.id_transaksi)
                     if (response.success) {
 //                        getAllTransaksi()
                         // Hapus dari lokal
-                        transaksiDao.deleteById(id)
+                        transaksiDao.delete(transaksi)
                     } else {
                         throw Exception("Failed to delete transaksi: ${response.message}")
                     }
                 } catch (e: Exception) {
                     // Jika error, tetap hapus dari lokal
-                    transaksiDao.deleteById(id)
+                    transaksiDao.delete(transaksi)
                 }
             } else {
                 // Hapus hanya di lokal jika offline
-                transaksiDao.deleteById(id)
+                transaksiDao.delete(transaksi)
             }
         }
     }

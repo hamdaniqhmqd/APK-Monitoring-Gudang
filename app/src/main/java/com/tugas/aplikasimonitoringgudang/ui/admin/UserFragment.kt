@@ -1,11 +1,7 @@
-package com.tugas.aplikasimonitoringgudang.ui.user
+package com.tugas.aplikasimonitoringgudang.ui.admin
 
-import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import android.view.LayoutInflater
@@ -15,8 +11,7 @@ import com.bumptech.glide.Glide
 import com.tugas.aplikasimonitoringgudang.R
 import com.tugas.aplikasimonitoringgudang.data.session.AppPreferences
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentUserBinding
-import com.tugas.aplikasimonitoringgudang.ui.admin.AdminProfileActivity
-import java.io.File
+import com.tugas.aplikasimonitoringgudang.veiwModel.UserViewModel
 
 class UserFragment : Fragment() {
     private lateinit var userViewModel: UserViewModel

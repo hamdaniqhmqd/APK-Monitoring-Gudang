@@ -15,6 +15,9 @@ object RetrofitInstanceGudangApi {
     }
 
     // variabel untuk endpoint admin
+    val apiUserService: ApiUserService by lazy {
+        retrofit.create(ApiUserService::class.java)
+    }
 
     // variabel untuk endpoint supplier
 

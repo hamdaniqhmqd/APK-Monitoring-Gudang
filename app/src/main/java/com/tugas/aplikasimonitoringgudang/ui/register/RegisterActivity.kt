@@ -6,12 +6,11 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.tugas.aplikasimonitoringgudang.databinding.ActivityRegisterBinding
-import com.tugas.aplikasimonitoringgudang.ui.MainActivity
 import com.tugas.aplikasimonitoringgudang.ui.login.LoginActivity
 import com.tugas.aplikasimonitoringgudang.data.database.GudangDatabase
 import com.tugas.aplikasimonitoringgudang.data.user.User
-import com.tugas.aplikasimonitoringgudang.data.user.UserDao
-import com.tugas.aplikasimonitoringgudang.ui.user.UserViewModel
+import com.tugas.aplikasimonitoringgudang.local.UserDao
+import com.tugas.aplikasimonitoringgudang.veiwModel.UserViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
