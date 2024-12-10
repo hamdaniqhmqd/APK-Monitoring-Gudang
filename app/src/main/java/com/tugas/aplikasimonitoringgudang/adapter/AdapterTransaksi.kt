@@ -1,24 +1,31 @@
 package com.tugas.aplikasimonitoringgudang.adapter
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
 import com.tugas.aplikasimonitoringgudang.databinding.ItemHeaderBulanTransaksiBinding
 import com.tugas.aplikasimonitoringgudang.databinding.ItemTransaksiBinding
+import com.tugas.aplikasimonitoringgudang.ui.user.UserViewModel
+import com.tugas.aplikasimonitoringgudang.veiwModel.BarangViewModel
+import com.tugas.aplikasimonitoringgudang.veiwModel.TransaksiViewModel
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 
 class AdapterTransaksi(
-//    private var transaksiList: List<Transaksi>,
-    private val onItemClick: (Transaksi) -> Unit
+    private val onItemClick: (Transaksi) -> Unit,
+    private val barangViewModel: BarangViewModel,
+    private val userViewModel: UserViewModel,
+    private val context: Context
 ) : ListAdapter<Any, RecyclerView.ViewHolder>(TransaksiDiffCallback()) {
 
     enum class ItemType {
@@ -106,14 +113,22 @@ class AdapterTransaksi(
                     holder.binding.labelCard.text = "Batal Transaksi"
                 }
 
-                holder.binding.NamaAdmin.text = transaksi.user_nama
-                holder.binding.namaBarang.text = transaksi.barang_nama
-                holder.binding.NamaSupplier.text = transaksi.supplier_nama
-                holder.binding.HargaBarang.text = numberFormat.format(transaksi.harga_barang)
+                userViewModel.getUserById(transaksi.user_id).observe(context as LifecycleOwner) { user ->
+                    holder.binding.NamaAdmin.text = user.username
+                }
+
+                barangViewModel.getBarangById(transaksi.barang_id).observe(context as LifecycleOwner) { barang ->
+                    holder.binding.namaBarang.text = barang.nama_barang
+                    holder.binding.NamaSupplier.text = barang.supplier_nama
+                    holder.binding.HargaBarang.text = numberFormat.format(barang.harga_barang)
+                }
+
                 holder.binding.JumlahBarang.text = transaksi.jumlah_barang.toString()
-                holder.binding.TotalHargaBarang.text = numberFormat.format(transaksi.total_harga_barang)
+                holder.binding.TotalHargaBarang.text =
+                    numberFormat.format(transaksi.total_harga_barang)
 
                 val tanggal = formatTanggalDetail.format(date!!)
+
                 holder.binding.tanggalTransaksi.text = tanggal
 
                 holder.itemView.setOnClickListener {
@@ -124,7 +139,7 @@ class AdapterTransaksi(
             is HeaderViewHolder -> {
                 val header = getItem(position) as String
                 val formatTanggal = SimpleDateFormat("yyyy-MM", Locale.getDefault())
-                val formatBulan = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
+                val formatBulan = SimpleDateFormat("MMMM yyyy", Locale("id", "ID"))
                 val date = formatTanggal.parse(header)
                 holder.binding.headerText.text = formatBulan.format(date!!)
             }
@@ -152,6 +167,7 @@ class AdapterTransaksi(
                 }
             }
         }
+
         override fun areContentsTheSame(oldItem: Any, newItem: Any): Boolean {
             return when (oldItem) {
                 is Transaksi -> {

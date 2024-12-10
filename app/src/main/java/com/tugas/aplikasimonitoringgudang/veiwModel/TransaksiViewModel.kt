@@ -5,38 +5,85 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.tugas.aplikasimonitoringgudang.api.NetworkHelper
 import com.tugas.aplikasimonitoringgudang.data.database.GudangDatabase
 import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
-import com.tugas.aplikasimonitoringgudang.data.transaksi.TransaksiRepository
+import com.tugas.aplikasimonitoringgudang.repository.TransaksiRepository
 import kotlinx.coroutines.launch
 
 class TransaksiViewModel(application: Application) : AndroidViewModel(application) {
+
     private val repository: TransaksiRepository
-    val allTransaksi: LiveData<List<Transaksi>>
+    val allTransaksi: MutableLiveData<List<Transaksi>> = MutableLiveData() // LiveData untuk daftar transaksi
+    val selectedTransaksi: MutableLiveData<Transaksi> = MutableLiveData() // LiveData untuk detail transaksi
 
     init {
-        val transaksiDao = GudangDatabase.getDatabase(application).transakasiDao()
-        repository = TransaksiRepository(transaksiDao)
-        allTransaksi = repository.allTransaksi
+        val transaksiDao = GudangDatabase.getDatabase(application).transaksiDao()
+        val networkHelper = NetworkHelper(application)
+        repository = TransaksiRepository(transaksiDao, networkHelper)
+        getAllTransaksi() // Inisialisasi dengan memuat semua data transaksi
     }
 
-    fun insert(transaksi: Transaksi) = viewModelScope.launch {
-        repository.insert(transaksi)
+    // Fungsi untuk mengambil semua transaksi
+    private fun getAllTransaksi() {
+        viewModelScope.launch {
+            try {
+                val transaksiList = repository.getAllTransaksi()
+                allTransaksi.postValue(transaksiList)
+            } catch (e: Exception) {
+                e.printStackTrace() // Logging error
+            }
+        }
     }
 
-    fun update(transaksi: Transaksi) = viewModelScope.launch {
-        repository.update(transaksi)
-    }
-
-    fun delete(transaksi: Transaksi) = viewModelScope.launch {
-        repository.delete(transaksi)
-    }
-
+    // Fungsi untuk mengambil detail transaksi berdasarkan ID
     fun getTransaksiById(id: Int): LiveData<Transaksi> {
-        return repository.getTransaksiById(id)
+        val result = MutableLiveData<Transaksi>()
+        viewModelScope.launch {
+            try {
+                val transaksi = repository.getTransaksiById(id)
+                result.postValue(transaksi)
+            } catch (e: Exception) {
+                e.printStackTrace() // Logging error
+            }
+        }
+        return result
     }
 
-    fun getUniqueBarangCountInTransaksiMasuk(): LiveData<Int> {
-        return repository.getUniqueBarangCountInTransaksiMasuk()
+    // Fungsi untuk menambahkan transaksi
+    fun insertTransaksi(transaksi: Transaksi) {
+        viewModelScope.launch {
+            try {
+                repository.addTransaksi(transaksi)
+                getAllTransaksi() // Perbarui daftar transaksi setelah penambahan
+            } catch (e: Exception) {
+                e.printStackTrace() // Logging error
+            }
+        }
+    }
+
+    // Fungsi untuk memperbarui transaksi
+    fun updateTransaksi(transaksi: Transaksi) {
+        viewModelScope.launch {
+            try {
+                repository.updateTransaksi(transaksi.id_transaksi, transaksi)
+                getAllTransaksi() // Perbarui daftar transaksi setelah pembaruan
+            } catch (e: Exception) {
+                e.printStackTrace() // Logging error
+            }
+        }
+    }
+
+    // Fungsi untuk menghapus transaksi
+    fun deleteTransaksi(id: Int) {
+        viewModelScope.launch {
+            try {
+                repository.deleteTransaksi(id)
+                getAllTransaksi() // Perbarui daftar transaksi setelah penghapusan
+            } catch (e: Exception) {
+                e.printStackTrace() // Logging error
+            }
+        }
     }
 }
+

@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.tugas.aplikasimonitoringgudang.data.barang.Barang
 import com.tugas.aplikasimonitoringgudang.data.barang.BarangRepository
 import com.tugas.aplikasimonitoringgudang.data.database.GudangDatabase
+import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
 import kotlinx.coroutines.launch
 
 class BarangViewModel(application: Application) : AndroidViewModel(application) {
@@ -20,8 +21,21 @@ class BarangViewModel(application: Application) : AndroidViewModel(application) 
         allBarang = repository.allBarang
     }
 
-    fun insert(barang: Barang) = viewModelScope.launch {
-        repository.insert(barang)
+    fun insert(
+        barang: Barang,
+        transaksi: Transaksi,
+        transaksiViewModel: TransaksiViewModel
+    ) = viewModelScope.launch {
+        // Insert barang dan dapatkan idBarang
+        val idBarang = repository.insert(barang)
+
+        // Update transaksi dengan idBarang
+        val updatedTransaksi = transaksi.copy(
+            barang_id = idBarang.toInt()
+        )
+
+        // Insert transaksi dengan idBarang yang diperbarui
+        transaksiViewModel.insertTransaksi(updatedTransaksi)
     }
 
     fun update(barang: Barang) = viewModelScope.launch {

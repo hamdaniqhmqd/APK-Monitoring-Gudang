@@ -1,4 +1,4 @@
-package com.tugas.aplikasimonitoringgudang.data.transaksi
+package com.tugas.aplikasimonitoringgudang.local
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
@@ -7,6 +7,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
 
 @Dao
 interface TransaksiDao {
@@ -19,18 +20,20 @@ interface TransaksiDao {
     @Delete
     suspend fun delete(vararg transaksi: Transaksi)
 
+    @Query("DELETE FROM transaksi_table WHERE id_transaksi = :id")
+    suspend fun deleteById(id: Int)
+
     @Query("SELECT * FROM transaksi_table ORDER BY id_transaksi ASC")
-    fun getAllTransaksi(): LiveData<List<Transaksi>>
+    suspend fun getAllTransaksi(): List<Transaksi>
 
     @Query("SELECT * FROM transaksi_table WHERE id_transaksi = :id")
-    fun getTransaksiById(id: Int): LiveData<Transaksi>
+    suspend fun getTransaksiById(id: Int): Transaksi
+
+    //
 
     @Query("SELECT COUNT(*) FROM transaksi_table WHERE status = 2")
     suspend fun getTransaksiMasukCount(): Int
 
     @Query("SELECT COUNT(*) FROM transaksi_table WHERE status = 1")
     suspend fun getTransaksiKeluarCount(): Int
-
-    @Query("SELECT COUNT(DISTINCT barang_nama) FROM transaksi_table WHERE status = 2")
-    fun getUniqueBarangCountInTransaksiMasuk(): LiveData<Int>
 }

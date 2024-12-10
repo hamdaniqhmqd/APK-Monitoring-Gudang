@@ -5,8 +5,8 @@ import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
 class BarangRepository(private val barangDao: BarangDao) {
     val allBarang: LiveData<List<Barang>> = barangDao.getAllBarang()
 
-    suspend fun insert(barang: Barang) {
-        barangDao.insert(barang)
+    suspend fun insert(barang: Barang): Long {
+        return barangDao.insert(barang)
     }
 
     suspend fun update(barang: Barang){

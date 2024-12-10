@@ -40,18 +40,18 @@ class AddEditTransaksiFragment : Fragment() {
     private val formatBulan = SimpleDateFormat("yyyy-MM", Locale.getDefault())
     private val bulanSaatIni = formatBulan.format(Date())
 
-    //    private var user_id: Int? = 0
-//    private var username: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (requireActivity() as MainActivity).navigasiHilang()
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val binding = FragmentAddEditTransaksiBinding.inflate(inflater, container, false)
 
+        // Inisialisasi ViewModels
         AppPreferences.init(requireContext())
         val user_id = AppPreferences.getUserId()
         val username = AppPreferences.getUsername()
@@ -61,7 +61,8 @@ class AddEditTransaksiFragment : Fragment() {
         barangViewModel = ViewModelProvider(this).get(BarangViewModel::class.java)
         supplierViewModel = ViewModelProvider(this).get(SupplierViewModel::class.java)
 
-        barangId = arguments?.getInt("barangId").toString().toInt()
+        // Ambil ID Barang dari argument
+        barangId = arguments?.getInt("barangId") ?: 0
         if (barangId != 0) {
             barangViewModel.getBarangById(barangId!!).observe(viewLifecycleOwner) { barang ->
                 binding.namaBarang.text = barang.nama_barang
@@ -74,6 +75,7 @@ class AddEditTransaksiFragment : Fragment() {
             }
         }
 
+        // Tombol untuk menambah jumlah barang
         binding.plus.setOnClickListener {
             if (stokBarang!! > jumlahBarang) {
                 jumlahBarang += 1
@@ -84,6 +86,7 @@ class AddEditTransaksiFragment : Fragment() {
             binding.totalHargaBarang.text = totalHargaBarang.toString()
         }
 
+        // Tombol untuk mengurangi jumlah barang
         binding.minus.setOnClickListener {
             if (jumlahBarang > 0) {
                 jumlahBarang -= 1
@@ -94,6 +97,7 @@ class AddEditTransaksiFragment : Fragment() {
             binding.totalHargaBarang.text = totalHargaBarang.toString()
         }
 
+        // Tombol untuk menyimpan transaksi
         binding.saveBtn.setOnClickListener {
             val namaBarang = binding.namaBarang.text.toString()
             val hargaBarang = binding.hargaBarang.text.toString().toInt()
@@ -101,41 +105,42 @@ class AddEditTransaksiFragment : Fragment() {
             val totalHarga = binding.totalHargaBarang.text.toString().toInt()
             val sisa_stok = stokBarang!! - jumlahBarang
 
-            viewModel.insert(
-                Transaksi(
-                    barang_id = barangId!!,
-                    barang_nama = namaBarang,
-                    kategori_barang = kategoriBarang!!,
-                    harga_barang = hargaBarang,
-                    stok_barang = sisa_stok,
-                    ukuran_barang = ukuranBarang!!,
-                    jumlah_barang = jumlahBarang,
-                    total_harga_barang = totalHarga,
-                    user_id = user_id,
-                    user_nama = username.toString(),
-                    supplier_id = supplierId!!,
-                    supplier_nama = supplierNama!!,
-                    bulan = bulanSaatIni,
-                    tanggal = tanggalSaatIni,
-                    status = 1
-                )
+            val transaksiUpdated = Transaksi(
+                barang_id = barangId!!,
+                jumlah_barang = jumlahBarang,
+                total_harga_barang = totalHarga,
+                user_id = user_id,
+                supplier_id = supplierId!!,
+                bulan = bulanSaatIni,
+                tanggal = tanggalSaatIni,
+                tanggalAkhir = tanggalSaatIni,
+                status = 1,
+                statusAkhir = 0,
+                created_at = "",
+                updated_at = ""
             )
 
-            barangViewModel.update(
-                Barang(
-                    id_barang = barangId!!,
-                    nama_barang = namaBarang,
-                    kategori_barang = kategoriBarang!!,
-                    harga_barang = hargaBarang,
-                    stok_barang = sisa_stok,
-                    ukuran_barang = ukuranBarang!!,
-                    supplier_id = supplierId!!,
-                    supplier_nama = supplierNama!!
-                )
+            // Menyimpan transaksi baru
+            viewModel.insertTransaksi(transaksiUpdated)
+
+            // Update stok barang setelah transaksi
+            val updateBarang = Barang(
+                id_barang = barangId!!,
+                nama_barang = namaBarang,
+                kategori_barang = kategoriBarang!!,
+                harga_barang = hargaBarang,
+                stok_barang = sisa_stok,
+                ukuran_barang = ukuranBarang!!,
+                supplier_id = supplierId!!,
+                supplier_nama = supplierNama!!
             )
 
+            barangViewModel.update(updateBarang)
+
+            // Kembali ke fragment transaksi setelah menyimpan data
             toTransaksiFragment()
         }
+
         return binding.root
     }
 

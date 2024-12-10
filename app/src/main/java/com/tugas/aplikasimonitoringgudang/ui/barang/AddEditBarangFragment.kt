@@ -58,13 +58,15 @@ class AddEditBarangFragment : Fragment() {
 
         val kategori = binding.kategoriBarang
         val kategori_item = listOf("Dewasa", "Remaja", "Anak-Anak")
-        val adapterKategori = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, kategori_item)
+        val adapterKategori =
+            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, kategori_item)
         adapterKategori.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         kategori.adapter = adapterKategori
 
         val ukuran = binding.ukuranBarang
         val ukuran_item = listOf("XXXL", "XXL", "XL", "L", "M", "S")
-        val adapterUkuran = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, ukuran_item)
+        val adapterUkuran =
+            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, ukuran_item)
         adapterUkuran.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         ukuran.adapter = adapterUkuran
 
@@ -74,11 +76,10 @@ class AddEditBarangFragment : Fragment() {
             val harga = binding.hargaBarang.text.toString().toInt()
             val stok = binding.stokBarang.text.toString().toInt()
             val ukuran = binding.ukuranBarang.selectedItem.toString()
-
             val totalHarga = harga * stok
 
             barangViewModel.insert(
-                Barang(
+                barang = Barang(
                     nama_barang = nama,
                     kategori_barang = kategori,
                     harga_barang = harga,
@@ -86,27 +87,22 @@ class AddEditBarangFragment : Fragment() {
                     ukuran_barang = ukuran,
                     supplier_id = supplierId!!,
                     supplier_nama = supplierNama!!
-                )
-            )
-
-            transaksiViewModel.insert(
-                Transaksi(
-//                    barang_id = barangId!!,
-                    barang_nama = nama,
-                    kategori_barang = kategori,
-                    harga_barang = harga,
-                    stok_barang = stok,
-                    ukuran_barang = ukuran,
+                ),
+                transaksi = Transaksi(
+                    id_transaksi = 0, // ID transaksi auto-generate
+                    barang_id = 0, // Placeholder, akan diperbarui
                     jumlah_barang = stok,
                     total_harga_barang = totalHarga,
                     user_id = user_id,
-                    user_nama = username.toString(),
                     supplier_id = supplierId!!,
-                    supplier_nama = supplierNama!!,
                     bulan = bulanSaatIni,
                     tanggal = tanggalSaatIni,
-                    status = 2
-                )
+                    tanggalAkhir = tanggalSaatIni,
+                    status = 2,
+                    created_at = "",
+                    updated_at = ""
+                ),
+                transaksiViewModel = transaksiViewModel
             )
 
             toBarangFragment()
