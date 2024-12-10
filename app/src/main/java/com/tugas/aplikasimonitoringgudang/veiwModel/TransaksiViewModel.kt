@@ -75,10 +75,10 @@ class TransaksiViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     // Fungsi untuk menghapus transaksi
-    fun deleteTransaksi(id: Int) {
+    fun deleteTransaksi(transaksi: Transaksi) {
         viewModelScope.launch {
             try {
-                repository.deleteTransaksi(id)
+                repository.deleteTransaksi(transaksi)
                 getAllTransaksi() // Perbarui daftar transaksi setelah penghapusan
             } catch (e: Exception) {
                 e.printStackTrace() // Logging error

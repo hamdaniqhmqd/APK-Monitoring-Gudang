@@ -20,9 +20,6 @@ interface TransaksiDao {
     @Delete
     suspend fun delete(vararg transaksi: Transaksi)
 
-    @Query("DELETE FROM transaksi_table WHERE id_transaksi = :id")
-    suspend fun deleteById(id: Int)
-
     @Query("SELECT * FROM transaksi_table ORDER BY id_transaksi ASC")
     suspend fun getAllTransaksi(): List<Transaksi>
 

@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.tugas.aplikasimonitoringgudang.R
@@ -13,7 +12,7 @@ import com.tugas.aplikasimonitoringgudang.data.barang.Barang
 import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentDetailTransaksiBinding
 import com.tugas.aplikasimonitoringgudang.ui.MainActivity
-import com.tugas.aplikasimonitoringgudang.ui.user.UserViewModel
+import com.tugas.aplikasimonitoringgudang.veiwModel.UserViewModel
 import com.tugas.aplikasimonitoringgudang.veiwModel.BarangViewModel
 import com.tugas.aplikasimonitoringgudang.veiwModel.SupplierViewModel
 import com.tugas.aplikasimonitoringgudang.veiwModel.TransaksiViewModel
@@ -166,12 +165,28 @@ class DetailTransaksiFragment : Fragment() {
 
                     toTransaksiFragment()
                 }
-            }
-        }
 
-        binding.btnHapus.setOnClickListener {
-            transaksiViewModel.deleteTransaksi(transaksiId!!)
-            toTransaksiFragment()
+                binding.btnHapus.setOnClickListener {
+                    transaksiViewModel.deleteTransaksi(
+                        Transaksi(
+                            id_transaksi = transaksiId!!,
+                            barang_id = 0,
+                            jumlah_barang = 0,
+                            total_harga_barang = 0,
+                            user_id = 0,
+                            supplier_id = 0,
+                            bulan = "",
+                            tanggal = "",
+                            tanggalAkhir = "",
+                            status = 0,
+                            statusAkhir = 0,
+                            created_at = "",
+                            updated_at = ""
+                        ))
+                    toTransaksiFragment()
+                }
+
+            }
         }
 
         return binding.root
