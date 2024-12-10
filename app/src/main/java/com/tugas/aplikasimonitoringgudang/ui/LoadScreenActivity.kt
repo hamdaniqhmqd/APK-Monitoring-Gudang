@@ -8,10 +8,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.tugas.aplikasimonitoringgudang.databinding.ActivityLoadScreenBinding
 import android.content.SharedPreferences
 import android.widget.Toast
+import androidx.activity.viewModels
 import com.tugas.aplikasimonitoringgudang.data.session.AppPreferences
+import com.tugas.aplikasimonitoringgudang.veiwModel.UserViewModel
 
 class LoadScreenActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoadScreenBinding
+    private val viewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,14 +22,13 @@ class LoadScreenActivity : AppCompatActivity() {
         binding = ActivityLoadScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        viewModel.sinkronisasiDataUser()
+
         Handler().postDelayed({
             AppPreferences.init(this)
             val userId = AppPreferences.getUserId()
             val username = AppPreferences.getUsername()
             val isLoggedIn = AppPreferences.isLoggedIn()
-
-//            val sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE)
-//            val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
 
             val intent = if (isLoggedIn) {
                 Toast.makeText(this, "Selamat Datang Kembali, $username!", Toast.LENGTH_SHORT).show()
