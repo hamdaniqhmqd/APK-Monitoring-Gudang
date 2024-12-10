@@ -1,4 +1,4 @@
-package com.tugas.aplikasimonitoringgudang.data.user
+package com.tugas.aplikasimonitoringgudang.local
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
@@ -7,6 +7,8 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
+import com.tugas.aplikasimonitoringgudang.data.user.User
 
 @Dao
 interface UserDao {
@@ -23,10 +25,10 @@ interface UserDao {
     suspend fun getUser(username: String, password: String): User?
 
     @Query("SELECT * FROM user_table WHERE id = :id")
-    fun getUserById(id: Int): LiveData<User>
+    suspend fun getUserById(id: Int): User
 
-    @Query("SELECT * FROM user_table WHERE username = :username")
-    fun getAdminLiveData(username: String): LiveData<User?>
+    @Query("SELECT * FROM user_table ORDER BY id ASC")
+    suspend fun getAllUser(): List<User>
 
     @Query("SELECT COUNT(*) FROM barang_table")
     suspend fun getBarangCount(): Int
@@ -42,10 +44,4 @@ interface UserDao {
 
     @Query("SELECT * FROM user_table WHERE username = :username")
     fun getUserByUsername(username: String): LiveData<User?>
-
-    @Query("UPDATE user_table SET adminName = :adminName, profileImagePath = :profileImagePath WHERE username = :username")
-    suspend fun updateAdminProfile(username: String, adminName: String, profileImagePath: String)
-
-    @Query("SELECT adminName FROM user_table WHERE username = :username")
-    fun getAdminName(username: String): LiveData<String>
 }
