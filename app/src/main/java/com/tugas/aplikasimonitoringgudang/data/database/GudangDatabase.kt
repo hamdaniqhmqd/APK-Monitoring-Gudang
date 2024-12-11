@@ -5,9 +5,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.tugas.aplikasimonitoringgudang.data.barang.Barang
-import com.tugas.aplikasimonitoringgudang.data.barang.BarangDao
+import com.tugas.aplikasimonitoringgudang.local.BarangDao
 import com.tugas.aplikasimonitoringgudang.data.supplier.Supplier
-import com.tugas.aplikasimonitoringgudang.data.supplier.SupplierDao
+import com.tugas.aplikasimonitoringgudang.local.SupplierDao
 import com.tugas.aplikasimonitoringgudang.data.user.User
 import com.tugas.aplikasimonitoringgudang.local.UserDao
 import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
