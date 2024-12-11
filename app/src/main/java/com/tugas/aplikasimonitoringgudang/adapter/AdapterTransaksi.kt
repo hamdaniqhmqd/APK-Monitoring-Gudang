@@ -77,7 +77,8 @@ class AdapterTransaksi(
             is TransaksiViewHolder -> {
                 val transaksi = getItem(position) as Transaksi
                 val formatTanggal = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
-                val formatTanggalDetail = SimpleDateFormat("HH:mm EEEE, d MMMM yyyy", Locale("id", "ID"))
+                val formatTanggalDetail =
+                    SimpleDateFormat("HH:mm EEEE, d MMMM yyyy", Locale("id", "ID"))
                 val date = formatTanggal.parse(transaksi.tanggal)
                 val numberFormat = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
                 val context = holder.itemView.context
@@ -110,14 +111,19 @@ class AdapterTransaksi(
                     holder.binding.labelCard.text = "Batal Transaksi"
                 }
 
-                userViewModel.getUserById(transaksi.user_id).observe(context as LifecycleOwner) { user ->
-                    holder.binding.NamaAdmin.text = user.username
-                }
+                userViewModel.getUserById(transaksi.user_id)
+                    .observe(context as LifecycleOwner) { user ->
+                        holder.binding.NamaAdmin.text = user.username
+                    }
 
-                barangViewModel.getBarangById(transaksi.barang_id).observe(context as LifecycleOwner) { barang ->
-                    holder.binding.namaBarang.text = barang.nama_barang
-                    holder.binding.NamaSupplier.text = barang.supplier_nama
-                    holder.binding.HargaBarang.text = numberFormat.format(barang.harga_barang)
+                transaksi.barang_id?.let {
+                    barangViewModel.getBarangById(it)
+                        .observe(context as LifecycleOwner) { barang ->
+                            holder.binding.namaBarang.text = barang.nama_barang
+                            holder.binding.NamaSupplier.text = barang.supplier_nama
+                            holder.binding.HargaBarang.text =
+                                numberFormat.format(barang.harga_barang)
+                        }
                 }
 
                 holder.binding.JumlahBarang.text = transaksi.jumlah_barang.toString()

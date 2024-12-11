@@ -21,94 +21,94 @@ class TransaksiRepository(
         apiData: List<Transaksi>,
         localData: List<Transaksi>
     ) {
-//        // Data yang hanya ada di API dan belum ada di lokal
-//        val dataApi = apiData.filter { apiItem ->
-//            localData.none { localItem -> localItem.id_transaksi == apiItem.id_transaksi }
-//        }
-//        // Insert data baru dari API ke lokal
-//        dataApi.forEach { transaksiDao.insert(it) }
+        // Data yang hanya ada di API dan belum ada di lokal
+        val dataApi = apiData.filter { apiItem ->
+            localData.none { localItem -> localItem.id_transaksi == apiItem.id_transaksi }
+        }
+        // Insert data baru dari API ke lokal
+        dataApi.forEach { transaksiDao.insert(it) }
 
-        // Data yang hanya ada di lokal dan belum ada di API
-        val dataLokal = localData.filter { localItem ->
-            apiData.none { apiItem -> apiItem.id_transaksi == localItem.id_transaksi }
-        }
-        // Insert data baru dari lokal ke API
-        dataLokal.forEach {
-            try {
-                val response = apiService.addTransaksi(it)
-                if (!response.success) {
-                    throw Exception("Failed to sync local data to API: ${response.message}")
-                }
-            } catch (e: Exception) {
-                // Log atau tangani error jika sinkronisasi ke API gagal
-                e.printStackTrace()
-            }
-        }
+//        // Data yang hanya ada di lokal dan belum ada di API
+//        val dataLokal = localData.filter { localItem ->
+//            apiData.none { apiItem -> apiItem.id_transaksi == localItem.id_transaksi }
+//        }
+//        // Insert data baru dari lokal ke API
+//        dataLokal.forEach {
+//            try {
+//                val response = apiService.addTransaksi(it)
+//                if (!response.success) {
+//                    throw Exception("Failed to sync local data to API: ${response.message}")
+//                }
+//            } catch (e: Exception) {
+//                // Log atau tangani error jika sinkronisasi ke API gagal
+//                e.printStackTrace()
+//            }
+//        }
     }
 
     private suspend fun sinkronisasiDataTransaksiUpdate (
         apiData: List<Transaksi>,
         localData: List<Transaksi>
     ) {
-//        // Data yang ada di kedua sumber tetapi mungkin berbeda (harus di-update)
-//        val dataApi = apiData.filter { apiItem ->
-//            localData.any { localItem ->
-//                localItem.id_transaksi == apiItem.id_transaksi && localItem != apiItem
+        // Data yang ada di kedua sumber tetapi mungkin berbeda (harus di-update)
+        val dataApi = apiData.filter { apiItem ->
+            localData.any { localItem ->
+                localItem.id_transaksi == apiItem.id_transaksi && localItem != apiItem
+            }
+        }
+        // Update data lokal jika ada perubahan dari API
+        dataApi.forEach { updatedItem ->
+            transaksiDao.update(updatedItem)
+        }
+
+//        // Update data API jika ada perubahan dari lokal
+//        val dataLocal = localData.filter { localItem ->
+//            apiData.any { apiItem ->
+//                apiItem.id_transaksi == localItem.id_transaksi && apiItem != localItem
 //            }
 //        }
-//        // Update data lokal jika ada perubahan dari API
-//        dataApi.forEach { updatedItem ->
-//            transaksiDao.update(updatedItem)
+//        dataLocal.forEach {
+//            try {
+//                val response = apiService.updateTransaksi(it.id_transaksi, it)
+//                if (!response.success) {
+//                    throw Exception("Failed to update transaksi on API: ${response.message}")
+//                }
+//            } catch (e: Exception) {
+//                // Log atau tangani error jika update ke API gagal
+//                e.printStackTrace()
+//            }
 //        }
-
-        // Update data API jika ada perubahan dari lokal
-        val dataLocal = localData.filter { localItem ->
-            apiData.any { apiItem ->
-                apiItem.id_transaksi == localItem.id_transaksi && apiItem != localItem
-            }
-        }
-        dataLocal.forEach {
-            try {
-                val response = apiService.updateTransaksi(it.id_transaksi, it)
-                if (!response.success) {
-                    throw Exception("Failed to update transaksi on API: ${response.message}")
-                }
-            } catch (e: Exception) {
-                // Log atau tangani error jika update ke API gagal
-                e.printStackTrace()
-            }
-        }
     }
 
     private suspend fun sinkronisasiDataTransaksiDelete (
         apiData: List<Transaksi>,
         localData: List<Transaksi>
     ) {
-        // Data yang ada di API tetapi sudah tidak ada di lokal
-        val dataApi = apiData.filter { apiItem ->
-            localData.none { localItem -> localItem.id_transaksi == apiItem.id_transaksi }
-        }
-        // Hapus data dari API
-        dataApi.forEach {
-            try {
-                val response = apiService.deleteTransaksi(it.id_transaksi)
-                if (!response.success) {
-                    throw Exception("Failed to delete transaksi from API: ${response.message}")
-                }
-            } catch (e: Exception) {
-                // Log atau tangani error jika penghapusan di API gagal
-                e.printStackTrace()
-            }
-        }
+//        // Data yang ada di API tetapi sudah tidak ada di lokal
+//        val dataApi = apiData.filter { apiItem ->
+//            localData.none { localItem -> localItem.id_transaksi == apiItem.id_transaksi }
+//        }
+//        // Hapus data dari API
+//        dataApi.forEach {
+//            try {
+//                val response = apiService.deleteTransaksi(it.id_transaksi)
+//                if (!response.success) {
+//                    throw Exception("Failed to delete transaksi from API: ${response.message}")
+//                }
+//            } catch (e: Exception) {
+//                // Log atau tangani error jika penghapusan di API gagal
+//                e.printStackTrace()
+//            }
+//        }
 
-//        // Data yang ada di lokal tetapi sudah tidak ada di API
-//        val dataLocal = localData.filter { localItem ->
-//            apiData.none { apiItem -> apiItem.id_transaksi == localItem.id_transaksi }
-//        }
-//        // Hapus data dari lokal
-//        dataLocal.forEach {
-//            transaksiDao.delete(it)
-//        }
+        // Data yang ada di lokal tetapi sudah tidak ada di API
+        val dataLocal = localData.filter { localItem ->
+            apiData.none { apiItem -> apiItem.id_transaksi == localItem.id_transaksi }
+        }
+        // Hapus data dari lokal
+        dataLocal.forEach {
+            transaksiDao.delete(it)
+        }
     }
 
 

@@ -15,7 +15,6 @@ class TransaksiViewModel(application: Application) : AndroidViewModel(applicatio
 
     private val repository: TransaksiRepository
     val allTransaksi: MutableLiveData<List<Transaksi>> = MutableLiveData() // LiveData untuk daftar transaksi
-    val selectedTransaksi: MutableLiveData<Transaksi> = MutableLiveData() // LiveData untuk detail transaksi
 
     init {
         val transaksiDao = GudangDatabase.getDatabase(application).transaksiDao()
