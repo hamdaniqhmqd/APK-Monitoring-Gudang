@@ -74,11 +74,15 @@ class DetailSupplierFragment : Fragment() {
         binding.rvBarang.adapter = Adapter
         binding.rvBarang.layoutManager = LinearLayoutManager(requireContext())
 
-        viewModelBarang.getBarangByIdSupplier(supplierId!!).observe(viewLifecycleOwner) { barang ->
-            barang?.let {
-                setHeader(it)
+        supplierId?.let {
+            viewModelBarang.getAllBarangByIdSupplier(it).observe(viewLifecycleOwner) { barangList ->
+                barangList?.let {
+                    // Use 'it' safely here
+                    setHeader(it)
+                }
             }
         }
+
 
         return binding.root
     }

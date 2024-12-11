@@ -20,8 +20,14 @@ object RetrofitInstanceGudangApi {
     }
 
     // variabel untuk endpoint supplier
+    val apiSupplierService: ApiSupplierService by lazy {
+        retrofit.create(ApiSupplierService::class.java)
+    }
 
     // variabel untuk endpoint barang
+    val apiBarangService: ApiBarangService by lazy {
+        retrofit.create(ApiBarangService::class.java)
+    }
 
     // variabel untuk endpoint transaksi
     val apiTransaksiService: ApiTransaksiService by lazy {

@@ -34,6 +34,11 @@ class LoginActivity : AppCompatActivity() {
             val inputUsername = binding.inputUser.text.toString()
             val inputPassword = binding.inputPass.text.toString()
 
+            if (inputUsername.isBlank() || inputPassword.isBlank()) {
+                Toast.makeText(this, "Username and password cannot be empty", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val user = User(
                 id = 0,
                 username = inputUsername,
@@ -45,41 +50,21 @@ class LoginActivity : AppCompatActivity() {
             // Observasi hasil login
             viewModel.login(user).observe(this) { loggedInUser ->
                 if (loggedInUser != null) {
-                    Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
 
                     // Simpan data pengguna ke SharedPreferences
                     AppPreferences.setUserId(loggedInUser.id)
                     AppPreferences.setUsername(loggedInUser.username)
                     AppPreferences.setLoggedIn(true)
 
+                    // Lanjutkan ke halaman utama
                     intentMainAct()
                 } else {
-                    Toast.makeText(this@LoginActivity, "Invalid credentials", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Invalid credentials", Toast.LENGTH_SHORT).show()
                 }
             }
         }
 
-
-//            CoroutineScope(Dispatchers.IO).launch {
-//                val user = userDao.getUser(inputUsername, inputPassword)
-//
-//                runOnUiThread {
-//                    if (user != null) {
-//                        // Save login state
-//                        viewModel.update(User(id = user.id, username = inputUsername, password = inputPassword, adminName = inputUsername))
-//
-//                        Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
-//
-//                        AppPreferences.setUserId(user.id)
-//                        AppPreferences.setUsername(inputUsername)
-//                        AppPreferences.setLoggedIn(true)
-//
-//                        intentMainAct()
-//                    } else {
-//                        Toast.makeText(this@LoginActivity, "Invalid credentials", Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//            }
 
         binding.toRegister.setOnClickListener {
             intentRegisterAct()

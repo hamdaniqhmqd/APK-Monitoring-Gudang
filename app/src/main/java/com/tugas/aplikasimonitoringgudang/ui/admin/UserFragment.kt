@@ -17,6 +17,7 @@ class UserFragment : Fragment() {
     private lateinit var userViewModel: UserViewModel
     private var _binding: FragmentUserBinding? = null
     private val binding get() = _binding!!
+    private var user_id: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,25 +31,33 @@ class UserFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         AppPreferences.init(requireContext())
-        val userId = AppPreferences.getUserId()
+        user_id = AppPreferences.getUserId()
         val username = AppPreferences.getUsername()
         val isLoggedIn = AppPreferences.isLoggedIn()
 
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
-        userId.let {
-            userViewModel.getUserById(it).observe(viewLifecycleOwner) { user ->
-                binding.greetingText.text = "Hi! ${user.adminName}"
-                if (user.profileImagePath != null) {
-                    Glide.with(binding.userIcon.context)
-                        .load(user.profileImagePath)
-                        .placeholder(R.drawable.profile)
-                        .into(binding.userIcon)
+        user_id?.let { id ->
+            userViewModel.getUserById(id).observe(viewLifecycleOwner) { user ->
+                if (user != null) {
+                    binding.greetingText.text = "Hi! ${user.adminName}"
+                    if (user.profileImagePath != null) {
+                        val end_point = "https://gudang-pakaian-api.infitechd.my.id/storage/admin/${user.profileImagePath}"
+                        Glide.with(binding.userIcon.context)
+                            .load(end_point)
+                            .placeholder(R.drawable.profile)
+                            .into(binding.userIcon)
+                    } else {
+                        binding.userIcon.setImageResource(R.drawable.profile)
+                    }
                 } else {
+                    // Jika user null, tampilkan placeholder atau pesan default
+                    binding.greetingText.text = "Hi! Guest"
                     binding.userIcon.setImageResource(R.drawable.profile)
                 }
             }
         }
+
 
         userViewModel.barangCount.observe(viewLifecycleOwner) { count ->
             binding.barangCount.text = count.toString()

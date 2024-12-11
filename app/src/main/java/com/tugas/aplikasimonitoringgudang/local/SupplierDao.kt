@@ -1,4 +1,4 @@
-package com.tugas.aplikasimonitoringgudang.data.supplier
+package com.tugas.aplikasimonitoringgudang.local
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
@@ -7,6 +7,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.tugas.aplikasimonitoringgudang.data.supplier.Supplier
 
 @Dao
 interface SupplierDao {
@@ -20,11 +21,8 @@ interface SupplierDao {
     suspend fun delete(vararg supplier: Supplier)
 
     @Query("SELECT * FROM supplier_table ORDER BY id_supplier ASC")
-    fun getAllSupplier(): LiveData<List<Supplier>>
+    fun getAllSupplier(): List<Supplier>
 
     @Query("SELECT * FROM supplier_table WHERE id_supplier = :id")
-    fun getSupplierById(id: Int): LiveData<Supplier>
-
-    @Query("SELECT COUNT(*) FROM supplier_table")
-    suspend fun getSupplierCount(): Int
+    fun getSupplierById(id: Int): Supplier
 }

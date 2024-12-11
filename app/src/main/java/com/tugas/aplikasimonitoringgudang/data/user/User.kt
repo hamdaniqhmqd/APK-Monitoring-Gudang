@@ -11,4 +11,7 @@ data class User(
     @SerializedName("password") val password: String,
     @SerializedName("adminName") val adminName: String,
     @SerializedName("profileImagePath") val profileImagePath: String? = null,
+    @SerializedName("created_at") val created_at: String = "",
+    @SerializedName("updated_at") val updated_at: String = ""
+//    @SerializedName("profileImagePath") val profileImagePath: String? = null,
 )

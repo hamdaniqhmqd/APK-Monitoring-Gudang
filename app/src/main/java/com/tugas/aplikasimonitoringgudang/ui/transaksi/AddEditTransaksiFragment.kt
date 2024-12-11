@@ -116,8 +116,6 @@ class AddEditTransaksiFragment : Fragment() {
                 tanggalAkhir = tanggalSaatIni,
                 status = 1,
                 statusAkhir = 0,
-                created_at = "",
-                updated_at = ""
             )
 
             // Menyimpan transaksi baru

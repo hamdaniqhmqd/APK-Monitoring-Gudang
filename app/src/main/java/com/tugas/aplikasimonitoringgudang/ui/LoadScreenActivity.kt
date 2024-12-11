@@ -31,7 +31,7 @@ class LoadScreenActivity : AppCompatActivity() {
             val isLoggedIn = AppPreferences.isLoggedIn()
 
             val intent = if (isLoggedIn) {
-                Toast.makeText(this, "Selamat Datang Kembali, $username!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Selamat Datang Kembali, $username! $userId", Toast.LENGTH_SHORT).show()
                 Intent(this, MainActivity::class.java)
             } else {
                 Intent(this, AwalActivity::class.java)

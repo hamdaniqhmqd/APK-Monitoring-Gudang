@@ -5,7 +5,7 @@
 //import androidx.test.core.app.ApplicationProvider
 //import androidx.test.ext.junit.runners.AndroidJUnit4
 //import com.tugas.aplikasimonitoringgudang.data.barang.Barang
-//import com.tugas.aplikasimonitoringgudang.data.barang.BarangDao
+//import com.tugas.aplikasimonitoringgudang.local.BarangDao
 //import com.tugas.aplikasimonitoringgudang.data.barang.BarangDatabase
 //import org.junit.After
 //import org.junit.Before
