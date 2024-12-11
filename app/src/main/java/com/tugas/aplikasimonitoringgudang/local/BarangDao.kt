@@ -1,7 +1,8 @@
-package com.tugas.aplikasimonitoringgudang.data.barang
+package com.tugas.aplikasimonitoringgudang.local
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.tugas.aplikasimonitoringgudang.data.barang.Barang
 
 @Dao
 interface BarangDao {
@@ -18,14 +19,11 @@ interface BarangDao {
     fun getAllBarangGudang(): List<Barang>
 
     @Query("SELECT * FROM barang_table ORDER BY id_barang ASC")
-    fun getAllBarang(): LiveData<List<Barang>>
+    fun getAllBarang(): List<Barang>
 
     @Query("SELECT * FROM barang_table WHERE id_barang = :id")
-    fun getBarangById(id: Int): LiveData<Barang>
+    fun getBarangById(id: Int): Barang
 
     @Query("SELECT * FROM barang_table WHERE supplier_id = :supplierId ORDER BY supplier_id ASC")
-    fun getBarangByIdSuppler(supplierId: Int): LiveData<List<Barang>>
-
-    @Query("SELECT COUNT(*) FROM barang_table")
-    suspend fun getBarangCount(): Int
+    fun getBarangByIdSuppler(supplierId: Int): List<Barang>
 }
