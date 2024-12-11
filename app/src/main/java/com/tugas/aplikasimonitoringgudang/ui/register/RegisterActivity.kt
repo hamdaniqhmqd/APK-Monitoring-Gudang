@@ -19,17 +19,11 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
     private val viewModelUser: UserViewModel by viewModels()
 
-    private lateinit var database: GudangDatabase
-    private lateinit var userDao: UserDao
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        database = GudangDatabase.getDatabase(this)
-        userDao = database.userDao()
 
         binding.btnRegister.setOnClickListener {
             val username = binding.inputUser.text.toString()
@@ -37,10 +31,13 @@ class RegisterActivity : AppCompatActivity() {
             val repeatPassword = binding.inputRepeatPass.text.toString()
 
             if (password == repeatPassword) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    userDao.insert(User(username = username, password = password, adminName = username))
-                    intentLoginAct()
-                }
+//                CoroutineScope(Dispatchers.IO).launch {
+//                    userDao.insert(User(username = username, password = password, adminName = username))
+//                    intentLoginAct()
+//                }
+                viewModelUser.insert(User(username = username, password = password, adminName = username))
+                Toast.makeText(this, "Register successful", Toast.LENGTH_SHORT).show()
+                intentLoginAct()
             } else {
                 Toast.makeText(this, "Passwords tidak sama", Toast.LENGTH_SHORT).show()
             }
@@ -51,10 +48,8 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun intentLoginAct(username: String = "", password: String = "") {
+    private fun intentLoginAct() {
         val intent = Intent(this, LoginActivity::class.java)
-//        intent.putExtra("username", username)
-//        intent.putExtra("password", password)
         startActivity(intent)
     }
 }

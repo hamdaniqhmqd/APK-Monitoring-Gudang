@@ -11,6 +11,7 @@ import com.tugas.aplikasimonitoringgudang.data.database.GudangDatabase
 import com.tugas.aplikasimonitoringgudang.data.user.User
 import com.tugas.aplikasimonitoringgudang.repository.UserRepository
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 
 class UserViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -32,19 +33,20 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun login(user: User): LiveData<User?> = liveData {
+    fun login(user: User): LiveData<User?> {
+        val result = MutableLiveData<User?>()
         viewModelScope.launch {
             try {
-                val result = repository.login(user)
-                emit(result)
-//                repository.login(user)
+                val loggedInUser = repository.login(user)
+                result.postValue(loggedInUser)
             } catch (e: Exception) {
                 e.printStackTrace()
-                emit(null)
-//                e.printStackTrace()
+                result.postValue(null) // Pastikan null dikirim jika terjadi error
             }
         }
+        return result
     }
+
 
     fun insert(user: User) {
         viewModelScope.launch {
@@ -56,12 +58,12 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun update(user: User) {
+    fun update(user: User, profileImagePath: MultipartBody.Part?) {
         viewModelScope.launch {
             try {
-                repository.update(user)
+                repository.update(user, profileImagePath)
             } catch (e: Exception) {
-                e.printStackTrace() // Logging error
+                e.printStackTrace()
             }
         }
     }
