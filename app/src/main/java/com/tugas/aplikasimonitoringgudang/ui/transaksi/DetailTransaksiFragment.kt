@@ -141,8 +141,6 @@ class DetailTransaksiFragment : Fragment() {
                         tanggalAkhir = tanggalSekarang,
                         status = transaksi.status,
                         statusAkhir = 3,
-                        created_at = "",
-                        updated_at = ""
                     )
 
                     transaksiViewModel.updateTransaksi(transaksiUpdated)
