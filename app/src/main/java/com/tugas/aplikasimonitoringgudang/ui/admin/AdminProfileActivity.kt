@@ -36,8 +36,9 @@ class AdminProfileActivity : AppCompatActivity() {
             viewModel.getUserById(it).observe(this) { user ->
                 adminNameTextView.text = "Hi! ${user.adminName}"
                 if (user.profileImagePath != null) {
+                    val end_point = "https://gudang-pakaian-api.infitechd.my.id/storage/admin/${user.profileImagePath}"
                     Glide.with(adminImageView.context)
-                        .load(user.profileImagePath)
+                        .load(end_point)
                         .placeholder(R.drawable.profile)
                         .into(adminImageView)
                 } else {
