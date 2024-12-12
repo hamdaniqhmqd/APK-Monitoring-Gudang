@@ -4,15 +4,15 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="kuning">#F4CE14</color>
-    <color name="kuning_smooth">#FDE674</color>
+    <color name="kuning_smooth">#ECDA84</color>
     <color name="putih_bg">#F5F7F8</color>
     <color name="putih">#F5F7F8</color>
     <color name="hitam">#000000</color>
     <color name="hitam_smooth">#434244</color>
-    <color name="hijau_masuk">#DEFFDD</color>
-    <color name="merah_keluar">#FFDCDF</color>
-    <color name="putih_smooth">#E2E2E2</color>
-    <color name="merah_hapus">#990000</color>
+    <color name="hijau_masuk">#bbf7d0</color>
+    <color name="merah_keluar">#fecaca</color>
+    <color name="putih_smooth">#d6d3d1</color>
+    <color name="merah_hapus">#dc2626</color>
     <color name="hijau">#347928</color>
 
 </resources>
