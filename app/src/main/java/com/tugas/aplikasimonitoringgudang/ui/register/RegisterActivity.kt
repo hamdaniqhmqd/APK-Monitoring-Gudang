@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import com.tugas.aplikasimonitoringgudang.R
 import com.tugas.aplikasimonitoringgudang.databinding.ActivityRegisterBinding
 import com.tugas.aplikasimonitoringgudang.ui.login.LoginActivity
 import com.tugas.aplikasimonitoringgudang.data.database.GudangDatabase
@@ -24,6 +26,8 @@ class RegisterActivity : AppCompatActivity() {
 
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        window.statusBarColor = ContextCompat.getColor(this, R.color.kuning)
 
         binding.btnRegister.setOnClickListener {
             val username = binding.inputUser.text.toString()

@@ -8,7 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.tugas.aplikasimonitoringgudang.databinding.ActivityLoadScreenBinding
 import android.content.SharedPreferences
 import android.widget.Toast
+import com.tugas.aplikasimonitoringgudang.R
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import com.tugas.aplikasimonitoringgudang.data.session.AppPreferences
 import com.tugas.aplikasimonitoringgudang.veiwModel.UserViewModel
 
@@ -21,6 +23,8 @@ class LoadScreenActivity : AppCompatActivity() {
 
         binding = ActivityLoadScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        window.statusBarColor = ContextCompat.getColor(this, R.color.kuning)
 
         viewModel.sinkronisasiDataUser()
 

@@ -3,6 +3,7 @@ package com.tugas.aplikasimonitoringgudang.ui
 import android.os.Bundle
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.tugas.aplikasimonitoringgudang.databinding.ActivityAwalBinding
 import com.google.android.material.button.MaterialButton
 import com.tugas.aplikasimonitoringgudang.R
@@ -16,6 +17,8 @@ class AwalActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAwalBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        window.statusBarColor = ContextCompat.getColor(this, R.color.kuning)
 
         binding.btnLogin.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
