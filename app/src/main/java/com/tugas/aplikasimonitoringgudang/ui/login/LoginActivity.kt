@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import com.tugas.aplikasimonitoringgudang.R
 import com.tugas.aplikasimonitoringgudang.data.database.GudangDatabase
 import com.tugas.aplikasimonitoringgudang.data.session.AppPreferences
 import com.tugas.aplikasimonitoringgudang.data.user.User
@@ -27,6 +29,8 @@ class LoginActivity : AppCompatActivity() {
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        window.statusBarColor = ContextCompat.getColor(this, R.color.kuning)
 
         AppPreferences.init(this)
 

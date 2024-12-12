@@ -109,7 +109,7 @@ class DetailTransaksiFragment : Fragment() {
                 status = transaksi.status
 
                 if (status == 1) {
-                    binding.wadahStatus.setBackgroundColor(
+                    binding.wadahStatus.setCardBackgroundColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.merah_keluar
@@ -117,7 +117,7 @@ class DetailTransaksiFragment : Fragment() {
                     )
                     binding.status.text = "Barang Keluar"
                 } else if (status == 2) {
-                    binding.wadahStatus.setBackgroundColor(
+                    binding.wadahStatus.setCardBackgroundColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.hijau_masuk
@@ -135,7 +135,7 @@ class DetailTransaksiFragment : Fragment() {
 
                 if (transaksi.statusAkhir == 3) {
                     binding.wadahStatusAkhir.visibility = View.VISIBLE
-                    binding.wadahStatusAkhir.setBackgroundColor(
+                    binding.wadahStatusAkhir.setCardBackgroundColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.putih_smooth
