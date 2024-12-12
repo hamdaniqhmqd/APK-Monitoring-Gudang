@@ -16,35 +16,35 @@ class BarangViewModel(application: Application) : AndroidViewModel(application) 
 
     private val repository: BarangRepository
     val allBarang: MutableLiveData<List<Barang>> =
-        MutableLiveData() // LiveData untuk daftar supplier
+        MutableLiveData() // LiveData untuk daftar barang
     val allBarangByIdSupplier: MutableLiveData<List<Barang>> = MutableLiveData()
 
     init {
         val barangDao = GudangDatabase.getDatabase(application).barangDao()
         val networkHelper = NetworkHelper(application)
         repository = BarangRepository(barangDao, networkHelper)
-        getAllBarang() // Inisialisasi dengan memuat semua data supplier
+        getAllBarang() // Inisialisasi dengan memuat semua data barang
     }
 
-    // Fungsi untuk mengambil semua supplier
+    // Fungsi untuk mengambil semua barang
     private fun getAllBarang() {
         viewModelScope.launch {
             try {
-                val supplierList = repository.getAllBarang()
-                allBarang.postValue(supplierList)
+                val barangList = repository.getAllBarang()
+                allBarang.postValue(barangList)
             } catch (e: Exception) {
                 e.printStackTrace() // Logging error
             }
         }
     }
 
-    // Fungsi untuk mengambil detail supplier berdasarkan ID
+    // Fungsi untuk mengambil detail barang berdasarkan ID
     fun getBarangById(id: Int): LiveData<Barang> {
         val result = MutableLiveData<Barang>()
         viewModelScope.launch {
             try {
-                val supplier = repository.getBarangById(id)
-                result.postValue(supplier)
+                val barang = repository.getBarangById(id)
+                result.postValue(barang)
             } catch (e: Exception) {
                 e.printStackTrace() // Logging error
             }
@@ -52,7 +52,24 @@ class BarangViewModel(application: Application) : AndroidViewModel(application) 
         return result
     }
 
-    // Fungsi untuk menambahkan supplier
+    // Fungsi untuk menambahkan barang dan transaksi
+//    fun insert(
+//        barang: Barang,
+//        transaksi: Transaksi,
+//        transaksiViewModel: TransaksiViewModel
+//    ) = viewModelScope.launch {
+//        // Insert barang dan dapatkan idBarang
+//        val idBarang = repository.insert(barang)
+//
+//        // Update transaksi dengan idBarang
+//        val updatedTransaksi = transaksi.copy(
+//            barang_id = idBarang.toInt()
+//        )
+//
+//        // Insert transaksi dengan idBarang yang diperbarui
+//        transaksiViewModel.insertTransaksi(updatedTransaksi)
+//    }
+
     fun insert(
         barang: Barang, transaksi: Transaksi, transaksiViewModel: TransaksiViewModel
     ) {
@@ -63,7 +80,7 @@ class BarangViewModel(application: Application) : AndroidViewModel(application) 
 
                 // Update transaksi dengan idBarang
                 val updatedTransaksi = transaksi.copy(
-                    barang_id = idBarang.id_barang
+                    barang_id = idBarang.toInt()
                 )
 
                 // Insert transaksi dengan idBarang yang diperbarui
@@ -74,37 +91,37 @@ class BarangViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    // Fungsi untuk memperbarui supplier
-    fun update(supplier: Barang) {
+    // Fungsi untuk memperbarui barang
+    fun update(barang: Barang) {
         viewModelScope.launch {
             try {
-                repository.update(supplier.supplier_id, supplier)
-                getAllBarang() // Perbarui daftar supplier setelah pembaruan
+                repository.update(barang.id_barang, barang)
+                getAllBarang() // Perbarui daftar barang setelah pembaruan
             } catch (e: Exception) {
                 e.printStackTrace() // Logging error
             }
         }
     }
 
-    // Fungsi untuk menghapus supplier
-    fun delete(supplier: Barang) {
+    // Fungsi untuk menghapus barang
+    fun delete(barang: Barang) {
         viewModelScope.launch {
             try {
-                repository.delete(supplier)
-                getAllBarang() // Perbarui daftar supplier setelah penghapusan
+                repository.delete(barang)
+                getAllBarang() // Perbarui daftar barang setelah penghapusan
             } catch (e: Exception) {
                 e.printStackTrace() // Logging error
             }
         }
     }
 
-    // Fungsi untuk mengambil semua supplier
+    // Fungsi untuk mengambil semua barang
     fun getAllBarangByIdSupplier(id: Int): LiveData<List<Barang>> {
         val result = MutableLiveData<List<Barang>>()
         viewModelScope.launch {
             try {
-                val supplierList = repository.getBarangBySupplierId(id)
-                result.postValue(supplierList)
+                val barangList = repository.getBarangBySupplierId(id)
+                result.postValue(barangList)
             } catch (e: Exception) {
                 e.printStackTrace() // Logging error
             }

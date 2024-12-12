@@ -27,7 +27,7 @@ class BarangRepository(
         val dataApi = apiData.filter { apiItem ->
             localData.none { localItem -> localItem.id_barang == apiItem.id_barang }
         }
-        dataApi.forEach { barangDao.insert(it) }
+        dataApi.forEach { barangInsert -> barangDao.insert(barangInsert) }
     }
 
     private suspend fun sinkronisasiDataBarangUpdate(
@@ -49,7 +49,7 @@ class BarangRepository(
         val dataLocal = localData.filter { localItem ->
             apiData.none { apiItem -> apiItem.id_barang == localItem.id_barang }
         }
-        dataLocal.forEach { barangDao.delete(it) }
+        dataLocal.forEach { barangDelete -> barangDao.delete(barangDelete) }
     }
 
     suspend fun getAllBarang(): List<Barang> {
@@ -101,24 +101,24 @@ class BarangRepository(
         }
     }
 
-    suspend fun insert(barang: Barang): Barang {
+    suspend fun insert(barang: Barang): Long {
         return withContext(Dispatchers.IO) {
             if (networkHelper.isConnected()) {
                 try {
                     val response = apiService.addBarang(barang)
                     if (response.success) {
                         barangDao.insert(response.data)
-                        return@withContext response.data
+                        return@withContext response.data.id_barang.toLong() // Mengembalikan ID barang sebagai Long
                     } else {
                         throw Exception("Failed to add barang: ${response.message}")
                     }
                 } catch (e: Exception) {
-                    barangDao.insert(barang)
-                    barang
+                    val id = barangDao.insert(barang)
+                    id // Mengembalikan ID barang sebagai Long
                 }
             } else {
-                barangDao.insert(barang)
-                barang
+                val id = barangDao.insert(barang)
+                id // Mengembalikan ID barang sebagai Long
             }
         }
     }
