@@ -12,7 +12,6 @@ import com.tugas.aplikasimonitoringgudang.data.barang.Barang
 import com.tugas.aplikasimonitoringgudang.data.session.AppPreferences
 import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentAddEditBarangBinding
-import com.tugas.aplikasimonitoringgudang.ui.MainActivity
 import com.tugas.aplikasimonitoringgudang.veiwModel.BarangViewModel
 import com.tugas.aplikasimonitoringgudang.veiwModel.SupplierViewModel
 import com.tugas.aplikasimonitoringgudang.veiwModel.TransaksiViewModel
@@ -86,7 +85,7 @@ class AddEditBarangFragment : Fragment() {
                     stok_barang = stok,
                     ukuran_barang = ukuran,
                     supplier_id = supplierId!!,
-                    supplier_nama = supplierNama!!
+//                    supplier_nama = supplierNama!!
                 ),
                 transaksi = Transaksi(
                     id_transaksi = 0, // ID transaksi auto-generate

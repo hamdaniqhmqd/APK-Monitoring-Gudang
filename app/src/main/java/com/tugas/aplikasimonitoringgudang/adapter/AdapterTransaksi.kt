@@ -13,6 +13,7 @@ import com.tugas.aplikasimonitoringgudang.databinding.ItemHeaderBulanTransaksiBi
 import com.tugas.aplikasimonitoringgudang.databinding.ItemTransaksiBinding
 import com.tugas.aplikasimonitoringgudang.veiwModel.UserViewModel
 import com.tugas.aplikasimonitoringgudang.veiwModel.BarangViewModel
+import com.tugas.aplikasimonitoringgudang.veiwModel.SupplierViewModel
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -22,6 +23,7 @@ class AdapterTransaksi(
     private val onItemClick: (Transaksi) -> Unit,
     private val barangViewModel: BarangViewModel,
     private val userViewModel: UserViewModel,
+    private val supplierViewModel: SupplierViewModel,
     private val context: Context
 ) : ListAdapter<Any, RecyclerView.ViewHolder>(TransaksiDiffCallback()) {
 
@@ -116,15 +118,19 @@ class AdapterTransaksi(
                         holder.binding.NamaAdmin.text = user.username
                     }
 
-                transaksi.barang_id?.let {
-                    barangViewModel.getBarangById(it)
-                        .observe(context as LifecycleOwner) { barang ->
-                            holder.binding.namaBarang.text = barang.nama_barang
-                            holder.binding.NamaSupplier.text = barang.supplier_nama
-                            holder.binding.HargaBarang.text =
-                                numberFormat.format(barang.harga_barang)
-                        }
-                }
+                supplierViewModel.getSupplierById(transaksi.supplier_id)
+                    .observe(context as LifecycleOwner) { supplier ->
+                        holder.binding.NamaSupplier.text = supplier.nama_supplier
+                    }
+
+                barangViewModel.getBarangById(transaksi.barang_id)
+                    .observe(context as LifecycleOwner) { barang ->
+                        holder.binding.namaBarang.text = barang.nama_barang
+//                            holder.binding.NamaSupplier.text = barang.supplier_nama
+                        holder.binding.HargaBarang.text =
+                            numberFormat.format(barang.harga_barang)
+                    }
+
 
                 holder.binding.JumlahBarang.text = transaksi.jumlah_barang.toString()
                 holder.binding.TotalHargaBarang.text =

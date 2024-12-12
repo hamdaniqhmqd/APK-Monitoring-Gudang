@@ -195,16 +195,19 @@ class UserRepository(
         return withContext(Dispatchers.IO) {
             if (networkHelper.isConnected()) {
                 try {
+                    val methode : String = "PUT"
                     val usernameBody = user.username.toRequestBody("text/plain".toMediaTypeOrNull())
                     val passwordBody = user.password.toRequestBody("text/plain".toMediaTypeOrNull())
                     val adminNameBody = user.adminName.toRequestBody("text/plain".toMediaTypeOrNull())
+                    val requestMethode = methode.toRequestBody("text/plain".toMediaTypeOrNull())
 
                     val response = apiService.updateAdmin(
                         user.id,
                         usernameBody,
                         passwordBody,
                         adminNameBody,
-                        profileImagePath
+                        profileImagePath,
+                        requestMethode
                     )
 
                     if (response.success) {

@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.tugas.aplikasimonitoringgudang.R
 import com.tugas.aplikasimonitoringgudang.data.barang.Barang
-import com.tugas.aplikasimonitoringgudang.databinding.FragmentAddEditBarangBinding
-import com.tugas.aplikasimonitoringgudang.databinding.FragmentAddEditTransaksiBinding
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentDetailBarangBinding
 import com.tugas.aplikasimonitoringgudang.ui.transaksi.AddEditTransaksiFragment
 import com.tugas.aplikasimonitoringgudang.veiwModel.BarangViewModel

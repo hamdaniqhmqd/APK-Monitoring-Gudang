@@ -13,7 +13,6 @@ data class Barang(
     @SerializedName("stok_barang") val stok_barang: Int,
     @SerializedName("ukuran_barang") val ukuran_barang: String,
     @SerializedName("supplier_id") val supplier_id: Int,
-    @SerializedName("supplier_nama") val supplier_nama: String,
     @SerializedName("created_at") val created_at: String = "",
     @SerializedName("updated_at") val updated_at: String = ""
 )
