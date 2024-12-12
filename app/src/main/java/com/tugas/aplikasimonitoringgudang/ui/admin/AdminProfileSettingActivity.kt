@@ -17,6 +17,7 @@ import android.graphics.BitmapFactory
 import android.os.FileUtils
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContentProviderCompat
 import com.tugas.aplikasimonitoringgudang.R
@@ -39,87 +40,36 @@ class AdminProfileSettingActivity : AppCompatActivity() {
     private lateinit var binding: AdminProfilSettingBinding
     private lateinit var userViewModel: UserViewModel
 
-    private var imageUri: Uri? = null
-    private var imagePart: MultipartBody.Part? = null
-    private var imageUpdate : String? = null
     private var profileImageUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Menggunakan View Binding untuk mengganti setContentView
+        // Menggunakan View Binding
         binding = AdminProfilSettingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // Inisialisasi ViewModel
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
-        // Preferensi untuk pengguna saat ini
+        // Inisialisasi preferensi
         AppPreferences.init(this)
         val userId = AppPreferences.getUserId()
 
-        userId?.let {
-            userViewModel.getUserById(it).observe(this) { user ->
-                // Set data awal
-                binding.adminName.text = user.adminName
-                binding.adminNameInput.setText(user.adminName)
+        // Observasi data user berdasarkan ID
+        userId?.let { id ->
+            userViewModel.getUserById(id).observe(this) { user ->
+                setupInitialData(user)
 
-                // Muat gambar profil jika tersedia
-                if (user.profileImagePath != null) {
-                    val end_point = "https://gudang-pakaian-api.infitechd.my.id/storage/admin/${user.profileImagePath}"
-                    Glide.with(binding.adminImage.context)
-                        .load(end_point)
-                        .placeholder(R.drawable.profile)
-                        .into(binding.adminImage)
-                } else {
-                    binding.adminImage.setImageResource(R.drawable.profile)
-                }
-
+                // Tombol OK untuk menyimpan perubahan
                 binding.okButton.setOnClickListener {
                     val newName = binding.adminNameInput.text.toString()
-
-                    user.profileImagePath?.let { imageUrl ->
-                        Glide.with(this).load(imageUrl).into(binding.adminImage)
-                    }
-
-                    val user = User(
-                        id = userId,
-                        username = user.username,
-                        password = user.password,
-                        adminName = newName
-                    )
-
-                    val file = File(this.getRealPathFromURI(profileImageUri!!)!!)
-                    val requestFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
-                    val profileImagePart = MultipartBody.Part.createFormData(
-                        "profileImagePath", file.name, requestFile
-                    )
-
-//                    val file = File()
-//                    val requestBody = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
-//                    val profileImagePart = MultipartBody.Part.createFormData(
-//                        "profileImagePath", file.name, requestBody
-//                    )
-
-
-                    userViewModel.update(user, profileImagePart)
-
-//                    if (profileImageUri != null) {
-//                        val file = File(this.getRealPathFromURI(profileImageUri!!).toString())
-//                        val requestFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
-//                        val profileImagePart = MultipartBody.Part.createFormData(
-//                            "profileImagePath", file.name, requestFile
-//                        )
-//
-//                        userViewModel.update(user, profileImagePart)
-//                    }
-
-                    finish() // Tutup aktivitas setelah berhasil
+                    updateUserProfile(user, newName)
                 }
             }
         }
 
-        // Tambahkan listener untuk mengubah nama admin secara dinamis
+        // Listener untuk mengubah nama admin secara dinamis
         binding.adminNameInput.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 binding.adminName.text = s.toString()
@@ -129,35 +79,63 @@ class AdminProfileSettingActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
-        // Pilih gambar
+        // Pilih gambar dari galeri
         binding.adminImage.setOnClickListener {
-//            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-//            startActivityForResult(intent, PICK_IMAGE_REQUEST)
             pickImageLauncher.launch("image/*")
         }
     }
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
-//            profileImageUri = data?.data
-//        }
-//    }
+    // Menampilkan data awal user
+    private fun setupInitialData(user: User) {
+        binding.adminName.text = user.adminName
+        binding.adminNameInput.setText(user.adminName)
 
-    private fun Context.getRealPathFromURI(uri: Uri): String? {
-        val cursor = contentResolver.query(uri, null, null, null, null)
-        cursor?.use {
-            val columnIndex = cursor.getColumnIndex(MediaStore.Images.Media._ID)
-            if (columnIndex != -1) {
-                cursor.moveToFirst()
-                val id = cursor.getLong(columnIndex)
-                val fileUri = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id.toString())
-                return fileUri.path
-            }
+        if (!user.profileImagePath.isNullOrEmpty()) {
+            val endpoint = "https://gudang-pakaian-api.infitechd.my.id/storage/admin/${user.profileImagePath}"
+            Glide.with(binding.adminImage.context)
+                .load(endpoint)
+                .placeholder(R.drawable.profile)
+                .into(binding.adminImage)
+        } else {
+            binding.adminImage.setImageResource(R.drawable.profile)
         }
-        return null // return null if column index is invalid or data is not found
     }
 
+    // Mengupdate profil user
+    private fun updateUserProfile(user: User, newName: String) {
+        val updatedUser = user.copy(adminName = newName)
+
+        if (profileImageUri != null) {
+            val file = File(getRealPathFromURI(profileImageUri!!))
+            val requestFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+            val profileImagePart = MultipartBody.Part.createFormData(
+                "profileImagePath", file.name, requestFile
+            )
+
+            // Panggil ViewModel untuk memperbarui user dengan gambar
+            userViewModel.update(updatedUser, profileImagePart)
+        } else {
+            // Update tanpa gambar
+            userViewModel.update(updatedUser, null)
+        }
+
+        Toast.makeText(this, "Profil berhasil diperbarui!", Toast.LENGTH_SHORT).show()
+        finish()
+    }
+
+    // Mendapatkan path asli dari URI
+    private fun getRealPathFromURI(uri: Uri): String {
+        val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
+        contentResolver.query(uri, filePathColumn, null, null, null).use { cursor ->
+            cursor?.let {
+                if (it.moveToFirst()) {
+                    val columnIndex = it.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+                    return it.getString(columnIndex)
+                }
+            }
+        }
+        throw IllegalArgumentException("Gagal mendapatkan path dari URI")
+    }
 
     // Peluncur untuk memilih gambar dari galeri
     private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->

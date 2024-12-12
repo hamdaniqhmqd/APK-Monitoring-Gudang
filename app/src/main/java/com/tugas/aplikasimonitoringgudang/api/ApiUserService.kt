@@ -20,13 +20,14 @@ interface ApiUserService {
     ): UserResponseDetail
 
     @Multipart
-    @PUT("/api/admin/{id}")
+    @POST("/api/admin/{id}")
     suspend fun updateAdmin(
         @Path("id") id: Int,
         @Part("username") username: RequestBody,
         @Part("password") password: RequestBody,
         @Part("adminName") adminName: RequestBody,
         @Part("profileImagePath") profileImagePath: MultipartBody.Part? = null,
+        @Part("_method") method: RequestBody
     ): UserResponseDetail
 
     @DELETE("/api/admin/{id}")
