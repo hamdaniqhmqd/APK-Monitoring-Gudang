@@ -26,7 +26,7 @@ interface ApiUserService {
         @Part("username") username: RequestBody,
         @Part("password") password: RequestBody,
         @Part("adminName") adminName: RequestBody,
-        @Part("profileImagePath") profileImagePath: MultipartBody.Part? = null,
+        @Part profileImagePath: MultipartBody.Part?, // Tanpa nama bagian
         @Part("_method") method: RequestBody
     ): UserResponseDetail
 
