@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.FileUtils
-import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -31,9 +30,11 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import android.content.ContentResolver
+import android.provider.MediaStore
 import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
+import java.io.InputStream
+import android.os.Build
 
 class AdminProfileSettingActivity : AppCompatActivity() {
 
@@ -106,14 +107,26 @@ class AdminProfileSettingActivity : AppCompatActivity() {
         val updatedUser = user.copy(adminName = newName)
 
         if (profileImageUri != null) {
-            val file = File(getRealPathFromURI(profileImageUri!!))
-            val requestFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
-            val profileImagePart = MultipartBody.Part.createFormData(
-                "profileImagePath", file.name, requestFile
-            )
+            val filePath = getRealPathFromURI(profileImageUri!!)
+            if (filePath.isNullOrEmpty()) {
+                Toast.makeText(this, "Path gambar tidak ditemukan!", Toast.LENGTH_SHORT).show()
+                return
+            }
 
-            // Panggil ViewModel untuk memperbarui user dengan gambar
-            userViewModel.update(updatedUser, profileImagePart)
+            if (filePath != null) {
+                val file = File(filePath)
+                val requestFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+                val profileImagePart = MultipartBody.Part.createFormData(
+                    "profileImagePath", file.name, requestFile
+                )
+
+                // Panggil ViewModel untuk memperbarui user dengan gambar
+                userViewModel.update(updatedUser, profileImagePart)
+            } else {
+                // Tampilkan pesan error jika path gambar tidak valid
+                Toast.makeText(this, "Gagal mendapatkan path gambar!", Toast.LENGTH_SHORT).show()
+                return
+            }
         } else {
             // Update tanpa gambar
             userViewModel.update(updatedUser, null)
@@ -124,24 +137,43 @@ class AdminProfileSettingActivity : AppCompatActivity() {
     }
 
     // Mendapatkan path asli dari URI
-    private fun getRealPathFromURI(uri: Uri): String {
-        val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
-        contentResolver.query(uri, filePathColumn, null, null, null).use { cursor ->
-            cursor?.let {
-                if (it.moveToFirst()) {
-                    val columnIndex = it.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-                    return it.getString(columnIndex)
+    private fun getRealPathFromURI(uri: Uri): String? {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            try {
+                val inputStream = contentResolver.openInputStream(uri)
+                val file = createTempFile(this.cacheDir, "temp_image", ".jpg")
+                file.outputStream().use { outputStream ->
+                    inputStream?.copyTo(outputStream)
                 }
+                inputStream?.close()
+                file.absolutePath
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
+        } else {
+            val projection = arrayOf(MediaStore.Images.Media.DATA)
+            contentResolver.query(uri, projection, null, null, null).use { cursor ->
+                if (cursor != null && cursor.moveToFirst()) {
+                    val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+                    cursor.getString(columnIndex)
+                } else null
             }
         }
-        throw IllegalArgumentException("Gagal mendapatkan path dari URI")
+    }
+
+    // Fungsi pembantu untuk membuat file sementara
+    private fun createTempFile(cacheDir: File, prefix: String, suffix: String): File {
+        return File.createTempFile(prefix, suffix, cacheDir)
     }
 
     // Peluncur untuk memilih gambar dari galeri
     private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-        uri?.let {
-            profileImageUri = it
-            Glide.with(this).load(it).into(binding.adminImage) // Pratinjau gambar yang dipilih
+        if (uri != null) {
+            profileImageUri = uri
+            Glide.with(this).load(uri).into(binding.adminImage) // Pratinjau gambar
+        } else {
+            Toast.makeText(this, "Gagal memilih gambar!", Toast.LENGTH_SHORT).show()
         }
     }
 }

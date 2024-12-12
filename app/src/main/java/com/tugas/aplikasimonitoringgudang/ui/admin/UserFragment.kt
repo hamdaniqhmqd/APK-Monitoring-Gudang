@@ -37,6 +37,8 @@ class UserFragment : Fragment() {
 
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
+        userViewModel.sinkronisasiDataUser()
+
         user_id?.let { id ->
             userViewModel.getUserById(id).observe(viewLifecycleOwner) { user ->
                 if (user != null) {
