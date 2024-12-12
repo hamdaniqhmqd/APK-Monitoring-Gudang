@@ -60,23 +60,27 @@ class DetailTransaksiFragment : Fragment() {
         transaksiId = arguments?.getInt("transaksiId")
         transaksiId?.let { id ->
             transaksiViewModel.getTransaksiById(id).observe(viewLifecycleOwner) { transaksi ->
-                // Set data Barang sesuai id barang di ttransaksi
-                barangId = transaksi.barang_id
-                barangViewModel.getBarangById(transaksi.barang_id).observe(viewLifecycleOwner) { barang ->
-                    binding.tvTransaksiName.text = barang.nama_barang
-                    binding.tvTransaksiHarga.text = barang.harga_barang.toString()
-                    binding.tvBarangName.text = barang.nama_barang
-                    binding.tvBarangCategory.text = barang.kategori_barang
-                    binding.tvBarangPrice.text = barang.harga_barang.toString()
-                    binding.tvBarangStock.text = barang.stok_barang.toString()
-                    binding.tvBarangSizes.text = barang.ukuran_barang
-                }
+                // Set data Barang sesuai id barang di transaksi
 
+                barangId = transaksi.barang_id
+                barangViewModel.getBarangById(transaksi.barang_id)
+                    .observe(viewLifecycleOwner) { barang ->
+                        if (barang != null) {
+                            binding.tvTransaksiName.text = barang.nama_barang
+                            binding.tvTransaksiHarga.text = barang.harga_barang.toString()
+                            binding.tvBarangName.text = barang.nama_barang
+                            binding.tvBarangCategory.text = barang.kategori_barang
+                            binding.tvBarangPrice.text = barang.harga_barang.toString()
+                            binding.tvBarangStock.text = barang.stok_barang.toString()
+                            binding.tvBarangSizes.text = barang.ukuran_barang
+                        }
+                    }
 
                 binding.tvTransaksiJumlah.text = transaksi.jumlah_barang.toString()
                 binding.tvTransaksiTotal.text = transaksi.total_harga_barang.toString()
 
-                val formatTanggalDetail = SimpleDateFormat("HH:mm EEEE, d MMMM yyyy", Locale("id", "ID"))
+                val formatTanggalDetail =
+                    SimpleDateFormat("HH:mm EEEE, d MMMM yyyy", Locale("id", "ID"))
                 val awal = formatTanggal.parse(transaksi.tanggal)
                 val tanggalAwal = formatTanggalDetail.format(awal!!)
                 binding.tanggalTransaksi.text = tanggalAwal
@@ -85,38 +89,69 @@ class DetailTransaksiFragment : Fragment() {
                 tanggalSaatIni = transaksi.tanggal
 
                 supplierId = transaksi.supplier_id
-                supplierViewModel.getSupplierById(supplierId).observe(viewLifecycleOwner) { supplier ->
-                    binding.tvSupplierName.text = supplier.nama_supplier
-                    binding.tvSupplierPhone.text = supplier.no_hp_supplier
-                    binding.tvSupplierNik.text = supplier.nik_supplier
-                }
+                supplierViewModel.getSupplierById(supplierId)
+                    .observe(viewLifecycleOwner) { supplier ->
+                        if (supplier != null) {
+                            binding.tvSupplierName.text = supplier.nama_supplier
+                            binding.tvSupplierPhone.text = supplier.no_hp_supplier
+                            binding.tvSupplierNik.text = supplier.nik_supplier
+                        }
+                    }
 
                 userId = transaksi.user_id
-                userViewModel.getUserById(transaksi.user_id).observe(viewLifecycleOwner) { user ->
-                    username = user.username
-                }
+                userViewModel.getUserById(transaksi.user_id)
+                    .observe(viewLifecycleOwner) { user ->
+                        if (user != null) {
+                            username = user.username
+                        }
+                    }
 
                 status = transaksi.status
 
                 if (status == 1) {
-                    binding.wadahStatus.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.merah_keluar))
+                    binding.wadahStatus.setBackgroundColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.merah_keluar
+                        )
+                    )
                     binding.status.text = "Barang Keluar"
                 } else if (status == 2) {
-                    binding.wadahStatus.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.hijau_masuk))
+                    binding.wadahStatus.setBackgroundColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.hijau_masuk
+                        )
+                    )
                     binding.status.text = "Barang Masuk"
                     binding.btnBatal.isEnabled = false
-                    binding.btnBatal.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.putih_smooth))
+                    binding.btnBatal.setBackgroundColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.putih_smooth
+                        )
+                    )
                 }
 
                 if (transaksi.statusAkhir == 3) {
                     binding.wadahStatusAkhir.visibility = View.VISIBLE
-                    binding.wadahStatusAkhir.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.putih_smooth))
+                    binding.wadahStatusAkhir.setBackgroundColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.putih_smooth
+                        )
+                    )
                     binding.statusAkhir.text = "Batal Transaksi"
                     val akhir = formatTanggal.parse(transaksi.tanggalAkhir)
                     val tanggalAkhir = formatTanggalDetail.format(akhir!!)
                     binding.tanggalTransaksiAkhir.text = tanggalAkhir
                     binding.btnBatal.isEnabled = false
-                    binding.btnBatal.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.putih_smooth))
+                    binding.btnBatal.setBackgroundColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.putih_smooth
+                        )
+                    )
                 }
 
                 binding.btnBatal.setOnClickListener {
@@ -176,7 +211,8 @@ class DetailTransaksiFragment : Fragment() {
                             tanggalAkhir = "",
                             status = 0,
                             statusAkhir = 0
-                        ))
+                        )
+                    )
                     toTransaksiFragment()
                 }
 

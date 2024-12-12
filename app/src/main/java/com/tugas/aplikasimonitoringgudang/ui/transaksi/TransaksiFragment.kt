@@ -75,7 +75,8 @@ class TransaksiFragment : Fragment() {
     }
 
     private fun setupSearch() {
-        val searchEditText = binding.inputSearch.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
+        val searchEditText =
+            binding.inputSearch.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
 
         // Atur visibilitas label berdasarkan fokus pada input pencarian
         searchEditText.setOnFocusChangeListener { _, hasFocus ->
@@ -101,17 +102,24 @@ class TransaksiFragment : Fragment() {
                 val pencarian = mutableListOf<Transaksi>()
                 var totalBarangSelesai = 0
                 transaksiList.forEach { transaksi ->
-                    barangViewModel.getBarangById(transaksi.barang_id).observe(viewLifecycleOwner) { barang ->
-                        totalBarangSelesai++
-                        if (barang.nama_barang.contains(searchText ?: "", ignoreCase = true)) {
-                            pencarian.add(transaksi)
-                        }
+                    barangViewModel.getBarangById(transaksi.barang_id)
+                        .observe(viewLifecycleOwner) { barang ->
+                            if (barang != null) {
+                                totalBarangSelesai++
+                                if (barang.nama_barang.contains(
+                                        searchText ?: "",
+                                        ignoreCase = true
+                                    )
+                                ) {
+                                    pencarian.add(transaksi)
+                                }
 
-                        // Perbarui RecyclerView hanya jika semua barang selesai diproses
-                        if (totalBarangSelesai == transaksiList.size) {
-                            updateRecyclerView(pencarian)
+                                // Perbarui RecyclerView hanya jika semua barang selesai diproses
+                                if (totalBarangSelesai == transaksiList.size) {
+                                    updateRecyclerView(pencarian)
+                                }
+                            }
                         }
-                    }
                 }
             } else {
                 updateRecyclerView(emptyList())

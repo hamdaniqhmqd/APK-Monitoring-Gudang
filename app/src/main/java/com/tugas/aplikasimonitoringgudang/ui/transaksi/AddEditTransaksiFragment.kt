@@ -32,7 +32,6 @@ class AddEditTransaksiFragment : Fragment() {
     private var hargaBarang: Int? = 0
 
     private var supplierId: Int? = 0
-    private var supplierNama: String? = ""
 
     private val formatTanggal = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
     private val tanggalSaatIni = formatTanggal.format(Date())
@@ -71,7 +70,6 @@ class AddEditTransaksiFragment : Fragment() {
                 ukuranBarang = barang.ukuran_barang
                 binding.hargaBarang.text = barang.harga_barang.toString()
                 supplierId = barang.supplier_id
-//                supplierNama = barang.supplier_nama
             }
         }
 
@@ -130,7 +128,6 @@ class AddEditTransaksiFragment : Fragment() {
                 stok_barang = sisa_stok,
                 ukuran_barang = ukuranBarang!!,
                 supplier_id = supplierId!!,
-//                supplier_nama = supplierNama!!
             )
 
             barangViewModel.update(updateBarang)
