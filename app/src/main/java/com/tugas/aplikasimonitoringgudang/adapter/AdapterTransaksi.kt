@@ -113,22 +113,28 @@ class AdapterTransaksi(
                     holder.binding.labelCard.text = "Batal Transaksi"
                 }
 
+
                 userViewModel.getUserById(transaksi.user_id)
                     .observe(context as LifecycleOwner) { user ->
-                        holder.binding.NamaAdmin.text = user.username
+                        if (user != null) {
+                            holder.binding.NamaAdmin.text = user.username
+                        }
                     }
 
                 supplierViewModel.getSupplierById(transaksi.supplier_id)
                     .observe(context as LifecycleOwner) { supplier ->
-                        holder.binding.NamaSupplier.text = supplier.nama_supplier
+                        if (supplier != null) {
+                            holder.binding.NamaSupplier.text = supplier.nama_supplier
+                        }
                     }
 
                 barangViewModel.getBarangById(transaksi.barang_id)
                     .observe(context as LifecycleOwner) { barang ->
-                        holder.binding.namaBarang.text = barang.nama_barang
-//                            holder.binding.NamaSupplier.text = barang.supplier_nama
-                        holder.binding.HargaBarang.text =
-                            numberFormat.format(barang.harga_barang)
+                        if (barang != null) {
+                            holder.binding.namaBarang.text = barang.nama_barang
+                            holder.binding.HargaBarang.text =
+                                numberFormat.format(barang.harga_barang)
+                        }
                     }
 
 
