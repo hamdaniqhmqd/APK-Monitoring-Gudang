@@ -71,7 +71,7 @@ class AddEditTransaksiFragment : Fragment() {
                 ukuranBarang = barang.ukuran_barang
                 binding.hargaBarang.text = barang.harga_barang.toString()
                 supplierId = barang.supplier_id
-                supplierNama = barang.supplier_nama
+//                supplierNama = barang.supplier_nama
             }
         }
 
@@ -130,7 +130,7 @@ class AddEditTransaksiFragment : Fragment() {
                 stok_barang = sisa_stok,
                 ukuran_barang = ukuranBarang!!,
                 supplier_id = supplierId!!,
-                supplier_nama = supplierNama!!
+//                supplier_nama = supplierNama!!
             )
 
             barangViewModel.update(updateBarang)

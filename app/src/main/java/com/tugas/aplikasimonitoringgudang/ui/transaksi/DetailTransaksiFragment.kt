@@ -127,7 +127,6 @@ class DetailTransaksiFragment : Fragment() {
                     val kategoriBarang = binding.tvBarangCategory.text.toString()
                     val stokBarang = binding.tvBarangStock.text.toString().toInt()
                     val ukuranBarang = binding.tvBarangSizes.text.toString()
-                    val supplierNama = binding.tvSupplierName.text.toString()
 
                     val transaksiUpdated = Transaksi(
                         id_transaksi = transaksiId!!,
@@ -155,7 +154,6 @@ class DetailTransaksiFragment : Fragment() {
                             stok_barang = stokKembali,
                             ukuran_barang = ukuranBarang,
                             supplier_id = supplierId,
-                            supplier_nama = supplierNama
                         )
 
                         barangViewModel.update(barangUpdated)
@@ -177,9 +175,7 @@ class DetailTransaksiFragment : Fragment() {
                             tanggal = "",
                             tanggalAkhir = "",
                             status = 0,
-                            statusAkhir = 0,
-                            created_at = "",
-                            updated_at = ""
+                            statusAkhir = 0
                         ))
                     toTransaksiFragment()
                 }

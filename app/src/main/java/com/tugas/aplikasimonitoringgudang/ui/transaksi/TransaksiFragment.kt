@@ -15,6 +15,7 @@ import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentTransaksiBinding
 import com.tugas.aplikasimonitoringgudang.veiwModel.UserViewModel
 import com.tugas.aplikasimonitoringgudang.veiwModel.BarangViewModel
+import com.tugas.aplikasimonitoringgudang.veiwModel.SupplierViewModel
 import com.tugas.aplikasimonitoringgudang.veiwModel.TransaksiViewModel
 
 class TransaksiFragment : Fragment() {
@@ -25,12 +26,14 @@ class TransaksiFragment : Fragment() {
     private lateinit var viewModel: TransaksiViewModel
     private lateinit var barangViewModel: BarangViewModel
     private lateinit var userViewModel: UserViewModel
+    private lateinit var supplierViewModel: SupplierViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this).get(TransaksiViewModel::class.java)
         barangViewModel = ViewModelProvider(this).get(BarangViewModel::class.java)
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+        supplierViewModel = ViewModelProvider(this).get(SupplierViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -46,6 +49,7 @@ class TransaksiFragment : Fragment() {
             },
             barangViewModel = barangViewModel,
             userViewModel = userViewModel,
+            supplierViewModel = supplierViewModel,
             context = requireContext()
         )
         binding.recyclerViewTransaksi.adapter = adapter
