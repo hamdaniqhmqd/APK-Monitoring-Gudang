@@ -9,6 +9,8 @@
     <color name="putih">#F5F7F8</color>
     <color name="hitam">#000000</color>
     <color name="hitam_smooth">#434244</color>
+    <color name="hitam_transparant">#D4434244</color>
+    <color name="transparant">#00F4CE14</color>
     <color name="hijau_masuk">#bbf7d0</color>
     <color name="merah_keluar">#fecaca</color>
     <color name="putih_smooth">#d6d3d1</color>
