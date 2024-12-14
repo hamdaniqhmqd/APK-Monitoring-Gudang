@@ -1,7 +1,10 @@
 package com.tugas.aplikasimonitoringgudang.ui
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -15,6 +18,8 @@ import com.tugas.aplikasimonitoringgudang.veiwModel.UserViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+
+    private var doubleBackToExitPressedOnce: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +46,22 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             binding.Navigasi.selectedItemId = R.id.HomeNavigasi
         }
+    }
+
+    override fun onBackPressed() {
+        // close aplikasi jika tombol back ditekan dua kali
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed()
+            return
+        }
+
+        this.doubleBackToExitPressedOnce = true
+        Toast.makeText(this, "Tekan lagi untuk keluar", Toast.LENGTH_SHORT).show()
+
+        // set delay selama 2 detik agar pengguna tidak menekan back dua kali secara tidak sengaja
+        Handler(Looper.getMainLooper()).postDelayed({
+            doubleBackToExitPressedOnce = false
+        }, 2000)
     }
 
     fun toTransaksi() {
