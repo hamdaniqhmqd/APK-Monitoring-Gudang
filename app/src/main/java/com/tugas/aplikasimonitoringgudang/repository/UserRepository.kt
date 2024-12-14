@@ -123,7 +123,7 @@ class UserRepository(
                         // Sinkronisasi data antara API ke lokal
                         sinkronisasiDataUserInsert(apiData, localData)
                         sinkronisasiDataUserUpdate(apiData, localData)
-                        sinkronisasiDataUserDelete(apiData, localData)
+//                        sinkronisasiDataUserDelete(apiData, localData)
                         // Mengembalikan data transaksi yang diterima dari API
                         return@withContext response.data
                     } else {
@@ -172,8 +172,6 @@ class UserRepository(
                 try {
                     val response = apiService.createAdmin(user)
                     if (response.success) {
-                        userDao.insert(response.data)
-//                        getAllTransaksi()
                         // Mengembalikan transaksi yang baru ditambahkan
                         return@withContext response.data
                     } else {

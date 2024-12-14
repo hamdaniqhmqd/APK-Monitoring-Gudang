@@ -42,14 +42,7 @@ class MainActivity : AppCompatActivity() {
             binding.Navigasi.selectedItemId = R.id.HomeNavigasi
         }
     }
-    fun intentUsername(): String {
-        val user_name = intent.getStringExtra("username").toString()
-        return user_name
-    }
-    fun intentUserid(): Int {
-        val user_id = intent.getIntExtra("user_id", 0)
-        return user_id
-    }
+
     fun toTransaksi() {
         binding.Navigasi.selectedItemId = R.id.TransaksiNavigasi
         supportFragmentManager.beginTransaction()
@@ -57,9 +50,11 @@ class MainActivity : AppCompatActivity() {
             .addToBackStack(null)
             .commit()
     }
+
     fun navigasiHilang() {
         binding.Navigasi.visibility = View.GONE
     }
+
     fun navigasiMuncul() {
         binding.Navigasi.visibility = View.VISIBLE
     }
