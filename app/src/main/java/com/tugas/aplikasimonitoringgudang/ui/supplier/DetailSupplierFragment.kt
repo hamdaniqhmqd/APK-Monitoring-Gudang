@@ -1,10 +1,12 @@
 package com.tugas.aplikasimonitoringgudang.ui.supplier
 
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tugas.aplikasimonitoringgudang.R
@@ -57,8 +59,28 @@ class DetailSupplierFragment : Fragment() {
         }
 
         binding.btnHapus.setOnClickListener {
-            viewModel.delete(Supplier(supplierId!!, "", "", ""))
-            toSupplierFragment()
+            // Membuat alert dialog untuk konfirmasi hapus
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Konfirmasi Hapus")
+            builder.setMessage("Apakah Anda yakin ingin menghapus supplier ini?")
+
+            // Tombol untuk membatalkan
+            builder.setNegativeButton("Batal") { dialog, _ ->
+                dialog.dismiss() // Menutup dialog jika dibatalkan
+            }
+
+            // Tombol untuk menghapus
+            builder.setPositiveButton("Hapus") { dialog, _ ->
+                // Melakukan aksi hapus jika user memilih "Hapus"
+                supplierId?.let {
+                    viewModel.delete(Supplier(it, "", "", "")) // Hapus supplier berdasarkan ID
+                    toSupplierFragment() // Kembali ke fragment daftar supplier setelah penghapusan
+                }
+                dialog.dismiss()
+            }
+
+            // Menampilkan dialog
+            builder.create().show()
         }
 
         binding.btnTambahBarang.setOnClickListener {
@@ -109,6 +131,7 @@ class DetailSupplierFragment : Fragment() {
 
         Adapter.submitList(data)
     }
+
     private fun onEditClick(idSupplier: Int) {
         // Navigasi ke CreateProductFragment dengan ID produk
         val bundle = Bundle().apply {
