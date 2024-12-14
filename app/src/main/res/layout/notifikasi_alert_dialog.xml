@@ -28,6 +28,7 @@
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="14dp"
         android:gravity="center"
+        android:fontFamily="@font/nunitoextrabold"
         android:text="Tidak Ada Koneksi Internet"
         android:textColor="@color/black"
         android:textSize="20sp"
@@ -38,18 +39,33 @@
 
     <!-- Pesan -->
     <TextView
-        android:id="@+id/dialog_message"
+        android:id="@+id/dialog_tanya"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:text="Apakah kamu ingin melanjutkan proses ini. Jika iya, data hanya akan di simpan di lokal saja"
+        android:fontFamily="@font/nunitobold"
+        android:text="Apakah kamu yakin ingin melanjutkan proses ini?"
         android:textColor="@color/hitam_smooth"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dialog_title" />
+
+    <TextView
+        android:id="@+id/dialog_keterangan"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:gravity="center"
+        android:fontFamily="@font/nunitobold"
+        android:text=" Jika iya, data hanya akan dikelola di lokal saja."
+        android:textColor="@color/hitam_smooth"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_tanya" />
 
     <!-- Tombol -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -58,7 +74,7 @@
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dialog_message">
+        app:layout_constraintTop_toBottomOf="@+id/dialog_keterangan">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/vertikal"
@@ -69,12 +85,12 @@
 
         <!-- Tombol "Coba Lagi" -->
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_coba_lagi"
+            android:id="@+id/btn_muat_ulang"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
             android:backgroundTint="@color/hitam_smooth"
-            android:text="Coba Lagi"
+            android:text="Muat Ulang"
             android:textColor="@color/white"
             app:cornerRadius="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -84,12 +100,12 @@
 
         <!-- Tombol "Keluar" -->
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_batal"
+            android:id="@+id/btn_ya"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
             android:backgroundTint="@color/putih_bg"
-            android:text="Keluar"
+            android:text="Ya"
             android:textColor="@color/merah_hapus"
             app:cornerRadius="10dp"
             app:layout_constraintBottom_toBottomOf="parent"

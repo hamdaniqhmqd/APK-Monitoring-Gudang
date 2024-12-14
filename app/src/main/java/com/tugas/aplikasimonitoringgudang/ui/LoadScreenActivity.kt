@@ -17,7 +17,7 @@ import com.tugas.aplikasimonitoringgudang.veiwModel.UserViewModel
 
 class LoadScreenActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoadScreenBinding
-    private val viewModel: UserViewModel by viewModels()
+//    private val viewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +36,7 @@ class LoadScreenActivity : AppCompatActivity() {
 
         window.statusBarColor = ContextCompat.getColor(this, R.color.kuning)
 
-        viewModel.sinkronisasiDataUser()
+//        viewModel.sinkronisasiDataUser()
     }
 
     private fun loadScreen() {
@@ -69,15 +69,15 @@ class LoadScreenActivity : AppCompatActivity() {
             .create()
 
         // Atur aksi untuk tombol
-        dialogView.findViewById<Button>(R.id.btn_coba_lagi).setOnClickListener {
+        dialogView.findViewById<Button>(R.id.btn_muat_ulang).setOnClickListener {
             // Reload Activity untuk cek ulang koneksi
             recreate()
             alertDialog.dismiss()
         }
 
-        dialogView.findViewById<Button>(R.id.btn_batal).setOnClickListener {
-            // Tutup aplikasi
-            finish()
+        dialogView.findViewById<Button>(R.id.btn_ya).setOnClickListener {
+            // lanjut ke act atau fragmnet yang dipilih
+            loadScreen()
         }
 
         // Tampilkan AlertDialog
