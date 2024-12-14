@@ -234,9 +234,10 @@
             android:backgroundTint="@color/merah_hapus"
             android:fontFamily="@font/nunitobold"
             android:textColor="@color/putih"
-            android:textSize="16sp"
+            android:textSize="13sp"
             app:cornerRadius="6dp"
             app:icon="@drawable/baseline_delete"
+            android:text="Hapus"
             app:iconGravity="start"
             app:iconTint="@color/putih" />
 
@@ -250,7 +251,7 @@
             android:fontFamily="@font/nunitobold"
             android:text="Edit"
             android:textColor="@color/putih"
-            android:textSize="16sp"
+            android:textSize="13sp"
             app:cornerRadius="6dp" />
 
         <com.google.android.material.button.MaterialButton
@@ -263,7 +264,7 @@
             android:fontFamily="@font/nunitobold"
             android:text="Transaksi"
             android:textColor="@color/putih"
-            android:textSize="16sp"
+            android:textSize="12sp"
             app:cornerRadius="6dp" />
 
     </LinearLayout>

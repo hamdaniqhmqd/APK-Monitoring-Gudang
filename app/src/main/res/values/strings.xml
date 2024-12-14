@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
     <string name="app_name">si gudang</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
@@ -22,4 +22,5 @@
     <string name="logo_setting">setting</string>
     <string name="logo_logout">logo_logout</string>
     <string name="admin_image">admin_image</string>
+
 </resources>
