@@ -1,5 +1,6 @@
 package com.tugas.aplikasimonitoringgudang.ui.barang
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,7 +16,6 @@ import com.tugas.aplikasimonitoringgudang.veiwModel.SupplierViewModel
 
 class DetailBarangFragment : Fragment() {
     private var _binding: FragmentDetailBarangBinding? = null
-
     private val binding get() = _binding!!
 
     private lateinit var barangViewModel: BarangViewModel
@@ -24,23 +24,28 @@ class DetailBarangFragment : Fragment() {
     private lateinit var viewModel: SupplierViewModel
     private var supplierId: Int? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
         _binding = FragmentDetailBarangBinding.inflate(inflater, container, false)
 
         barangViewModel = ViewModelProvider(this).get(BarangViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(SupplierViewModel::class.java)
 
         barangId = arguments?.getInt("barangId")
-        barangId?.let {
-            barangViewModel.getBarangById(it).observe(viewLifecycleOwner) { barang ->
+        supplierId = arguments?.getInt("supplierId")
+
+        setupBarangDetails()
+        setupSupplierDetails()
+        setupButtonListeners()
+
+        return binding.root
+    }
+
+    private fun setupBarangDetails() {
+        barangId?.let { id ->
+            barangViewModel.getBarangById(id).observe(viewLifecycleOwner) { barang ->
                 binding.tvItemName.text = barang.nama_barang
                 binding.tvItemCategoryIsi.text = barang.kategori_barang
                 binding.tvItemPriceIsi.text = barang.harga_barang.toString()
@@ -48,35 +53,53 @@ class DetailBarangFragment : Fragment() {
                 binding.tvItemSizesIsi.text = barang.ukuran_barang
             }
         }
-        viewModel = ViewModelProvider(this).get(SupplierViewModel::class.java)
-        supplierId = arguments?.getInt("supplierId")
-        supplierId?.let {
-            viewModel.getSupplierById(it).observe(viewLifecycleOwner) { supplier ->
+    }
+
+    private fun setupSupplierDetails() {
+        supplierId?.let { id ->
+            viewModel.getSupplierById(id).observe(viewLifecycleOwner) { supplier ->
                 binding.tvSupplierName.text = supplier.nama_supplier
                 binding.tvSupplierPhoneIsi.text = supplier.no_hp_supplier.toString()
                 binding.tvSupplierNikIsi.text = supplier.nik_supplier.toString()
             }
         }
+    }
 
+    private fun setupButtonListeners() {
         binding.btnEdit.setOnClickListener {
-            onEditClick(barangId!!)
+            onEditClick(barangId ?: return@setOnClickListener)
         }
 
         binding.btnTransaksi.setOnClickListener {
-            onAddTransaksiClick(barangId!!, supplierId!!)
+            onAddTransaksiClick(barangId ?: return@setOnClickListener, supplierId ?: return@setOnClickListener)
         }
 
         binding.btnHapus.setOnClickListener {
-            barangViewModel.delete(Barang(barangId!!, "", "", 0, 0, "", 0, ""))
+            showDeleteConfirmationDialog()
+        }
+    }
+
+    private fun showDeleteConfirmationDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Konfirmasi Hapus")
+            .setMessage("APAKAH ANDA YAKIN INGIN MENGHAPUS?")
+            .setPositiveButton("YA") { _, _ ->
+                deleteBarang()
+            }
+            .setNegativeButton("TIDAK", null)
+            .show()
+    }
+
+    private fun deleteBarang() {
+        barangId?.let { id ->
+            barangViewModel.delete(Barang(id, "", "", 0, 0, "", 0, ""))
             toBarangFragment()
         }
-
-        return binding.root
     }
 
     private fun onEditClick(idBarang: Int) {
         val bundle = Bundle().apply {
-            putInt("barangId", idBarang ?: 0)
+            putInt("barangId", idBarang)
         }
         val addEditFragment = EditBarangFragment()
         addEditFragment.arguments = bundle
@@ -96,8 +119,8 @@ class DetailBarangFragment : Fragment() {
 
     private fun onAddTransaksiClick(idBarang: Int, idSupplier: Int) {
         val bundle = Bundle().apply {
-            putInt("barangId", idBarang ?: 0)
-            putInt("supplierId", idSupplier ?: 0)
+            putInt("barangId", idBarang)
+            putInt("supplierId", idSupplier)
         }
         val addEditTransaksiFragment = AddEditTransaksiFragment()
         addEditTransaksiFragment.arguments = bundle
@@ -106,5 +129,10 @@ class DetailBarangFragment : Fragment() {
             .replace(R.id.FragmentMenu, addEditTransaksiFragment)
             .addToBackStack(null)
             .commit()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
