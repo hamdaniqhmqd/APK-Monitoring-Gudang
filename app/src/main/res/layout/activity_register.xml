@@ -80,6 +80,7 @@
         android:layout_height="wrap_content"
         android:hint="Username"
         android:textSize="14sp"
+        android:inputType="text"
         android:textColor="@color/hitam"
         android:background="@drawable/rounded_input"
         android:paddingHorizontal="14dp"

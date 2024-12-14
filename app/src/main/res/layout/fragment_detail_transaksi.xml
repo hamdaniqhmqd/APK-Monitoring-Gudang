@@ -12,9 +12,11 @@
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingVertical="32dp"
             android:background="@color/putih_bg"
             tools:context=".ui.transaksi.DetailTransaksiFragment">
 
@@ -22,11 +24,11 @@
                 android:id="@+id/label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
                 android:fontFamily="@font/nunitoextrabold"
                 android:text="Detail Transaksi"
                 android:textColor="@color/black"
                 android:textSize="24sp"
+                android:layout_gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -42,6 +44,7 @@
                 android:visibility="visible"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="8dp"
+                android:layout_gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/label"
@@ -92,6 +95,7 @@
                 app:cardCornerRadius="10dp"
                 app:cardElevation="8dp"
                 android:visibility="gone"
+                android:layout_gravity="center"
                 app:layout_constraintTop_toBottomOf="@+id/wadah_status"
                 tools:ignore="MissingConstraints">
 
@@ -131,7 +135,7 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/dataTransaksi"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="24dp"
@@ -140,6 +144,7 @@
                 android:visibility="visible"
                 app:cardCornerRadius="14dp"
                 app:cardElevation="8dp"
+                android:layout_gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/wadah_status_akhir">
@@ -245,7 +250,7 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/data_detail_barang"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="24dp"
@@ -415,7 +420,7 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/dataSupplier"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="24dp"
@@ -572,7 +577,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
     </ScrollView>
 </layout>

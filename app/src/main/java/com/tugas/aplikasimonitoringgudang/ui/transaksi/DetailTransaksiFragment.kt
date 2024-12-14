@@ -15,6 +15,7 @@ import com.tugas.aplikasimonitoringgudang.api.NetworkHelper
 import com.tugas.aplikasimonitoringgudang.data.barang.Barang
 import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentDetailTransaksiBinding
+import com.tugas.aplikasimonitoringgudang.databinding.FragmentTransaksiBinding
 import com.tugas.aplikasimonitoringgudang.ui.MainActivity
 import com.tugas.aplikasimonitoringgudang.veiwModel.UserViewModel
 import com.tugas.aplikasimonitoringgudang.veiwModel.BarangViewModel
@@ -25,20 +26,21 @@ import java.util.Date
 import java.util.Locale
 
 class DetailTransaksiFragment : Fragment() {
+    private var _binding: FragmentDetailTransaksiBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var transaksiViewModel: TransaksiViewModel
     private var transaksiId: Int? = null
     private var status: Int? = 0
 
     private lateinit var supplierViewModel: SupplierViewModel
     private var supplierId: Int = 0
-    private var supplierNama: String = ""
 
     private lateinit var barangViewModel: BarangViewModel
     private var barangId: Int = 0
 
     private lateinit var userViewModel: UserViewModel
     private var userId: Int = 0
-    private var username: String = ""
 
     private var tanggalSaatIni = ""
     private var bulanSaatIni = ""
@@ -57,7 +59,7 @@ class DetailTransaksiFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentDetailTransaksiBinding.inflate(inflater, container, false)
+        _binding = FragmentDetailTransaksiBinding.inflate(inflater, container, false)
         transaksiViewModel = ViewModelProvider(this).get(TransaksiViewModel::class.java)
         supplierViewModel = ViewModelProvider(this).get(SupplierViewModel::class.java)
         barangViewModel = ViewModelProvider(this).get(BarangViewModel::class.java)
@@ -68,7 +70,7 @@ class DetailTransaksiFragment : Fragment() {
         transaksiId = arguments?.getInt("transaksiId")
         transaksiId?.let { id ->
             transaksiViewModel.getTransaksiById(id).observe(viewLifecycleOwner) { transaksi ->
-                // Set data Barang sesuai id barang di transaksi
+                // Set data Barang sesuai id barang, supplier  di transaksi
 
                 barangId = transaksi.barang_id
                 barangViewModel.getBarangById(transaksi.barang_id)
@@ -107,12 +109,6 @@ class DetailTransaksiFragment : Fragment() {
                     }
 
                 userId = transaksi.user_id
-                userViewModel.getUserById(transaksi.user_id)
-                    .observe(viewLifecycleOwner) { user ->
-                        if (user != null) {
-                            username = user.username
-                        }
-                    }
 
                 status = transaksi.status
 
@@ -161,8 +157,6 @@ class DetailTransaksiFragment : Fragment() {
                         )
                     )
                 }
-
-                toTransaksiFragment()
             }
 
             binding.btnBatal.setOnClickListener {
@@ -206,7 +200,7 @@ class DetailTransaksiFragment : Fragment() {
                     AlertConnect()
                 }
 
-                if (cekKoneksi == true) {
+                if (cekKoneksi) {
 
                     transaksiViewModel.updateTransaksi(transaksiUpdated)
 
@@ -274,6 +268,7 @@ class DetailTransaksiFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        _binding = null
         (requireActivity() as MainActivity).navigasiMuncul()
     }
 }
