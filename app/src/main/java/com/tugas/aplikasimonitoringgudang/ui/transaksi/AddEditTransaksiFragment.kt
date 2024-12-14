@@ -4,8 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.tugas.aplikasimonitoringgudang.R
+import com.tugas.aplikasimonitoringgudang.api.NetworkHelper
 import com.tugas.aplikasimonitoringgudang.data.barang.Barang
 import com.tugas.aplikasimonitoringgudang.data.session.AppPreferences
 import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
@@ -39,6 +43,8 @@ class AddEditTransaksiFragment : Fragment() {
     private val formatBulan = SimpleDateFormat("yyyy-MM", Locale.getDefault())
     private val bulanSaatIni = formatBulan.format(Date())
 
+    private var cekKoneksi: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (requireActivity() as MainActivity).navigasiHilang()
@@ -49,6 +55,8 @@ class AddEditTransaksiFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = FragmentAddEditTransaksiBinding.inflate(inflater, container, false)
+
+        val networkHelper = NetworkHelper(requireContext())
 
         // Inisialisasi ViewModels
         AppPreferences.init(requireContext())
@@ -116,9 +124,6 @@ class AddEditTransaksiFragment : Fragment() {
                 statusAkhir = 0,
             )
 
-            // Menyimpan transaksi baru
-            viewModel.insertTransaksi(transaksiUpdated)
-
             // Update stok barang setelah transaksi
             val updateBarang = Barang(
                 id_barang = barangId!!,
@@ -130,13 +135,49 @@ class AddEditTransaksiFragment : Fragment() {
                 supplier_id = supplierId!!,
             )
 
-            barangViewModel.update(updateBarang)
+            if (networkHelper.isConnected()) {
+                cekKoneksi = true
+            } else {
+                AlertConnect()
+            }
 
-            // Kembali ke fragment transaksi setelah menyimpan data
-            toTransaksiFragment()
+            if (cekKoneksi == true) {
+                // Menyimpan transaksi baru dan mengubah data transaksi
+                viewModel.insertTransaksi(transaksiUpdated)
+                barangViewModel.update(updateBarang)
+
+                // Kembali ke fragment transaksi setelah menyimpan data
+                toTransaksiFragment()
+            }
         }
 
         return binding.root
+    }
+
+    private fun AlertConnect() {
+        // Inflate custom layout
+        val dialogView = layoutInflater.inflate(R.layout.notifikasi_alert_dialog, null)
+
+        // Bangun AlertDialog
+        val alertDialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView) // Gunakan layout kustom
+            .setCancelable(false) // Tidak bisa ditutup kecuali klik tombol
+            .create()
+
+        // Atur aksi untuk tombol
+        dialogView.findViewById<Button>(R.id.btn_muat_ulang).setOnClickListener {
+            // Reload Activity untuk cek ulang koneksi
+            requireActivity().recreate()
+            alertDialog.dismiss()
+        }
+
+        dialogView.findViewById<Button>(R.id.btn_ya).setOnClickListener {
+            // lanjut ke act atau fragmnet yang dipilih
+            cekKoneksi = true
+        }
+
+        // Tampilkan AlertDialog
+        alertDialog.show()
     }
 
     override fun onDestroy() {

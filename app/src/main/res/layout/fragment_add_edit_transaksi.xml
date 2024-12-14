@@ -179,7 +179,8 @@
                             android:fontFamily="@font/nunitoextrabold"
                             android:text="+"
                             android:textColor="@color/black"
-                            app:cornerRadius="6dp"
+                            app:elevation="8dp"
+                            app:strokeColor="@color/black"
                             app:layout_constraintEnd_toEndOf="parent" />
 
                         <TextView
@@ -203,6 +204,7 @@
                             android:backgroundTint="@color/putih"
                             android:fontFamily="@font/nunitoextrabold"
                             android:text="-"
+                            app:elevation="8dp"
                             android:textColor="@color/black"
                             app:cornerRadius="6dp"
                             app:layout_constraintStart_toStartOf="parent" />
@@ -240,6 +242,16 @@
 
         </androidx.cardview.widget.CardView>
 
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            android:src="@drawable/ilustrasi"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="ContentDescription" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/save_btn"
             android:layout_width="0dp"
@@ -251,6 +263,7 @@
             android:text="Submit"
             android:textColor="@color/white"
             app:cornerRadius="8dp"
+            app:elevation="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/footer_card"
@@ -259,71 +272,3 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
-
-    <!--<TextView-->
-    <!--android:id="@+id/namaBarang"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:textAlignment="textStart"-->
-    <!--android:text="nama barang"-->
-    <!--android:textSize="16sp"-->
-    <!--android:fontFamily="@font/nunitobold"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--app:layout_constraintTop_toTopOf="parent" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/HargaBarang"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:fontFamily="@font/nunitosemibold"-->
-    <!--android:textSize="12sp"-->
-    <!--android:text="10000.00"-->
-    <!--android:textAlignment="textStart"-->
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--app:layout_constraintTop_toBottomOf="@+id/namaBarang" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/JumlahBarang"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:fontFamily="@font/nunitosemibold"-->
-    <!--android:textSize="12sp"-->
-    <!--android:text="1000"-->
-    <!--android:textAlignment="textStart"-->
-    <!--android:layout_marginStart="32dp"-->
-    <!--app:layout_constraintStart_toEndOf="@+id/HargaBarang"-->
-    <!--app:layout_constraintTop_toBottomOf="@+id/namaBarang" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/TotalHargaBarang"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:fontFamily="@font/nunitosemibold"-->
-    <!--android:textSize="12sp"-->
-    <!--android:text="1000"-->
-    <!--android:textAlignment="textStart"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--app:layout_constraintTop_toBottomOf="@+id/namaBarang" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/NamaSupplier"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:fontFamily="@font/nunitosemibold"-->
-    <!--android:textSize="12sp"-->
-    <!--android:text="Nama Supplier"-->
-    <!--android:textAlignment="textStart"-->
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--app:layout_constraintTop_toBottomOf="@+id/HargaBarang" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/NamaAdmin"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:fontFamily="@font/nunitosemibold"-->
-    <!--android:textSize="12sp"-->
-    <!--android:text="Nama Admin"-->
-    <!--android:textAlignment="textStart"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--app:layout_constraintTop_toBottomOf="@+id/HargaBarang" />-->

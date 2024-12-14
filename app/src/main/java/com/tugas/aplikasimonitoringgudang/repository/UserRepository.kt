@@ -123,7 +123,7 @@ class UserRepository(
                         // Sinkronisasi data antara API ke lokal
                         sinkronisasiDataUserInsert(apiData, localData)
                         sinkronisasiDataUserUpdate(apiData, localData)
-//                        sinkronisasiDataUserDelete(apiData, localData)
+                        sinkronisasiDataUserDelete(apiData, localData)
                         // Mengembalikan data transaksi yang diterima dari API
                         return@withContext response.data
                     } else {
