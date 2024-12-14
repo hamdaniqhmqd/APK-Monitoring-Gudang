@@ -11,13 +11,16 @@ import com.tugas.aplikasimonitoringgudang.R
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import com.tugas.aplikasimonitoringgudang.api.NetworkHelper
 import com.tugas.aplikasimonitoringgudang.data.session.AppPreferences
 import com.tugas.aplikasimonitoringgudang.veiwModel.UserViewModel
 
 class LoadScreenActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoadScreenBinding
-//    private val viewModel: UserViewModel by viewModels()
+    private val viewModel: UserViewModel by viewModels()
+
+    private var cekId: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +28,19 @@ class LoadScreenActivity : AppCompatActivity() {
         binding = ActivityLoadScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        viewModel.sinkronisasiDataUser()
+
         val networkHelper = NetworkHelper(this)
+
+        AppPreferences.init(this)
+        val userId = AppPreferences.getUserId()
+
+        // cek id
+        viewModel.getUserById(userId).observe(this) { user ->
+            if (user != null) {
+                cekId = true
+            }
+        }
 
         // cek koneksi internet
         if (networkHelper.isConnected()) {
@@ -35,19 +50,17 @@ class LoadScreenActivity : AppCompatActivity() {
         }
 
         window.statusBarColor = ContextCompat.getColor(this, R.color.kuning)
-
-//        viewModel.sinkronisasiDataUser()
     }
 
     private fun loadScreen() {
         Handler().postDelayed({
-            AppPreferences.init(this)
-            val userId = AppPreferences.getUserId()
+
             val username = AppPreferences.getUsername()
             val isLoggedIn = AppPreferences.isLoggedIn()
 
-            val intent = if (isLoggedIn) {
-                Toast.makeText(this, "Selamat Datang Kembali, $username!", Toast.LENGTH_SHORT).show()
+            val intent = if (isLoggedIn && cekId) {
+                Toast.makeText(this, "Selamat Datang Kembali, $username!", Toast.LENGTH_SHORT)
+                    .show()
                 Intent(this, MainActivity::class.java)
             } else {
                 Intent(this, AwalActivity::class.java)

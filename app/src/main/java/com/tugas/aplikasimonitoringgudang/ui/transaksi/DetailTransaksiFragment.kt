@@ -1,13 +1,17 @@
 package com.tugas.aplikasimonitoringgudang.ui.transaksi
 
 import android.os.Bundle
+import android.text.BoringLayout
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.tugas.aplikasimonitoringgudang.R
+import com.tugas.aplikasimonitoringgudang.api.NetworkHelper
 import com.tugas.aplikasimonitoringgudang.data.barang.Barang
 import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentDetailTransaksiBinding
@@ -42,6 +46,8 @@ class DetailTransaksiFragment : Fragment() {
     private val formatTanggal = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
     private val tanggalSekarang = formatTanggal.format(Date())
 
+    private var cekKoneksi: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (requireActivity() as MainActivity).navigasiHilang()
@@ -56,6 +62,8 @@ class DetailTransaksiFragment : Fragment() {
         supplierViewModel = ViewModelProvider(this).get(SupplierViewModel::class.java)
         barangViewModel = ViewModelProvider(this).get(BarangViewModel::class.java)
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+
+        val networkHelper = NetworkHelper(requireContext())
 
         transaksiId = arguments?.getInt("transaksiId")
         transaksiId?.let { id ->
@@ -154,72 +162,109 @@ class DetailTransaksiFragment : Fragment() {
                     )
                 }
 
-                binding.btnBatal.setOnClickListener {
-                    val namaBarang = binding.tvTransaksiName.text.toString()
-                    val hargaBarang = binding.tvTransaksiHarga.text.toString().toInt()
-                    val jumlahBarang = binding.tvTransaksiJumlah.text.toString().toInt()
-                    val totalHarga = binding.tvTransaksiTotal.text.toString().toInt()
-                    val kategoriBarang = binding.tvBarangCategory.text.toString()
-                    val stokBarang = binding.tvBarangStock.text.toString().toInt()
-                    val ukuranBarang = binding.tvBarangSizes.text.toString()
+                toTransaksiFragment()
+            }
 
-                    val transaksiUpdated = Transaksi(
-                        id_transaksi = transaksiId!!,
-                        barang_id = barangId,
-                        jumlah_barang = jumlahBarang,
-                        total_harga_barang = totalHarga,
-                        user_id = userId,
-                        supplier_id = supplierId,
-                        bulan = bulanSaatIni,
-                        tanggal = tanggalSaatIni,
-                        tanggalAkhir = tanggalSekarang,
-                        status = transaksi.status,
-                        statusAkhir = 3,
-                    )
+            binding.btnBatal.setOnClickListener {
+
+                val namaBarang = binding.tvTransaksiName.text.toString()
+                val hargaBarang = binding.tvTransaksiHarga.text.toString().toInt()
+                val jumlahBarang = binding.tvTransaksiJumlah.text.toString().toInt()
+                val totalHarga = binding.tvTransaksiTotal.text.toString().toInt()
+                val kategoriBarang = binding.tvBarangCategory.text.toString()
+                val stokBarang = binding.tvBarangStock.text.toString().toInt()
+                val ukuranBarang = binding.tvBarangSizes.text.toString()
+
+                val transaksiUpdated = Transaksi(
+                    id_transaksi = transaksiId!!,
+                    barang_id = barangId,
+                    jumlah_barang = jumlahBarang,
+                    total_harga_barang = totalHarga,
+                    user_id = userId,
+                    supplier_id = supplierId,
+                    bulan = bulanSaatIni,
+                    tanggal = tanggalSaatIni,
+                    tanggalAkhir = tanggalSekarang,
+                    status = status!!,
+                    statusAkhir = 3,
+                )
+
+                val stokKembali = stokBarang + jumlahBarang
+                val barangUpdated = Barang(
+                    id_barang = barangId,
+                    nama_barang = namaBarang,
+                    kategori_barang = kategoriBarang,
+                    harga_barang = hargaBarang,
+                    stok_barang = stokKembali,
+                    ukuran_barang = ukuranBarang,
+                    supplier_id = supplierId,
+                )
+
+                if (networkHelper.isConnected()) {
+                    cekKoneksi = true
+                } else {
+                    AlertConnect()
+                }
+
+                if (cekKoneksi == true) {
 
                     transaksiViewModel.updateTransaksi(transaksiUpdated)
 
                     if (status == 1) {
-                        val stokKembali = stokBarang + jumlahBarang
-                        val barangUpdated = Barang(
-                            id_barang = barangId,
-                            nama_barang = namaBarang,
-                            kategori_barang = kategoriBarang,
-                            harga_barang = hargaBarang,
-                            stok_barang = stokKembali,
-                            ukuran_barang = ukuranBarang,
-                            supplier_id = supplierId,
-                        )
-
                         barangViewModel.update(barangUpdated)
                     }
 
                     toTransaksiFragment()
                 }
+            }
 
-                binding.btnHapus.setOnClickListener {
-                    transaksiViewModel.deleteTransaksi(
-                        Transaksi(
-                            id_transaksi = transaksiId!!,
-                            barang_id = 0,
-                            jumlah_barang = 0,
-                            total_harga_barang = 0,
-                            user_id = 0,
-                            supplier_id = 0,
-                            bulan = "",
-                            tanggal = "",
-                            tanggalAkhir = "",
-                            status = 0,
-                            statusAkhir = 0
-                        )
+            binding.btnHapus.setOnClickListener {
+                transaksiViewModel.deleteTransaksi(
+                    Transaksi(
+                        id_transaksi = transaksiId!!,
+                        barang_id = 0,
+                        jumlah_barang = 0,
+                        total_harga_barang = 0,
+                        user_id = 0,
+                        supplier_id = 0,
+                        bulan = "",
+                        tanggal = "",
+                        tanggalAkhir = "",
+                        status = 0,
+                        statusAkhir = 0
                     )
-                    toTransaksiFragment()
-                }
-
+                )
+                toTransaksiFragment()
             }
         }
 
         return binding.root
+    }
+
+    private fun AlertConnect() {
+        // Inflate custom layout
+        val dialogView = layoutInflater.inflate(R.layout.notifikasi_alert_dialog, null)
+
+        // Bangun AlertDialog
+        val alertDialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView) // Gunakan layout kustom
+            .setCancelable(false) // Tidak bisa ditutup kecuali klik tombol
+            .create()
+
+        // Atur aksi untuk tombol
+        dialogView.findViewById<Button>(R.id.btn_muat_ulang).setOnClickListener {
+            // Reload Activity untuk cek ulang koneksi
+            requireActivity().recreate()
+            alertDialog.dismiss()
+        }
+
+        dialogView.findViewById<Button>(R.id.btn_ya).setOnClickListener {
+            // lanjut ke act atau fragmnet yang dipilih
+            cekKoneksi = true
+        }
+
+        // Tampilkan AlertDialog
+        alertDialog.show()
     }
 
     private fun toTransaksiFragment() {

@@ -553,6 +553,7 @@
                     android:text="Hapus"
                     android:textColor="@color/white"
                     app:cornerRadius="8dp"
+                    app:elevation="8dp"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <com.google.android.material.button.MaterialButton
@@ -565,6 +566,7 @@
                     android:text="Batalkan Transaksi"
                     android:textColor="@color/white"
                     app:cornerRadius="8dp"
+                    app:elevation="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/btnHapus" />
 
