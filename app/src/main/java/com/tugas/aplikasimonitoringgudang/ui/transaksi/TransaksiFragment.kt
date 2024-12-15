@@ -23,14 +23,14 @@ class TransaksiFragment : Fragment() {
     private var _binding: FragmentTransaksiBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: AdapterTransaksi
-    private lateinit var viewModel: TransaksiViewModel
+    private lateinit var transaksiViewModel: TransaksiViewModel
     private lateinit var barangViewModel: BarangViewModel
     private lateinit var userViewModel: UserViewModel
     private lateinit var supplierViewModel: SupplierViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(TransaksiViewModel::class.java)
+        transaksiViewModel = ViewModelProvider(this).get(TransaksiViewModel::class.java)
         barangViewModel = ViewModelProvider(this).get(BarangViewModel::class.java)
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         supplierViewModel = ViewModelProvider(this).get(SupplierViewModel::class.java)
@@ -56,7 +56,7 @@ class TransaksiFragment : Fragment() {
         binding.recyclerViewTransaksi.layoutManager = LinearLayoutManager(requireContext())
 
         // Observasi data transaksi
-        viewModel.allTransaksi.observe(viewLifecycleOwner) { transaksiList ->
+        transaksiViewModel.allTransaksi.observe(viewLifecycleOwner) { transaksiList ->
             if (transaksiList.isNullOrEmpty()) {
                 binding.recyclerViewTransaksi.visibility = View.GONE
                 binding.infoDataKosong.visibility = View.VISIBLE
@@ -97,7 +97,7 @@ class TransaksiFragment : Fragment() {
     }
 
     private fun performSearch(searchText: String?) {
-        viewModel.allTransaksi.observe(viewLifecycleOwner) { transaksiList ->
+        transaksiViewModel.allTransaksi.observe(viewLifecycleOwner) { transaksiList ->
             if (!transaksiList.isNullOrEmpty()) {
                 val pencarian = mutableListOf<Transaksi>()
                 var totalBarangSelesai = 0
@@ -164,7 +164,7 @@ class TransaksiFragment : Fragment() {
 
     private fun onDetailClick(transaksi: Transaksi) {
         val bundle = Bundle().apply {
-            putInt("transaksiId", transaksi.id_transaksi ?: 0)
+            putLong("transaksiId", transaksi.id_transaksi ?: 0)
         }
         val detailFragment = DetailTransaksiFragment()
         detailFragment.arguments = bundle

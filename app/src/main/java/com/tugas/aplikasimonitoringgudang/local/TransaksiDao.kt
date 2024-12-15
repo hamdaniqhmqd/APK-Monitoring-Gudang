@@ -24,7 +24,7 @@ interface TransaksiDao {
     suspend fun getAllTransaksi(): List<Transaksi>
 
     @Query("SELECT * FROM transaksi_table WHERE id_transaksi = :id")
-    suspend fun getTransaksiById(id: Int): Transaksi
+    suspend fun getTransaksiById(id: Long): Transaksi
 
     //
 
