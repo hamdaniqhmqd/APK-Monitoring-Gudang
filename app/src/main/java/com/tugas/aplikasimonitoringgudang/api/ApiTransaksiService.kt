@@ -10,17 +10,17 @@ interface ApiTransaksiService {
     suspend fun getTransaksi(): TransaksiResponse
 
     @GET("/api/transaksi/{id}")
-    suspend fun getTransaksiById(@Path("id") id: Int): TransaksiResponseDetail
+    suspend fun getTransaksiById(@Path("id") id: Long): TransaksiResponseDetail
 
     @POST("/api/transaksi")
     suspend fun addTransaksi(@Body transaksi: Transaksi): TransaksiResponseDetail
 
     @PUT("/api/transaksi/{id}")
     suspend fun updateTransaksi(
-        @Path("id") id: Int,
+        @Path("id") id: Long,
         @Body transaksi: Transaksi
     ): TransaksiResponseDetail
 
     @DELETE("/api/transaksi/{id}")
-    suspend fun deleteTransaksi(@Path("id") id: Int): TransaksiResponseDetail
+    suspend fun deleteTransaksi(@Path("id") id: Long): TransaksiResponseDetail
 }

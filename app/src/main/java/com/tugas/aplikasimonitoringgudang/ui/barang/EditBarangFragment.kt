@@ -14,9 +14,8 @@ import com.tugas.aplikasimonitoringgudang.veiwModel.BarangViewModel
 
 class EditBarangFragment : Fragment() {
     private lateinit var barangViewModel: BarangViewModel
-    private var barangId: Int? = -1
-    private var supplierId: Int? = -1
-    private var supplierNama: String? = ""
+    private var barangId: Long? = 0
+    private var supplierId: Long? = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,8 +29,8 @@ class EditBarangFragment : Fragment() {
 
         barangViewModel = ViewModelProvider(this).get(BarangViewModel::class.java)
 
-        barangId = arguments?.getInt("barangId")
-        if (barangId != -1) {
+        barangId = arguments?.getLong("barangId")
+        if (barangId != 0.toLong()) {
             barangViewModel.getBarangById(barangId!!).observe(viewLifecycleOwner) { barang ->
                 if (barang != null) {
                     binding.namaBarang.setText(barang.nama_barang)
@@ -59,7 +58,7 @@ class EditBarangFragment : Fragment() {
             }
         }
 
-        supplierId = arguments?.getInt("supplierId")
+        supplierId = arguments?.getLong("supplierId")
 
         val kategori = binding.kategoriBarang
         val kategori_item = listOf("Dewasa", "Remaja", "Anak-Anak")

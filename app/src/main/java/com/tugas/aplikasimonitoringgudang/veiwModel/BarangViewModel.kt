@@ -39,7 +39,7 @@ class BarangViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     // Fungsi untuk mengambil detail barang berdasarkan ID
-    fun getBarangById(id: Int): LiveData<Barang> {
+    fun getBarangById(id: Long): LiveData<Barang> {
         val result = MutableLiveData<Barang>()
         viewModelScope.launch {
             try {
@@ -53,38 +53,13 @@ class BarangViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     // Fungsi untuk menambahkan barang dan transaksi
-//    fun insert(
-//        barang: Barang,
-//        transaksi: Transaksi,
-//        transaksiViewModel: TransaksiViewModel
-//    ) = viewModelScope.launch {
-//        // Insert barang dan dapatkan idBarang
-//        val idBarang = repository.insert(barang)
-//
-//        // Update transaksi dengan idBarang
-//        val updatedTransaksi = transaksi.copy(
-//            barang_id = idBarang.toInt()
-//        )
-//
-//        // Insert transaksi dengan idBarang yang diperbarui
-//        transaksiViewModel.insertTransaksi(updatedTransaksi)
-//    }
-
     fun insert(
-        barang: Barang, transaksi: Transaksi, transaksiViewModel: TransaksiViewModel
+        barang: Barang
     ) {
         viewModelScope.launch {
             try {
                 // Insert barang dan dapatkan idBarang
                 val idBarang = repository.insert(barang)
-
-                // Update transaksi dengan idBarang
-                val updatedTransaksi = transaksi.copy(
-                    barang_id = idBarang.toInt()
-                )
-
-                // Insert transaksi dengan idBarang yang diperbarui
-                transaksiViewModel.insertTransaksi(updatedTransaksi)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -116,7 +91,7 @@ class BarangViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     // Fungsi untuk mengambil semua barang
-    fun getAllBarangByIdSupplier(id: Int): LiveData<List<Barang>> {
+    fun getAllBarangByIdSupplier(id: Long): LiveData<List<Barang>> {
         val result = MutableLiveData<List<Barang>>()
         viewModelScope.launch {
             try {

@@ -36,7 +36,7 @@ class TransaksiViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     // Fungsi untuk mengambil detail transaksi berdasarkan ID
-    fun getTransaksiById(id: Int): LiveData<Transaksi> {
+    fun getTransaksiById(id: Long): LiveData<Transaksi> {
         val result = MutableLiveData<Transaksi>()
         viewModelScope.launch {
             try {

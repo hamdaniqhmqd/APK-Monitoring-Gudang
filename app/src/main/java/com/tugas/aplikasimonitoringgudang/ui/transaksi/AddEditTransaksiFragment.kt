@@ -27,7 +27,7 @@ class AddEditTransaksiFragment : Fragment() {
     private lateinit var barangViewModel: BarangViewModel
     private lateinit var supplierViewModel: SupplierViewModel
 
-    private var barangId: Int? = 0
+    private var barangId: Long? = null
     private var kategoriBarang: String? = ""
     private var stokBarang: Int? = 0
     private var ukuranBarang: String? = ""
@@ -35,7 +35,7 @@ class AddEditTransaksiFragment : Fragment() {
     private var totalHargaBarang: Int? = 0
     private var hargaBarang: Int? = 0
 
-    private var supplierId: Int? = 0
+    private var supplierId: Long? = null
 
     private val formatTanggal = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
     private val tanggalSaatIni = formatTanggal.format(Date())
@@ -69,8 +69,8 @@ class AddEditTransaksiFragment : Fragment() {
         supplierViewModel = ViewModelProvider(this).get(SupplierViewModel::class.java)
 
         // Ambil ID Barang dari argument
-        barangId = arguments?.getInt("barangId") ?: 0
-        if (barangId != 0) {
+        barangId = arguments?.getLong("barangId") ?: 0
+        if (barangId != null) {
             barangViewModel.getBarangById(barangId!!).observe(viewLifecycleOwner) { barang ->
                 binding.namaBarang.text = barang.nama_barang
                 kategoriBarang = barang.kategori_barang
@@ -110,8 +110,10 @@ class AddEditTransaksiFragment : Fragment() {
             val jumlahBarang = binding.jumlahBarang.text.toString().toInt()
             val totalHarga = binding.totalHargaBarang.text.toString().toInt()
             val sisa_stok = stokBarang!! - jumlahBarang
+            val id_transaksi: Long = System.currentTimeMillis()
 
             val transaksiUpdated = Transaksi(
+                id_transaksi = id_transaksi,
                 barang_id = barangId!!,
                 jumlah_barang = jumlahBarang,
                 total_harga_barang = totalHarga,

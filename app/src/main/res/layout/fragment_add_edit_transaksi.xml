@@ -178,9 +178,9 @@
                             android:backgroundTint="@color/putih"
                             android:fontFamily="@font/nunitoextrabold"
                             android:text="+"
-                            android:textColor="@color/black"
                             app:elevation="8dp"
-                            app:strokeColor="@color/black"
+                            android:textColor="@color/black"
+                            app:cornerRadius="6dp"
                             app:layout_constraintEnd_toEndOf="parent" />
 
                         <TextView

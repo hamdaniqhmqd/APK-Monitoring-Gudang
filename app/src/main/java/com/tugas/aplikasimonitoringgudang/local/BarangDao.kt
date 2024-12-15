@@ -7,7 +7,7 @@ import com.tugas.aplikasimonitoringgudang.data.barang.Barang
 @Dao
 interface BarangDao {
     @Insert
-    suspend fun insert(barang: Barang): Long
+    suspend fun insert(barang: Barang)
 
     @Update
     suspend fun update(vararg barang: Barang)
@@ -22,10 +22,10 @@ interface BarangDao {
     fun getAllBarang(): List<Barang>
 
     @Query("SELECT * FROM barang_table WHERE id_barang = :id")
-    fun getBarangById(id: Int): Barang
+    fun getBarangById(id: Long): Barang
 
     @Query("SELECT * FROM barang_table WHERE supplier_id = :supplierId ORDER BY supplier_id ASC")
-    fun getBarangByIdSuppler(supplierId: Int): List<Barang>
+    fun getBarangByIdSuppler(supplierId: Long): List<Barang>
 
 //    @Query("SELECT * FROM barang_table WHERE ")
 }

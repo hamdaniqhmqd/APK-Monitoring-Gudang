@@ -6,6 +6,7 @@ import com.tugas.aplikasimonitoringgudang.api.ApiTransaksiService
 import com.tugas.aplikasimonitoringgudang.api.NetworkHelper
 import com.tugas.aplikasimonitoringgudang.api.RetrofitInstanceGudangApi
 import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
+import com.tugas.aplikasimonitoringgudang.data.user.User
 import com.tugas.aplikasimonitoringgudang.local.TransaksiDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -17,70 +18,76 @@ class TransaksiRepository(
 ) {
     private val apiService: ApiTransaksiService = RetrofitInstanceGudangApi.apiTransaksiService
 
+    // Fungsi sinkronisasi insert data
     private suspend fun sinkronisasiDataTransaksiInsert(
         apiData: List<Transaksi>,
         localData: List<Transaksi>
     ) {
-        // Data yang hanya ada di API dan belum ada di lokal
-        val dataApi = apiData.filter { apiItem ->
-            localData.none { localItem -> localItem.id_transaksi == apiItem.id_transaksi }
+        // Sinkronisasi data dari API ke lokal
+        val dataApiToLocal = apiData.filter { apiItem ->
+            localData.none { it.id_transaksi == apiItem.id_transaksi }
         }
-        // Insert data baru dari API ke lokal
-        dataApi.forEach { transaksiDao.insert(it) }
+        dataApiToLocal.forEach { transaksiDao.insert(it) }
 
-//        // Data yang hanya ada di lokal dan belum ada di API
-//        val dataLokal = localData.filter { localItem ->
-//            apiData.none { apiItem -> apiItem.id_transaksi == localItem.id_transaksi }
-//        }
-//        // Insert data baru dari lokal ke API
-//        dataLokal.forEach {
-//            try {
-//                val response = apiService.addTransaksi(it)
-//                if (!response.success) {
-//                    throw Exception("Failed to sync local data to API: ${response.message}")
-//                }
-//            } catch (e: Exception) {
-//                // Log atau tangani error jika sinkronisasi ke API gagal
-//                e.printStackTrace()
-//            }
-//        }
+        // Sinkronisasi data dari lokal ke API
+        val dataLocalToApi = localData.filter { localItem ->
+            apiData.none { it.id_transaksi == localItem.id_transaksi }
+        }
+        dataLocalToApi.forEach { transaksi ->
+            try {
+                val response = apiService.addTransaksi(transaksi)
+                if (!response.success) {
+                    Log.e("MyAppError", "Gagal menambahkan transaksi ke API: ${response.message}")
+                }
+            } catch (e: Exception) {
+                Log.e("MyAppError", "Error saat menyinkronkan transaksi ke API: ${e.message}")
+            }
+        }
     }
 
-    private suspend fun sinkronisasiDataTransaksiUpdate (
+    // Fungsi sinkronisasi update data
+    private suspend fun sinkronisasiDataTransaksiUpdate(
         apiData: List<Transaksi>,
         localData: List<Transaksi>
     ) {
-        // Data yang ada di kedua sumber tetapi mungkin berbeda (harus di-update)
-        val dataApi = apiData.filter { apiItem ->
+        // Update data lokal berdasarkan data dari API jika ada perubahan
+        val updatedApiData = apiData.filter { apiItem ->
             localData.any { localItem ->
                 localItem.id_transaksi == apiItem.id_transaksi && localItem != apiItem
             }
         }
-        // Update data lokal jika ada perubahan dari API
-        dataApi.forEach { updatedItem ->
-            transaksiDao.update(updatedItem)
+        updatedApiData.forEach { transaksi ->
+            try {
+                transaksiDao.update(transaksi)
+                val response = apiService.updateTransaksi(transaksi.id_transaksi, transaksi)
+                if (!response.success) {
+                    Log.e("MyAppError", "Gagal memperbarui transaksi di API: ${response.message}")
+                }
+            } catch (e: Exception) {
+                Log.e("MyAppError", "Error saat memperbarui transaksi di API: ${e.message}")
+            }
         }
 
-//        // Update data API jika ada perubahan dari lokal
-//        val dataLocal = localData.filter { localItem ->
-//            apiData.any { apiItem ->
-//                apiItem.id_transaksi == localItem.id_transaksi && apiItem != localItem
-//            }
-//        }
-//        dataLocal.forEach {
-//            try {
-//                val response = apiService.updateTransaksi(it.id_transaksi, it)
-//                if (!response.success) {
-//                    throw Exception("Failed to update transaksi on API: ${response.message}")
-//                }
-//            } catch (e: Exception) {
-//                // Log atau tangani error jika update ke API gagal
-//                e.printStackTrace()
-//            }
-//        }
+        // Update data di API berdasarkan data dari lokal jika ada perubahan
+        val updatedLocalData = localData.filter { localItem ->
+            apiData.any { apiItem ->
+                apiItem.id_transaksi == localItem.id_transaksi && apiItem != localItem
+            }
+        }
+        updatedLocalData.forEach { transaksi ->
+            try {
+                transaksiDao.update(transaksi)
+                val response = apiService.updateTransaksi(transaksi.id_transaksi, transaksi)
+                if (!response.success) {
+                    Log.e("MyAppError", "Gagal memperbarui transaksi di API: ${response.message}")
+                }
+            } catch (e: Exception) {
+                Log.e("MyAppError", "Error saat memperbarui transaksi di API: ${e.message}")
+            }
+        }
     }
 
-    private suspend fun sinkronisasiDataTransaksiDelete (
+    private suspend fun sinkronisasiDataTransaksiDelete(
         apiData: List<Transaksi>,
         localData: List<Transaksi>
     ) {
@@ -125,7 +132,7 @@ class TransaksiRepository(
                         // Sinkronisasi data antara API ke lokal
                         sinkronisasiDataTransaksiInsert(apiData, localData)
                         sinkronisasiDataTransaksiUpdate(apiData, localData)
-                        sinkronisasiDataTransaksiDelete(apiData, localData)
+//                        sinkronisasiDataTransaksiDelete(apiData, localData)
                         // Mengembalikan data transaksi yang diterima dari API
                         return@withContext response.data
                     } else {
@@ -144,7 +151,7 @@ class TransaksiRepository(
     }
 
     // Fungsi untuk mengambil transaksi berdasarkan ID
-    suspend fun getTransaksiById(id: Int): Transaksi {
+    suspend fun getTransaksiById(id: Long): Transaksi {
         return withContext(Dispatchers.IO) {
             if (networkHelper.isConnected()) {
                 try {
@@ -197,7 +204,7 @@ class TransaksiRepository(
 
 
     // Fungsi untuk memperbarui transaksi
-    suspend fun updateTransaksi(id: Int, transaksi: Transaksi): Transaksi {
+    suspend fun updateTransaksi(id: Long, transaksi: Transaksi): Transaksi {
         return withContext(Dispatchers.IO) {
             if (networkHelper.isConnected()) {
                 try {

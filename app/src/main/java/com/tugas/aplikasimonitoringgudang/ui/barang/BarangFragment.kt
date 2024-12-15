@@ -100,8 +100,8 @@ class BarangFragment : Fragment() {
     private fun onDetailClick(barang: Barang) {
         // Navigasi ke CreateProductFragment dengan ID produk
         val bundle = Bundle().apply {
-            putInt("barangId", barang.id_barang ?: 0)
-            putInt("supplierId", barang.supplier_id ?: 0)
+            putLong("barangId", barang.id_barang ?: 0)
+            putLong("supplierId", barang.supplier_id ?: 0)
         }
         val detailFragment = DetailBarangFragment()
         detailFragment.arguments = bundle

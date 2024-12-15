@@ -66,7 +66,7 @@ class SupplierFragment : Fragment() {
 
     private fun onDetailClick(supplier: Supplier) {
         val bundle = Bundle().apply {
-            putInt("supplierId", supplier.id_supplier ?: 0)
+            putLong("supplierId", supplier.id_supplier)
         }
         val detailFragment = DetailSupplierFragment()
         detailFragment.arguments = bundle

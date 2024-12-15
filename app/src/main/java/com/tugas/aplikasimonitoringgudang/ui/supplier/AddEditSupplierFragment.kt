@@ -17,7 +17,7 @@ import com.tugas.aplikasimonitoringgudang.veiwModel.SupplierViewModel
 class AddEditSupplierFragment : Fragment() {
 
     private lateinit var viewModel: SupplierViewModel
-    private var supplierId: Int? = null
+    private var supplierId: Long? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +32,7 @@ class AddEditSupplierFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(SupplierViewModel::class.java)
 
-        supplierId = arguments?.getInt("supplierId")
+        supplierId = arguments?.getLong("supplierId")
         if (supplierId != null) {
             viewModel.getSupplierById(supplierId!!).observe(viewLifecycleOwner) { supplier ->
                 binding.etNamaSupplier.setText(supplier.nama_supplier)
@@ -45,6 +45,7 @@ class AddEditSupplierFragment : Fragment() {
             val nama = binding.etNamaSupplier.text.toString()
             val no_hp = binding.etNoHp.text.toString()
             val nik = binding.etNIK.text.toString()
+            val id_supplier: Long = System.currentTimeMillis()
 
             if (supplierId != null) {
                 viewModel.update(
@@ -58,6 +59,7 @@ class AddEditSupplierFragment : Fragment() {
             } else {
                 viewModel.insert(
                     Supplier(
+                        id_supplier = id_supplier,
                         nama_supplier = nama,
                         no_hp_supplier = no_hp,
                         nik_supplier = nik

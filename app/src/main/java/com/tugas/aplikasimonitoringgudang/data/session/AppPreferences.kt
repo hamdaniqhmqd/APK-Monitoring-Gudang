@@ -17,12 +17,12 @@ object AppPreferences {
     }
 
     // Menyimpan User ID
-    fun setUserId(userId: Int) {
-        preferences.edit().putInt(KEY_USER_ID, userId).apply()
+    fun setUserId(userId: Long) {
+        preferences.edit().putLong(KEY_USER_ID, userId).apply()
     }
 
-    fun getUserId(): Int {
-        return preferences.getInt(KEY_USER_ID, -1) // Default -1 jika tidak ada
+    fun getUserId(): Long {
+        return preferences.getLong(KEY_USER_ID, -1) // Default -1 jika tidak ada
     }
 
     // Menyimpan Username

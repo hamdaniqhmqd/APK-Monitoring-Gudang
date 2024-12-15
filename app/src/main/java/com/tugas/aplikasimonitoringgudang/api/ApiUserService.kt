@@ -12,7 +12,7 @@ interface ApiUserService {
     suspend fun getAllAdmins(): UserResponse
 
     @GET("/api/admin/{id}")
-    suspend fun getAdminById(@Path("id") id: Int): UserResponseDetail
+    suspend fun getAdminById(@Path("id") id: Long): UserResponseDetail
 
     @POST("/api/admin")
     suspend fun createAdmin(
@@ -22,7 +22,7 @@ interface ApiUserService {
     @Multipart
     @POST("/api/admin/{id}")
     suspend fun updateAdmin(
-        @Path("id") id: Int,
+        @Path("id") id: Long,
         @Part("username") username: RequestBody,
         @Part("password") password: RequestBody,
         @Part("adminName") adminName: RequestBody,
@@ -31,7 +31,7 @@ interface ApiUserService {
     ): UserResponseDetail
 
     @DELETE("/api/admin/{id}")
-    suspend fun deleteAdmin(@Path("id") id: Int): UserResponseDetail
+    suspend fun deleteAdmin(@Path("id") id: Long): UserResponseDetail
 
     @POST("/api/login")
     suspend fun loginAdmin(@Body user: User): UserResponseDetail

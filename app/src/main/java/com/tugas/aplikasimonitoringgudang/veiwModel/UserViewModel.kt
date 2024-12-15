@@ -78,7 +78,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun getUserById(id: Int): LiveData<User> {
+    fun getUserById(id: Long): LiveData<User> {
         val result = MutableLiveData<User>()
         viewModelScope.launch {
             try {

@@ -1,7 +1,6 @@
 package com.tugas.aplikasimonitoringgudang.ui.transaksi
 
 import android.os.Bundle
-import android.text.BoringLayout
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +14,6 @@ import com.tugas.aplikasimonitoringgudang.api.NetworkHelper
 import com.tugas.aplikasimonitoringgudang.data.barang.Barang
 import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentDetailTransaksiBinding
-import com.tugas.aplikasimonitoringgudang.databinding.FragmentTransaksiBinding
 import com.tugas.aplikasimonitoringgudang.ui.MainActivity
 import com.tugas.aplikasimonitoringgudang.veiwModel.UserViewModel
 import com.tugas.aplikasimonitoringgudang.veiwModel.BarangViewModel
@@ -30,17 +28,17 @@ class DetailTransaksiFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var transaksiViewModel: TransaksiViewModel
-    private var transaksiId: Int? = null
+    private var transaksiId: Long? = null
     private var status: Int? = 0
 
     private lateinit var supplierViewModel: SupplierViewModel
-    private var supplierId: Int = 0
+    private var supplierId: Long = 0
 
     private lateinit var barangViewModel: BarangViewModel
-    private var barangId: Int = 0
+    private var barangId: Long = 0
 
     private lateinit var userViewModel: UserViewModel
-    private var userId: Int = 0
+    private var userId: Long = 0
 
     private var tanggalSaatIni = ""
     private var bulanSaatIni = ""
@@ -67,7 +65,7 @@ class DetailTransaksiFragment : Fragment() {
 
         val networkHelper = NetworkHelper(requireContext())
 
-        transaksiId = arguments?.getInt("transaksiId")
+        transaksiId = arguments?.getLong("transaksiId")
         transaksiId?.let { id ->
             transaksiViewModel.getTransaksiById(id).observe(viewLifecycleOwner) { transaksi ->
                 // Set data Barang sesuai id barang, supplier  di transaksi

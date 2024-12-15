@@ -23,9 +23,7 @@ class AddEditBarangFragment : Fragment() {
     private lateinit var transaksiViewModel: TransaksiViewModel
     private lateinit var barangViewModel: BarangViewModel
     private lateinit var viewModel: SupplierViewModel
-    private var barangId: Int = 0
-    private var supplierId: Int? = 0
-    private var supplierNama: String? = ""
+    private var supplierId: Long? = 0
 
     private val formatTanggal = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
     private val tanggalSaatIni = formatTanggal.format(Date())
@@ -52,8 +50,7 @@ class AddEditBarangFragment : Fragment() {
         barangViewModel = ViewModelProvider(this).get(BarangViewModel::class.java)
         viewModel = ViewModelProvider(this).get(SupplierViewModel::class.java)
 
-        supplierId = arguments?.getInt("supplierId")
-        supplierNama = arguments?.getString("supplierNama")
+        supplierId = arguments?.getLong("supplierId")
 
         val kategori = binding.kategoriBarang
         val kategori_item = listOf("Dewasa", "Remaja", "Anak-Anak")
@@ -76,33 +73,35 @@ class AddEditBarangFragment : Fragment() {
             val stok = binding.stokBarang.text.toString().toInt()
             val ukuran = binding.ukuranBarang.selectedItem.toString()
             val totalHarga = harga * stok
+            val id_barang: Long = System.currentTimeMillis()
+            val id_transaksi: Long = System.currentTimeMillis()
 
-            barangViewModel.insert(
-                barang = Barang(
-                    nama_barang = nama,
-                    kategori_barang = kategori,
-                    harga_barang = harga,
-                    stok_barang = stok,
-                    ukuran_barang = ukuran,
-                    supplier_id = supplierId!!,
-//                    supplier_nama = supplierNama!!
-                ),
-                transaksi = Transaksi(
-                    id_transaksi = 0, // ID transaksi auto-generate
-                    barang_id = 0, // Placeholder, akan diperbarui
-                    jumlah_barang = stok,
-                    total_harga_barang = totalHarga,
-                    user_id = user_id,
-                    supplier_id = supplierId!!,
-                    bulan = bulanSaatIni,
-                    tanggal = tanggalSaatIni,
-                    tanggalAkhir = tanggalSaatIni,
-                    status = 2,
-                    created_at = "",
-                    updated_at = ""
-                ),
-                transaksiViewModel = transaksiViewModel
+            val barang = Barang(
+                id_barang = id_barang,
+                nama_barang = nama,
+                kategori_barang = kategori,
+                harga_barang = harga,
+                stok_barang = stok,
+                ukuran_barang = ukuran,
+                supplier_id = supplierId!!,
             )
+            barangViewModel.insert(barang)
+
+            val transaksi = Transaksi(
+                id_transaksi = id_transaksi, // ID transaksi auto-generate
+                barang_id = id_barang, // Placeholder, akan diperbarui
+                jumlah_barang = stok,
+                total_harga_barang = totalHarga,
+                user_id = user_id,
+                supplier_id = supplierId!!,
+                bulan = bulanSaatIni,
+                tanggal = tanggalSaatIni,
+                tanggalAkhir = tanggalSaatIni,
+                status = 2,
+                created_at = "",
+                updated_at = ""
+            )
+            transaksiViewModel.insertTransaksi(transaksi)
 
             toBarangFragment()
         }
