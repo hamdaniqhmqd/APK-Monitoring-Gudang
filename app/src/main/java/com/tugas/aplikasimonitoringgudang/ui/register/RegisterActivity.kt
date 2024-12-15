@@ -56,9 +56,10 @@ class RegisterActivity : AppCompatActivity() {
         val username = binding.inputUser.text.toString()
         val password = binding.inputPass.text.toString()
         val repeatPassword = binding.inputRepeatPass.text.toString()
+        val id_user: Long = System.currentTimeMillis()
 
         if (password == repeatPassword) {
-            viewModelUser.insert(User(username = username, password = password, adminName = username))
+            viewModelUser.insert(User(id = id_user, username = username, password = password, adminName = username))
             Toast.makeText(this, "Register successful", Toast.LENGTH_SHORT).show()
             intentLoginAct()
         } else {

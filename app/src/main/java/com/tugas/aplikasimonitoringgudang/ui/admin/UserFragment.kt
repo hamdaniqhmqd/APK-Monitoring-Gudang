@@ -17,7 +17,7 @@ class UserFragment : Fragment() {
     private lateinit var userViewModel: UserViewModel
     private var _binding: FragmentUserBinding? = null
     private val binding get() = _binding!!
-    private var user_id: Int = 0
+    private var user_id: Long = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +37,7 @@ class UserFragment : Fragment() {
 
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
-        userViewModel.sinkronisasiDataUser()
+//        userViewModel.sinkronisasiDataUser()
 
         user_id?.let { id ->
             userViewModel.getUserById(id).observe(viewLifecycleOwner) { user ->

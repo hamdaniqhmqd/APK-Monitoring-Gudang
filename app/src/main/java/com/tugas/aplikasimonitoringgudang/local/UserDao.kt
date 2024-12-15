@@ -25,7 +25,7 @@ interface UserDao {
     suspend fun getUser(username: String, password: String): User?
 
     @Query("SELECT * FROM user_table WHERE id = :id")
-    suspend fun getUserById(id: Int): User
+    suspend fun getUserById(id: Long): User
 
     @Query("SELECT * FROM user_table ORDER BY id ASC")
     suspend fun getAllUser(): List<User>

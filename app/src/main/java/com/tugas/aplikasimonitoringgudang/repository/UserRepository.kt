@@ -24,91 +24,28 @@ class UserRepository(
         apiData: List<User>,
         localData: List<User>
     ) {
-        // Data yang hanya ada di API dan belum ada di lokal
-        val dataApi = apiData.filter { apiItem ->
+        // Sinkronisasi data dari API ke lokal (insert data API yang tidak ada di lokal)
+        val dataApiToLocal = apiData.filter { apiItem ->
             localData.none { localItem -> localItem.id == apiItem.id }
         }
-        // Insert data baru dari API ke lokal
-        dataApi.forEach { userDao.insert(it) }
+        dataApiToLocal.forEach { userDao.insert(it) }
 
-//        // Data yang hanya ada di lokal dan belum ada di API
-//        val dataLokal = localData.filter { localItem ->
-//            apiData.none { apiItem -> apiItem.id == localItem.id }
-//        }
-//        // Insert data baru dari lokal ke API
-//        dataLokal.forEach {
-//            try {
-//                val response = apiService.createAdmin(it)
-//                if (!response.success) {
-//                    throw Exception("Failed to sync local data to API: ${response.message}")
-//                }
-//            } catch (e: Exception) {
-//                // Log atau tangani error jika sinkronisasi ke API gagal
-//                e.printStackTrace()
-//            }
-//        }
-    }
-
-    private suspend fun sinkronisasiDataUserUpdate(
-        apiData: List<User>,
-        localData: List<User>
-    ) {
-        // Data yang ada di lokal tetapi sudah tidak ada di API
-        val dataLocal = localData.filter { localItem ->
-            apiData.none { apiItem -> apiItem.id == localItem.id  && localItem != apiItem}
-        }
-        // Hapus data dari lokal
-        dataLocal.forEach {
-            userDao.update(it)
-        }
-
-//        // Data yang hanya ada di lokal dan belum ada di API
-//        val dataLokal = localData.filter { localItem ->
-//            apiData.none { apiItem -> apiItem.id == localItem.id }
-//        }
-//        // Insert data baru dari lokal ke API
-//        dataLokal.forEach {
-//            try {
-//                val response = apiService.createAdmin(it)
-//                if (!response.success) {
-//                    throw Exception("Failed to sync local data to API: ${response.message}")
-//                }
-//            } catch (e: Exception) {
-//                // Log atau tangani error jika sinkronisasi ke API gagal
-//                e.printStackTrace()
-//            }
-//        }
-    }
-
-    private suspend fun sinkronisasiDataUserDelete(
-        apiData: List<User>,
-        localData: List<User>
-    ) {
-        // Data yang ada di lokal tetapi sudah tidak ada di API
-        val dataLocal = localData.filter { localItem ->
+        // Sinkronisasi data dari lokal ke API (insert data lokal yang tidak ada di API)
+        val dataLocalToApi = localData.filter { localItem ->
             apiData.none { apiItem -> apiItem.id == localItem.id }
         }
-        // Hapus data dari lokal
-        dataLocal.forEach {
-            userDao.delete(it)
+        dataLocalToApi.forEach { user ->
+            try {
+                val response = apiService.createAdmin(user)
+                if (!response.success) {
+                    Log.e("MyAppError", "Failed to sync local data to API: ${response.message}")
+                    throw Exception("Failed to sync local data to API: ${response.message}")
+                }
+            } catch (e: Exception) {
+                // Log atau tangani error jika sinkronisasi ke API gagal
+                Log.e("MyAppError", "Error saat sinkronisasi user ke API: ${e.message}")
+            }
         }
-
-//        // Data yang hanya ada di lokal dan belum ada di API
-//        val dataLokal = localData.filter { localItem ->
-//            apiData.none { apiItem -> apiItem.id == localItem.id }
-//        }
-//        // Insert data baru dari lokal ke API
-//        dataLokal.forEach {
-//            try {
-//                val response = apiService.createAdmin(it)
-//                if (!response.success) {
-//                    throw Exception("Failed to sync local data to API: ${response.message}")
-//                }
-//            } catch (e: Exception) {
-//                // Log atau tangani error jika sinkronisasi ke API gagal
-//                e.printStackTrace()
-//            }
-//        }
     }
 
     suspend fun sinkronisasiDataUser(): List<User> {
@@ -122,8 +59,6 @@ class UserRepository(
 
                         // Sinkronisasi data antara API ke lokal
                         sinkronisasiDataUserInsert(apiData, localData)
-                        sinkronisasiDataUserUpdate(apiData, localData)
-                        sinkronisasiDataUserDelete(apiData, localData)
                         // Mengembalikan data transaksi yang diterima dari API
                         return@withContext response.data
                     } else {
@@ -163,8 +98,6 @@ class UserRepository(
         }
     }
 
-
-
     // Metode CRUD lainnya...
     suspend fun insert(user: User): User {
         return withContext(Dispatchers.IO) {
@@ -195,7 +128,8 @@ class UserRepository(
                 try {
                     val usernameBody = user.username.toRequestBody("text/plain".toMediaTypeOrNull())
                     val passwordBody = user.password.toRequestBody("text/plain".toMediaTypeOrNull())
-                    val adminNameBody = user.adminName.toRequestBody("text/plain".toMediaTypeOrNull())
+                    val adminNameBody =
+                        user.adminName.toRequestBody("text/plain".toMediaTypeOrNull())
                     val requestMethod = "PUT".toRequestBody("text/plain".toMediaTypeOrNull())
 
                     val response = apiService.updateAdmin(
@@ -244,10 +178,11 @@ class UserRepository(
         }
     }
 
-    suspend fun getUserById(id: Int): User {
+    suspend fun getUserById(id: Long): User {
         return withContext(Dispatchers.IO) {
             if (networkHelper.isConnected()) {
                 try {
+                    sinkronisasiDataUser()
                     val response = apiService.getAdminById(id)
                     if (response.success) {
                         return@withContext response.data
