@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.tugas.aplikasimonitoringgudang.R
 import com.tugas.aplikasimonitoringgudang.api.NetworkHelper
 import com.tugas.aplikasimonitoringgudang.data.barang.Barang
+import com.tugas.aplikasimonitoringgudang.data.supplier.Supplier
 import com.tugas.aplikasimonitoringgudang.data.transaksi.Transaksi
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentDetailTransaksiBinding
 import com.tugas.aplikasimonitoringgudang.ui.MainActivity
@@ -211,22 +212,40 @@ class DetailTransaksiFragment : Fragment() {
             }
 
             binding.btnHapus.setOnClickListener {
-                transaksiViewModel.deleteTransaksi(
-                    Transaksi(
-                        id_transaksi = transaksiId!!,
-                        barang_id = 0,
-                        jumlah_barang = 0,
-                        total_harga_barang = 0,
-                        user_id = 0,
-                        supplier_id = 0,
-                        bulan = "",
-                        tanggal = "",
-                        tanggalAkhir = "",
-                        status = 0,
-                        statusAkhir = 0
+                // Membuat alert dialog untuk konfirmasi hapus
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setTitle("Konfirmasi Hapus")
+                builder.setMessage("Apakah Anda yakin ingin menghapus supplier ini?")
+
+                // Tombol untuk membatalkan
+                builder.setNegativeButton("Batal") { dialog, _ ->
+                    dialog.dismiss() // Menutup dialog jika dibatalkan
+                }
+
+                // Tombol untuk menghapus
+                builder.setPositiveButton("Hapus") { dialog, _ ->
+                    // Melakukan aksi hapus jika user memilih "Hapus"
+                    transaksiViewModel.deleteTransaksi(
+                        Transaksi(
+                            id_transaksi = transaksiId!!,
+                            barang_id = 0,
+                            jumlah_barang = 0,
+                            total_harga_barang = 0,
+                            user_id = 0,
+                            supplier_id = 0,
+                            bulan = "",
+                            tanggal = "",
+                            tanggalAkhir = "",
+                            status = 0,
+                            statusAkhir = 0
+                        )
                     )
-                )
-                toTransaksiFragment()
+                    toTransaksiFragment()
+                    dialog.dismiss()
+                }
+
+                // Menampilkan dialog
+                builder.create().show()
             }
         }
 
