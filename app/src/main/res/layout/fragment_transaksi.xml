@@ -54,7 +54,6 @@
                     android:queryHint="Pencarian"
                     app:iconifiedByDefault="false"
                     android:layout_marginHorizontal="24dp"
-                    android:textColor="@color/black"
                     android:textSize="16sp"
                     android:background="@drawable/rounded_input"
                     android:fontFamily="@font/nunitosemibold"
