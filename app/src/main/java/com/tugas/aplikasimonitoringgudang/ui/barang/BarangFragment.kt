@@ -1,15 +1,14 @@
 package com.tugas.aplikasimonitoringgudang.ui.barang
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
+import android.widget.EditText
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.tugas.aplikasimonitoringgudang.R
 import com.tugas.aplikasimonitoringgudang.adapter.AdapterBarang
 import com.tugas.aplikasimonitoringgudang.data.barang.Barang
@@ -18,11 +17,8 @@ import com.tugas.aplikasimonitoringgudang.veiwModel.BarangViewModel
 
 class BarangFragment : Fragment() {
     private var _binding: FragmentBarangBinding? = null
-
     private val binding get() = _binding!!
-
-    private lateinit var Adapter: AdapterBarang
-
+    private lateinit var adapter: AdapterBarang
     private lateinit var viewModel: BarangViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,15 +29,14 @@ class BarangFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentBarangBinding.inflate(inflater, container, false)
 
-        Adapter = AdapterBarang() { barang ->
+        adapter = AdapterBarang { barang ->
             onDetailClick(barang)
         }
 
-        binding.recyclerViewBarang.adapter = Adapter
-
+        binding.recyclerViewBarang.adapter = adapter
         binding.recyclerViewBarang.apply {
             layoutManager = GridLayoutManager(requireContext(), 2).apply {
                 spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
@@ -56,22 +51,69 @@ class BarangFragment : Fragment() {
             }
         }
 
-        viewModel.allBarang.observe(viewLifecycleOwner) { barang ->
-            barang?.let {
-                setHeader(it)
+        viewModel.allBarang.observe(viewLifecycleOwner) { barangList ->
+            if (barangList.isNullOrEmpty()) {
+                binding.recyclerViewBarang.visibility = View.GONE
+                binding.infoDataKosong.visibility = View.VISIBLE
+            } else {
+                binding.recyclerViewBarang.visibility = View.VISIBLE
+                binding.infoDataKosong.visibility = View.GONE
+                setHeader(barangList)
             }
         }
+
+        setupSearch()
 
         return binding.root
     }
 
-    fun setHeader(barangList: List<Barang>) {
-        val data: MutableList<Any> = mutableListOf()
-        data.clear()
+    private fun setupSearch() {
+        val searchEditText = binding.inputSearch.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
 
-        val sortedMap = barangList.sortedBy { barang ->
-            barang.kategori_barang
+        searchEditText.setOnFocusChangeListener { _, hasFocus ->
+            binding.label.visibility = if (hasFocus) View.GONE else View.VISIBLE
         }
+
+        binding.inputSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(searchText: String?): Boolean {
+                performSearch(searchText)
+                return true
+            }
+        })
+    }
+
+    private fun performSearch(searchText: String?) {
+        viewModel.allBarang.value?.let { barangList ->
+            val filteredList = if (searchText.isNullOrBlank()) {
+                barangList
+            } else {
+                barangList.filter { barang ->
+                    barang.kategori_barang.contains(searchText, ignoreCase = true) ||
+                            barang.nama_barang.contains(searchText, ignoreCase = true)
+                }
+            }
+            updateRecyclerView(filteredList)
+        }
+    }
+
+    private fun updateRecyclerView(barangList: List<Barang>) {
+        if (barangList.isEmpty()) {
+            binding.recyclerViewBarang.visibility = View.GONE
+            binding.infoDataKosong.visibility = View.VISIBLE
+        } else {
+            binding.recyclerViewBarang.visibility = View.VISIBLE
+            binding.infoDataKosong.visibility = View.GONE
+            setHeader(barangList)
+        }
+    }
+
+    private fun setHeader(barangList: List<Barang>) {
+        val data: MutableList<Any> = mutableListOf()
+        val sortedMap = barangList.sortedBy { it.kategori_barang }
 
         if (sortedMap.isNotEmpty()) {
             var dataKategori = sortedMap[0].kategori_barang
@@ -85,20 +127,10 @@ class BarangFragment : Fragment() {
             }
         }
 
-        Adapter.submitList(data)
+        adapter.submitList(data)
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//    }
 
     private fun onDetailClick(barang: Barang) {
-        // Navigasi ke CreateProductFragment dengan ID produk
         val bundle = Bundle().apply {
             putLong("barangId", barang.id_barang ?: 0)
             putLong("supplierId", barang.supplier_id ?: 0)
@@ -110,5 +142,10 @@ class BarangFragment : Fragment() {
             .replace(R.id.FragmentMenu, detailFragment)
             .addToBackStack(null)
             .commit()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
