@@ -10,20 +10,20 @@ interface ApiBarangService {
     suspend fun getBarang(): BarangResponse
 
     @GET("/api/barang/{id}")
-    suspend fun getBarangById(@Path("id") id: Int): BarangResponseDetail
+    suspend fun getBarangById(@Path("id") id: Long): BarangResponseDetail
 
     @POST("/api/barang")
     suspend fun addBarang(@Body barang: Barang): BarangResponseDetail
 
     @PUT("/api/barang/{id}")
     suspend fun updateBarang(
-        @Path("id") id: Int,
+        @Path("id") id: Long,
         @Body barang: Barang
     ): BarangResponseDetail
 
     @DELETE("/api/barang/{id}")
-    suspend fun deleteBarang(@Path("id") id: Int): BarangResponseDetail
+    suspend fun deleteBarang(@Path("id") id: Long): BarangResponseDetail
 
     @GET("/barang/supplier/{id}")
-    suspend fun getBarangByIdSupplier(@Path("id") id: Int): BarangResponse
+    suspend fun getBarangByIdSupplier(@Path("id") id: Long): BarangResponse
 }

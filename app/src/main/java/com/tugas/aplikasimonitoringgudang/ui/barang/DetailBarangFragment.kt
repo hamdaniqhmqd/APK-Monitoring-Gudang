@@ -19,10 +19,10 @@ class DetailBarangFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var barangViewModel: BarangViewModel
-    private var barangId: Int? = null
+    private var barangId: Long? = null
 
     private lateinit var viewModel: SupplierViewModel
-    private var supplierId: Int? = null
+    private var supplierId: Long? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,8 +33,8 @@ class DetailBarangFragment : Fragment() {
         barangViewModel = ViewModelProvider(this).get(BarangViewModel::class.java)
         viewModel = ViewModelProvider(this).get(SupplierViewModel::class.java)
 
-        barangId = arguments?.getInt("barangId")
-        supplierId = arguments?.getInt("supplierId")
+        barangId = arguments?.getLong("barangId")
+        supplierId = arguments?.getLong("supplierId")
 
         setupBarangDetails()
         setupSupplierDetails()
@@ -97,9 +97,9 @@ class DetailBarangFragment : Fragment() {
         }
     }
 
-    private fun onEditClick(idBarang: Int) {
+    private fun onEditClick(idBarang: Long) {
         val bundle = Bundle().apply {
-            putInt("barangId", idBarang)
+            putLong("barangId", idBarang)
         }
         val addEditFragment = EditBarangFragment()
         addEditFragment.arguments = bundle
@@ -117,10 +117,10 @@ class DetailBarangFragment : Fragment() {
             .commit()
     }
 
-    private fun onAddTransaksiClick(idBarang: Int, idSupplier: Int) {
+    private fun onAddTransaksiClick(idBarang: Long, idSupplier: Long) {
         val bundle = Bundle().apply {
-            putInt("barangId", idBarang)
-            putInt("supplierId", idSupplier)
+            putLong("barangId", idBarang)
+            putLong("supplierId", idSupplier)
         }
         val addEditTransaksiFragment = AddEditTransaksiFragment()
         addEditTransaksiFragment.arguments = bundle

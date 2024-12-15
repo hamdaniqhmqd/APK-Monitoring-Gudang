@@ -1,5 +1,7 @@
 package com.tugas.aplikasimonitoringgudang.repository
+
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -24,32 +26,69 @@ class BarangRepository(
         apiData: List<Barang>,
         localData: List<Barang>
     ) {
-        val dataApi = apiData.filter { apiItem ->
-            localData.none { localItem -> localItem.id_barang == apiItem.id_barang }
+        // Sinkronisasi data dari API ke lokal
+        val dataApiToLocal = apiData.filter { apiItem ->
+            localData.none { it.id_barang == apiItem.id_barang }
         }
-        dataApi.forEach { barangInsert -> barangDao.insert(barangInsert) }
+        dataApiToLocal.forEach { barang ->
+            barangDao.insert(barang)
+        }
+
+        // Sinkronisasi data dari lokal ke API
+        val dataLocalToApi = localData.filter { localItem ->
+            apiData.none { it.id_barang == localItem.id_barang }
+        }
+        dataLocalToApi.forEach { barang ->
+            try {
+                val response = apiService.addBarang(barang)
+                if (!response.success) {
+                    Log.e("MyAppError", "Gagal menambahkan barang ke API: ${response.message}")
+                }
+            } catch (e: Exception) {
+                Log.e("MyAppError", "Error saat menyinkronkan barang ke API: ${e.message}")
+            }
+        }
     }
 
     private suspend fun sinkronisasiDataBarangUpdate(
         apiData: List<Barang>,
         localData: List<Barang>
     ) {
-        val dataApi = apiData.filter { apiItem ->
+        // Update data lokal berdasarkan data dari API jika ada perubahan
+        val updatedApiToLocal = apiData.filter { apiItem ->
             localData.any { localItem ->
                 localItem.id_barang == apiItem.id_barang && localItem != apiItem
             }
         }
-        dataApi.forEach { updatedItem -> barangDao.update(updatedItem) }
-    }
-
-    private suspend fun sinkronisasiDataBarangDelete(
-        apiData: List<Barang>,
-        localData: List<Barang>
-    ) {
-        val dataLocal = localData.filter { localItem ->
-            apiData.none { apiItem -> apiItem.id_barang == localItem.id_barang }
+        updatedApiToLocal.forEach { barang ->
+            try {
+                barangDao.update(barang)
+                val response = apiService.updateBarang(barang.id_barang, barang)
+                if (!response.success) {
+                    Log.e("MyAppError", "Gagal memperbarui barang di API: ${response.message}")
+                }
+            } catch (e: Exception) {
+                Log.e("MyAppError", "Error saat memperbarui barang di API: ${e.message}")
+            }
         }
-        dataLocal.forEach { barangDelete -> barangDao.delete(barangDelete) }
+
+        // Update data di API berdasarkan data dari lokal jika ada perubahan
+        val updatedLocalToApi = localData.filter { localItem ->
+            apiData.any { apiItem ->
+                apiItem.id_barang == localItem.id_barang && apiItem != localItem
+            }
+        }
+        updatedLocalToApi.forEach { barang ->
+            try {
+                barangDao.update(barang)
+                val response = apiService.updateBarang(barang.id_barang, barang)
+                if (!response.success) {
+                    Log.e("MyAppError", "Gagal memperbarui barang di API: ${response.message}")
+                }
+            } catch (e: Exception) {
+                Log.e("MyAppError", "Error saat memperbarui barang di API: ${e.message}")
+            }
+        }
     }
 
     suspend fun getAllBarang(): List<Barang> {
@@ -64,7 +103,7 @@ class BarangRepository(
                         // Sinkronisasi data
                         sinkronisasiDataBarangInsert(apiData, localData)
                         sinkronisasiDataBarangUpdate(apiData, localData)
-                        sinkronisasiDataBarangDelete(apiData, localData)
+//                        sinkronisasiDataBarangDelete(apiData, localData)
                         return@withContext apiData
                     } else {
                         throw Exception("Failed to fetch barang list: ${response.message}")
@@ -80,7 +119,7 @@ class BarangRepository(
         }
     }
 
-    suspend fun getBarangById(id: Int): Barang {
+    suspend fun getBarangById(id: Long): Barang {
         return withContext(Dispatchers.IO) {
             if (networkHelper.isConnected()) {
                 try {
@@ -101,29 +140,29 @@ class BarangRepository(
         }
     }
 
-    suspend fun insert(barang: Barang): Long {
+    suspend fun insert(barang: Barang): Barang {
         return withContext(Dispatchers.IO) {
             if (networkHelper.isConnected()) {
                 try {
                     val response = apiService.addBarang(barang)
                     if (response.success) {
-                        barangDao.insert(response.data)
-                        return@withContext response.data.id_barang.toLong() // Mengembalikan ID barang sebagai Long
+
+                        return@withContext response.data // Mengembalikan ID barang sebagai Long
                     } else {
                         throw Exception("Failed to add barang: ${response.message}")
                     }
                 } catch (e: Exception) {
-                    val id = barangDao.insert(barang)
-                    id // Mengembalikan ID barang sebagai Long
+                    barangDao.insert(barang)
+                    barang // Mengembalikan ID barang sebagai Long
                 }
             } else {
-                val id = barangDao.insert(barang)
-                id // Mengembalikan ID barang sebagai Long
+                barangDao.insert(barang)
+                barang // Mengembalikan ID barang sebagai Long
             }
         }
     }
 
-    suspend fun update(id: Int, barang: Barang): Barang {
+    suspend fun update(id: Long, barang: Barang): Barang {
         return withContext(Dispatchers.IO) {
             if (networkHelper.isConnected()) {
                 try {
@@ -164,7 +203,7 @@ class BarangRepository(
         }
     }
 
-    suspend fun getBarangBySupplierId(supplierId: Int): List<Barang> {
+    suspend fun getBarangBySupplierId(supplierId: Long): List<Barang> {
         return withContext(Dispatchers.IO) {
             if (networkHelper.isConnected()) {
                 try {
