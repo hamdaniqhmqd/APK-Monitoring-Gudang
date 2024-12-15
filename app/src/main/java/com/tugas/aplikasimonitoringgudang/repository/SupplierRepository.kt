@@ -1,5 +1,6 @@
 package com.tugas.aplikasimonitoringgudang.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.tugas.aplikasimonitoringgudang.api.ApiSupplierService
 import com.tugas.aplikasimonitoringgudang.api.NetworkHelper
@@ -19,27 +20,67 @@ class SupplierRepository(
         apiData: List<Supplier>,
         localData: List<Supplier>
     ) {
-        // Data yang hanya ada di API dan belum ada di lokal
-        val dataApi = apiData.filter { apiItem ->
-            localData.none { localItem -> localItem.id_supplier == apiItem.id_supplier }
+        // Sinkronisasi data dari API ke lokal
+        val dataApiToLocal = apiData.filter { apiItem ->
+            localData.none { it.id_supplier == apiItem.id_supplier }
         }
-        // Insert data baru dari API ke lokal
-        dataApi.forEach { supplierDao.insert(it) }
+        dataApiToLocal.forEach { supplierDao.insert(it) }
+
+        // Sinkronisasi data dari lokal ke API
+        val dataLocalToApi = localData.filter { localItem ->
+            apiData.none { it.id_supplier == localItem.id_supplier }
+        }
+        dataLocalToApi.forEach { supplier ->
+            try {
+                val response = apiService.addSupplier(supplier)
+                if (!response.success) {
+                    Log.e( "MyAppError","Gagal menambahkan supplier ke API: ${response.message}")
+                }
+            } catch (e: Exception) {
+                Log.e( "MyAppError","Error saat menyinkronkan supplier ke API: ${e.message}")
+            }
+        }
     }
 
     private suspend fun sinkronisasiDataSupplierUpdate(
         apiData: List<Supplier>,
         localData: List<Supplier>
     ) {
-        // Data yang ada di kedua sumber tetapi mungkin berbeda (harus di-update)
-        val dataApi = apiData.filter { apiItem ->
+        // Update data lokal berdasarkan data dari API jika ada perubahan
+        val updatedApiToLocal = apiData.filter { apiItem ->
             localData.any { localItem ->
                 localItem.id_supplier == apiItem.id_supplier && localItem != apiItem
             }
         }
-        // Update data lokal jika ada perubahan dari API
-        dataApi.forEach { updatedItem ->
-            supplierDao.update(updatedItem)
+        updatedApiToLocal.forEach { supplier ->
+            try {
+                supplierDao.update(supplier)
+                val response = apiService.updateSupplier(supplier.id_supplier, supplier)
+                if (!response.success) {
+                    Log.e("MyAppError", "Gagal memperbarui supplier di API: ${response.message}")
+                }
+            } catch (e: Exception) {
+                Log.e("MyAppError", "Error saat memperbarui supplier di API: ${e.message}")
+            }
+        }
+
+        // Update data di API berdasarkan data dari lokal jika ada perubahan
+        val updatedLocalToApi = localData.filter { localItem ->
+            apiData.any { apiItem ->
+                apiItem.id_supplier == localItem.id_supplier && apiItem != localItem
+            }
+        }
+
+        updatedLocalToApi.forEach { supplier ->
+            try {
+                supplierDao.update(supplier)
+                val response = apiService.updateSupplier(supplier.id_supplier, supplier)
+                if (!response.success) {
+                    Log.e("MyAppError", "Gagal memperbarui supplier di API: ${response.message}")
+                }
+            } catch (e: Exception) {
+                Log.e("MyAppError", "Error saat memperbarui supplier di API: ${e.message}")
+            }
         }
     }
 
@@ -70,7 +111,7 @@ class SupplierRepository(
                         // Sinkronisasi data antara API ke lokal
                         sinkronisasiDataSupplierInsert(apiData, localData)
                         sinkronisasiDataSupplierUpdate(apiData, localData)
-                        sinkronisasiDataSupplierDelete(apiData, localData)
+//                        sinkronisasiDataSupplierDelete(apiData, localData)
                         // Mengembalikan data supplier yang diterima dari API
                         return@withContext response.data
                     } else {
@@ -88,7 +129,7 @@ class SupplierRepository(
     }
 
     // Fungsi untuk mengambil supplier berdasarkan ID
-    suspend fun getSupplierById(id: Int): Supplier {
+    suspend fun getSupplierById(id: Long): Supplier {
         return withContext(Dispatchers.IO) {
             if (networkHelper.isConnected()) {
                 try {
@@ -133,7 +174,7 @@ class SupplierRepository(
     }
 
     // Fungsi untuk memperbarui supplier
-    suspend fun update(id: Int, supplier: Supplier): Supplier {
+    suspend fun update(id: Long, supplier: Supplier): Supplier {
         return withContext(Dispatchers.IO) {
             if (networkHelper.isConnected()) {
                 try {

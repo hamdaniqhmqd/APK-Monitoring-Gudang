@@ -24,5 +24,5 @@ interface SupplierDao {
     fun getAllSupplier(): List<Supplier>
 
     @Query("SELECT * FROM supplier_table WHERE id_supplier = :id")
-    fun getSupplierById(id: Int): Supplier
+    fun getSupplierById(id: Long): Supplier
 }

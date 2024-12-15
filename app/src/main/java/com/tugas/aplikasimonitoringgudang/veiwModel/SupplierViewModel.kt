@@ -36,7 +36,7 @@ class SupplierViewModel(application: Application) : AndroidViewModel(application
     }
 
     // Fungsi untuk mengambil detail supplier berdasarkan ID
-    fun getSupplierById(id: Int): LiveData<Supplier> {
+    fun getSupplierById(id: Long): LiveData<Supplier> {
         val result = MutableLiveData<Supplier>()
         viewModelScope.launch {
             try {

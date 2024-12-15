@@ -23,7 +23,7 @@ import com.tugas.aplikasimonitoringgudang.veiwModel.SupplierViewModel
 class DetailSupplierFragment : Fragment() {
 
     private lateinit var viewModel: SupplierViewModel
-    private var supplierId: Int? = null
+    private var supplierId: Long? = null
     private var supplierNama: String? = ""
 
     private lateinit var Adapter: AdapterBarang
@@ -44,7 +44,7 @@ class DetailSupplierFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(SupplierViewModel::class.java)
 
-        supplierId = arguments?.getInt("supplierId")
+        supplierId = arguments?.getLong("supplierId")
         supplierId?.let {
             viewModel.getSupplierById(it).observe(viewLifecycleOwner) { supplier ->
                 supplierNama = supplier.nama_supplier
@@ -132,10 +132,10 @@ class DetailSupplierFragment : Fragment() {
         Adapter.submitList(data)
     }
 
-    private fun onEditClick(idSupplier: Int) {
+    private fun onEditClick(idSupplier: Long) {
         // Navigasi ke CreateProductFragment dengan ID produk
         val bundle = Bundle().apply {
-            putInt("supplierId", idSupplier ?: 0)
+            putLong("supplierId", idSupplier ?: 0)
         }
         val addEditFragment = AddEditSupplierFragment()
         addEditFragment.arguments = bundle
@@ -156,8 +156,8 @@ class DetailSupplierFragment : Fragment() {
     private fun onDetailClick(barang: Barang) {
         // Navigasi ke CreateProductFragment dengan ID produk
         val bundle = Bundle().apply {
-            putInt("barangId", barang.id_barang ?: 0)
-            putInt("supplierId", barang.supplier_id ?: 0)
+            putLong("barangId", barang.id_barang ?: 0)
+            putLong("supplierId", barang.supplier_id)
         }
         val detailFragment = DetailBarangFragment()
         detailFragment.arguments = bundle
@@ -168,9 +168,9 @@ class DetailSupplierFragment : Fragment() {
             .commit()
     }
 
-    private fun onTambahBarangClick(idSupplier: Int, namaSupplier: String) {
+    private fun onTambahBarangClick(idSupplier: Long, namaSupplier: String) {
         val bundle = Bundle().apply {
-            putInt("supplierId", idSupplier ?: 0)
+            putLong("supplierId", idSupplier ?: 0)
             putString("supplierNama", namaSupplier ?: "")
         }
         val addEditFragment = AddEditBarangFragment()
