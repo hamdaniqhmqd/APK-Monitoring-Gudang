@@ -34,12 +34,9 @@ class AddEditSupplierFragment : Fragment() {
         // berfungsi untuk mengambil nilai ID supplier yang dikirimkan dari fragment sebelumnya + menyimpannya dalam variabel supplierId.
         supplierId = arguments?.getLong("supplierId")
 
-        // Jika ada ID Supplier, ambil data dari database dan tampilkan di form input
         // logika if, dimana supplierid tidak boleh null
         if (supplierId != null) {
-            // dan karena terdapat isinya pada supplierid maka akan menjalankan fungsi getsupplierbyid
-            //dimana suplierid tidak boleh null
-            //dan melakukan pengamatan observer
+            // dan karena isinya supplierid maka akan menjalankan fungsi getsupplierbyid, tdk blh null
             viewModel.getSupplierById(supplierId!!).observe(viewLifecycleOwner) { supplier ->
                 // dan menjalankan proses mengisi form dengan data yang diambil dari database
                 binding.etNamaSupplier.setText(supplier.nama_supplier)
@@ -49,25 +46,22 @@ class AddEditSupplierFragment : Fragment() {
             }
         }
 
-        // Tombol Submit untuk menyimpan data saat pengguna selesai mengisi form
+        // Tombol Submit untuk menyimpan data saat pengguna
         binding.btnSubmit.setOnClickListener {
-            //mengatur pada elemen btnsubmit, ketika diklik
-            // pada variabel nama akan Mengambil data dari form elemen etnamasupplier, dan seterusnya
+            //  elemen btnsubmit, ketika diklik, pada variabel nama  Mengambil data  form elemen etnamasupplier, dan seterusnya
             val nama = binding.etNamaSupplier.text.toString()
             val no_hp = binding.etNoHp.text.toString()
             val nik = binding.etNIK.text.toString()
             val id_supplier: Long = System.currentTimeMillis()
 
-            // dan terdapat logika if
-            // dimana supplierid tidak boleh null
-            // lalu Memeriksa apakah ini proses edit atau tambah data baru
+            //  supplierid tidak boleh null Memeriksa apakah ini proses edit atau tambah data baru
             if (supplierId != null) {
                 // Jika sedang mengedit data, perbarui data di database
                 // maka pada data di data class supplier akan mengambil nama id supllier
                 // diambil dari supplierId yang telah diterima dari fragment sebelumnya.
                 viewModel.update(
                     Supplier(
-                        id_supplier = supplierId!!, //jadi disini diupdate dengan supplierid yang sudah ada
+                        id_supplier = supplierId!!, //diupdate dengan supplierid yang sudah ada
                         nama_supplier = nama,
                         no_hp_supplier = no_hp,
                         nik_supplier = nik
@@ -95,9 +89,9 @@ class AddEditSupplierFragment : Fragment() {
     // Fungsi untuk menavigasi kembali ke daftar Supplier
     private fun toSupplierFragment() {
         parentFragmentManager.beginTransaction()
-            .replace(R.id.FragmentMenu, SupplierFragment())  // Mengganti fragment saat ini dengan SupplierFragment
-            .addToBackStack(null)  // lalu Menyimpannya ke dalam BackStack,
+            .replace(R.id.FragmentMenu, SupplierFragment())  // Mengganti fragment dengan SupplierFragment
+            .addToBackStack(null)  //  Menyimpannya dalam BackStack,
             //agar user dapat kembali ke halaman sebelumnya
-            .commit()  // Menyelesaikan perubahan
+            .commit()
     }
 }
