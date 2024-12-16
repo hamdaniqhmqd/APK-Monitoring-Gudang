@@ -15,17 +15,20 @@ import com.tugas.aplikasimonitoringgudang.data.barang.Barang
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentBarangBinding
 import com.tugas.aplikasimonitoringgudang.veiwModel.BarangViewModel
 
+
 class BarangFragment : Fragment() {
     private var _binding: FragmentBarangBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: AdapterBarang
     private lateinit var viewModel: BarangViewModel
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this).get(BarangViewModel::class.java)
     }
 
+    //layout dan adapter recycler view
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -67,6 +70,7 @@ class BarangFragment : Fragment() {
         return binding.root
     }
 
+    //mengatur searchview agar dapat menerima input dari pencarian
     private fun setupSearch() {
         val searchEditText = binding.inputSearch.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
 
@@ -86,6 +90,7 @@ class BarangFragment : Fragment() {
         })
     }
 
+    //menampilkan barang yang sesuai dengan kata kunci search
     private fun performSearch(searchText: String?) {
         viewModel.allBarang.value?.let { barangList ->
             val filteredList = if (searchText.isNullOrBlank()) {
@@ -100,6 +105,7 @@ class BarangFragment : Fragment() {
         }
     }
 
+    //menyembunyikan RecyclerView jiika data kosong/update jika data ada
     private fun updateRecyclerView(barangList: List<Barang>) {
         if (barangList.isEmpty()) {
             binding.recyclerViewBarang.visibility = View.GONE
@@ -111,6 +117,7 @@ class BarangFragment : Fragment() {
         }
     }
 
+    //header kategori diatas barang sesuai kategori
     private fun setHeader(barangList: List<Barang>) {
         val data: MutableList<Any> = mutableListOf()
         val sortedMap = barangList.sortedBy { it.kategori_barang }
@@ -130,6 +137,7 @@ class BarangFragment : Fragment() {
         adapter.submitList(data)
     }
 
+    //
     private fun onDetailClick(barang: Barang) {
         val bundle = Bundle().apply {
             putLong("barangId", barang.id_barang ?: 0)

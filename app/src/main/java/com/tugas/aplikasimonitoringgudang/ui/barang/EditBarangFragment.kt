@@ -13,7 +13,10 @@ import com.tugas.aplikasimonitoringgudang.databinding.FragmentEditBarangBinding
 import com.tugas.aplikasimonitoringgudang.veiwModel.BarangViewModel
 
 class EditBarangFragment : Fragment() {
+
     private lateinit var barangViewModel: BarangViewModel
+
+    //ID barang dan suplier didapat dari argumen fragment
     private var barangId: Long? = 0
     private var supplierId: Long? = 0
 
@@ -25,6 +28,7 @@ class EditBarangFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        //menghubungkan fragmen ke
         val binding = FragmentEditBarangBinding.inflate(inflater, container, false)
 
         barangViewModel = ViewModelProvider(this).get(BarangViewModel::class.java)
@@ -59,6 +63,7 @@ class EditBarangFragment : Fragment() {
         }
 
         supplierId = arguments?.getLong("supplierId")
+
 
         val kategori = binding.kategoriBarang
         val kategori_item = listOf("Dewasa", "Remaja", "Anak-Anak")
