@@ -41,6 +41,7 @@ class AddEditBarangFragment : Fragment() {
     ): View? {
         val binding = FragmentAddEditBarangBinding.inflate(inflater, container, false)
 
+        //digunakan u/ mengelola data sesi pengguna like user_id, unamer dan status login (u/ verif atau melacak siapa yang membuat/edit)
         AppPreferences.init(requireContext())
         val user_id = AppPreferences.getUserId()
         val username = AppPreferences.getUsername()
@@ -51,9 +52,13 @@ class AddEditBarangFragment : Fragment() {
         barangViewModel = ViewModelProvider(this).get(BarangViewModel::class.java)
         viewModel = ViewModelProvider(this).get(SupplierViewModel::class.java)
 
+        //mengambil data dari Argumen, pada fragment ini mengambil suplierId yang dikirim dari fragment sebelumnya. digunakan u/ menghubungkan barang dengan suplier yang sesuai
         supplierId = arguments?.getLong("supplierId")
 
+
         val kategori = binding.kategoriBarang
+
+        //ini membuat dropdown dengan menggunakan spinner
         val kategori_item = listOf("Dewasa", "Remaja", "Anak-Anak")
         val adapterKategori =
             ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, kategori_item)
@@ -67,6 +72,7 @@ class AddEditBarangFragment : Fragment() {
         adapterUkuran.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         ukuran.adapter = adapterUkuran
 
+
         binding.btnSubmit.setOnClickListener {
             val nama = binding.namaBarang.text.toString()
             val kategori = binding.kategoriBarang.selectedItem.toString()
@@ -78,6 +84,7 @@ class AddEditBarangFragment : Fragment() {
             val id_transaksi: Long = System.currentTimeMillis()
 
 
+            //membuat objek berdasarkan data yang di inputkan lalu disimpan ke database dengan menggunakan view model
             val barang = Barang(
                 id_barang = id_barang,
                 nama_barang = nama,
@@ -105,6 +112,7 @@ class AddEditBarangFragment : Fragment() {
             )
             transaksiViewModel.insertTransaksi(transaksi)
 
+            //setelah disimpan maka akan berpindah ke BarangFragment
             toBarangFragment()
         }
 

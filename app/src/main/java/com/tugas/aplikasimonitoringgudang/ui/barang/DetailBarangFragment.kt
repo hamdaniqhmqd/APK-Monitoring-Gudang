@@ -30,12 +30,15 @@ class DetailBarangFragment : Fragment() {
     ): View {
         _binding = FragmentDetailBarangBinding.inflate(inflater, container, false)
 
+        //inisialisasi viewmodel
         barangViewModel = ViewModelProvider(this).get(BarangViewModel::class.java)
         viewModel = ViewModelProvider(this).get(SupplierViewModel::class.java)
 
+        //menga,bil barangId dan supp dari argumen
         barangId = arguments?.getLong("barangId")
         supplierId = arguments?.getLong("supplierId")
 
+        //setup ui elemen dan listener
         setupBarangDetails()
         setupSupplierDetails()
         setupButtonListeners()
@@ -43,8 +46,10 @@ class DetailBarangFragment : Fragment() {
         return binding.root
     }
 
+
     private fun setupBarangDetails() {
         barangId?.let { id ->
+            //mengamati perubahan pda barang dgn id yang ditentukan
             barangViewModel.getBarangById(id).observe(viewLifecycleOwner) { barang ->
                 binding.tvItemName.text = barang.nama_barang
                 binding.tvItemCategoryIsi.text = barang.kategori_barang
@@ -79,10 +84,12 @@ class DetailBarangFragment : Fragment() {
         }
     }
 
+    //fungsi menampilkan configurasi dialog
     private fun showDeleteConfirmationDialog() {
         AlertDialog.Builder(requireContext())
             .setTitle("Konfirmasi Hapus")
             .setMessage("APAKAH ANDA YAKIN INGIN MENGHAPUS?")
+            //memanggil fungsi if user klik YA
             .setPositiveButton("YA") { _, _ ->
                 deleteBarang()
             }
@@ -119,7 +126,7 @@ class DetailBarangFragment : Fragment() {
 
     private fun onAddTransaksiClick(idBarang: Long, idSupplier: Long) {
         val bundle = Bundle().apply {
-            putLong("barangId", idBarang)
+            putLong("barangId", idBarang) //melewati barangId dan suppId ke Add Edit Fragmen
             putLong("supplierId", idSupplier)
         }
         val addEditTransaksiFragment = AddEditTransaksiFragment()

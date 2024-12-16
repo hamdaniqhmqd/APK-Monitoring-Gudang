@@ -93,8 +93,10 @@ class BarangRepository(
         }
     }
 
+    //mendefinisikan coroutines (suspen). mengembalikan data list barang dan menampilkannya
     suspend fun getAllBarang(): List<Barang> {
         return withContext(Dispatchers.IO) {
+            //class mengecek internet apakah true/false
             if (networkHelper.isConnected()) {
                 try {
                     val response = apiService.getBarang()
@@ -121,6 +123,7 @@ class BarangRepository(
         }
     }
 
+    //
     suspend fun getBarangById(id: Long): Barang {
         return withContext(Dispatchers.IO) {
             if (networkHelper.isConnected()) {
@@ -142,6 +145,7 @@ class BarangRepository(
         }
     }
 
+    //
     suspend fun insert(barang: Barang): Barang {
         return withContext(Dispatchers.IO) {
             if (networkHelper.isConnected()) {
@@ -155,11 +159,11 @@ class BarangRepository(
                     }
                 } catch (e: Exception) {
                     barangDao.insert(barang)
-                    barang // Mengembalikan ID barang sebagai Long
+                    barang
                 }
             } else {
                 barangDao.insert(barang)
-                barang // Mengembalikan ID barang sebagai Long
+                barang
             }
         }
     }
@@ -185,6 +189,7 @@ class BarangRepository(
             }
         }
     }
+
 
     suspend fun delete(barang: Barang) {
         return withContext(Dispatchers.IO) {
