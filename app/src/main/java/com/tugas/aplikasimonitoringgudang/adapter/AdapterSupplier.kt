@@ -13,7 +13,7 @@ class AdapterSupplier(
     private val onItemClick: (Supplier) -> Unit
 ) : ListAdapter<Supplier, AdapterSupplier.SupplierViewHolder>(SupplierDiffCallback()) {
 
-    // ViewHolder yang mengikat item dengan binding
+    // ViewHolder untuk menghubungkan tampilan dari item supplierbinding yg berupa elemen, nma nik no hp
     inner class SupplierViewHolder(val binding: ItemSupplierBinding) :
         RecyclerView.ViewHolder(binding.root) {
         val nama = binding.supplierName
@@ -27,7 +27,7 @@ class AdapterSupplier(
         }
     }
 
-    // Membuat ViewHolder baru dengan layout item_supplier.xml
+    // Membuat ViewHolder baru dengan layout item_supplier. untuk menghubungkan layout item supplier,xml
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SupplierViewHolder {
         val binding = ItemSupplierBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
@@ -48,7 +48,7 @@ class AdapterSupplier(
         }
     }
 
-    // DiffUtil implementation for Supplier
+    // DiffUtil implementation for Supplier. untuk membandingkan dua item berdasarkan nik.
     class SupplierDiffCallback : DiffUtil.ItemCallback<Supplier>() {
         override fun areItemsTheSame(oldItem: Supplier, newItem: Supplier): Boolean {
             return oldItem.nik_supplier == newItem.nik_supplier

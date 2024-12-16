@@ -45,6 +45,7 @@ class SupplierFragment : Fragment() {
         // Observe data from ViewModel and submit to adapter
         viewModel.allSupplier.observe(viewLifecycleOwner) { supplierList ->
             supplierList?.let {
+                // untuk menampilkan list adapter
                 adapter.submitList(it)
             }
         }

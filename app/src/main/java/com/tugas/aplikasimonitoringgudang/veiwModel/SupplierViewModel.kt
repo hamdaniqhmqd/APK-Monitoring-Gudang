@@ -12,7 +12,7 @@ import com.tugas.aplikasimonitoringgudang.repository.SupplierRepository
 import kotlinx.coroutines.launch
 
 class SupplierViewModel(application: Application) : AndroidViewModel(application) {
-
+// mengakses data dari repository db dan api
     private val repository: SupplierRepository
     val allSupplier: MutableLiveData<List<Supplier>> = MutableLiveData() // LiveData untuk daftar supplier
 
@@ -35,7 +35,7 @@ class SupplierViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    // Fungsi untuk mengambil detail supplier berdasarkan ID
+    // Fungsi untuk mengambil detail supplier berdasarkan ID -> liv dta
     fun getSupplierById(id: Long): LiveData<Supplier> {
         val result = MutableLiveData<Supplier>()
         viewModelScope.launch {
