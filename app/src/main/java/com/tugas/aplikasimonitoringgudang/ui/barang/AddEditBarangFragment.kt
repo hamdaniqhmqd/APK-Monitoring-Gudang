@@ -46,6 +46,7 @@ class AddEditBarangFragment : Fragment() {
         val username = AppPreferences.getUsername()
         val isLoggedIn = AppPreferences.isLoggedIn()
 
+        //inisialisasi viewmodel
         transaksiViewModel = ViewModelProvider(this).get(TransaksiViewModel::class.java)
         barangViewModel = ViewModelProvider(this).get(BarangViewModel::class.java)
         viewModel = ViewModelProvider(this).get(SupplierViewModel::class.java)
@@ -75,6 +76,7 @@ class AddEditBarangFragment : Fragment() {
             val totalHarga = harga * stok
             val id_barang: Long = System.currentTimeMillis()
             val id_transaksi: Long = System.currentTimeMillis()
+
 
             val barang = Barang(
                 id_barang = id_barang,

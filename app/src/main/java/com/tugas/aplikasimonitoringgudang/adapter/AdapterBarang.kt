@@ -17,11 +17,13 @@ class AdapterBarang(
 ) :
     ListAdapter<Any, RecyclerView.ViewHolder>(BarangDiffCallback()) {
 
+    //jenis item yang ada di RecyclerView
     enum class ItemType {
         HEADER,
         BARANG
     }
 
+    //menentukan tipe tampilan item berdasarkan data diposisi nya
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
             is Barang -> ItemType.BARANG.ordinal
@@ -29,6 +31,7 @@ class AdapterBarang(
         }
     }
 
+    //menampilkan header dan membuat fungsi instance ViewHolder Header
     class HeaderViewHolder private constructor(val binding: ItemHeaderBarangBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -41,6 +44,7 @@ class AdapterBarang(
         }
     }
 
+    //menampilkan data barang dan membuat fungsi instance ViewHolder Barang
     class BarangViewHolder private constructor(val binding: ItemBarangBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -66,6 +70,7 @@ class AdapterBarang(
         }
     }
 
+    //mengisi data ke ViewHolder berdasarkan tipe item
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is BarangViewHolder -> {
@@ -86,6 +91,7 @@ class AdapterBarang(
         }
     }
 
+    //helper class untuk perubahan data
     class BarangDiffCallback : DiffUtil.ItemCallback<Any>() {
         override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean {
             return when (oldItem) {

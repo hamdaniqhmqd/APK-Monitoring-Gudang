@@ -16,10 +16,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+//repository
 class BarangRepository(
     private val barangDao: BarangDao,
     private val networkHelper: NetworkHelper
 ) {
+    //API service
     private val apiService: ApiBarangService = RetrofitInstanceGudangApi.apiBarangService
 
     private suspend fun sinkronisasiDataBarangInsert(
