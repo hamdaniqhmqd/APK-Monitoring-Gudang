@@ -33,28 +33,29 @@ class SupplierFragment : Fragment() {
     ): View? {
         _binding = FragmentSupplierBinding.inflate(inflater, container, false)
 
-        // Initialize AdapterSupplier with explicit type for the lambda parameter
+        // Inisialisasi AdapterSupplier dengan tipe eksplisit untuk parameter lambda
         adapter = AdapterSupplier { supplier: Supplier ->
             onDetailClick(supplier)
         }
 
-        // Set up RecyclerView
+        // Menyiapkan RecyclerView
         binding.recyclerViewSupplier.adapter = adapter
         binding.recyclerViewSupplier.layoutManager = GridLayoutManager(requireContext(), 2)
 
-        // Observe data from ViewModel and submit to adapter
+        // Mengamati data dari ViewModel dan mengirimkannya ke adapter
         viewModel.allSupplier.observe(viewLifecycleOwner) { supplierList ->
             supplierList?.let {
-                // untuk menampilkan list adapter
+                // untuk menampilkan list ke dalam adapter
                 adapter.submitList(it)
             }
         }
 
+        // Menyiapkan tombol FAB (Floating Action Button) untuk menambah supplier baru
         binding.fabAdd.setOnClickListener {
             parentFragmentManager.beginTransaction()
-                .replace(R.id.FragmentMenu, AddEditSupplierFragment())
-                .addToBackStack(null)
-                .commit()
+                .replace(R.id.FragmentMenu, AddEditSupplierFragment())  // Menavigasi ke AddEditSupplierFragment
+                .addToBackStack(null)  // Menambahkan transaksi ke back stack agar pengguna bisa kembali
+                .commit()  // Menyelesaikan transaksi
         }
 
         return binding.root
@@ -62,19 +63,19 @@ class SupplierFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        _binding = null  // Menetapkan binding ke null saat tampilan dihancurkan untuk menghindari memory leak
     }
 
     private fun onDetailClick(supplier: Supplier) {
         val bundle = Bundle().apply {
-            putLong("supplierId", supplier.id_supplier)
+            putLong("supplierId", supplier.id_supplier)  // Mengirimkan ID supplier ke fragment berikutnya
         }
         val detailFragment = DetailSupplierFragment()
-        detailFragment.arguments = bundle
+        detailFragment.arguments = bundle  // Menetapkan argumen untuk fragment detail
 
         parentFragmentManager.beginTransaction()
-            .replace(R.id.FragmentMenu, detailFragment)
-            .addToBackStack(null)
-            .commit()
+            .replace(R.id.FragmentMenu, detailFragment)  // Mengganti fragment saat ini dengan DetailSupplierFragment
+            .addToBackStack(null)  // Menambahkan transaksi ke back stack agar pengguna bisa kembali
+            .commit()  // Menyelesaikan transaksi
     }
 }
