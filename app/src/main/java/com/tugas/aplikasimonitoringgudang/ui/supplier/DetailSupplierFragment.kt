@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tugas.aplikasimonitoringgudang.R
 import com.tugas.aplikasimonitoringgudang.adapter.AdapterBarang
-import com.tugas.aplikasimonitoringgudang.adapter.AdapterSupplier
 import com.tugas.aplikasimonitoringgudang.data.barang.Barang
 import com.tugas.aplikasimonitoringgudang.data.supplier.Supplier
 import com.tugas.aplikasimonitoringgudang.databinding.FragmentDetailSupplierBinding
@@ -22,29 +21,27 @@ import com.tugas.aplikasimonitoringgudang.veiwModel.SupplierViewModel
 
 class DetailSupplierFragment : Fragment() {
 
+    // Deklarasi properti ViewModel dan variabel
     private lateinit var viewModel: SupplierViewModel
     private var supplierId: Long? = null
     private var supplierNama: String? = ""
-
     private lateinit var Adapter: AdapterBarang
     private lateinit var viewModelBarang: BarangViewModel
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-//        viewModel = ViewModelProvider(this).get(SupplierViewModel::class.java)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        // Inisialisasi binding
         val binding = FragmentDetailSupplierBinding.inflate(inflater, container, false)
 
+        // Inisialisasi ViewModel Supplier
         viewModel = ViewModelProvider(this).get(SupplierViewModel::class.java)
 
+        // Mendapatkan supplierId dari arguments
         supplierId = arguments?.getLong("supplierId")
+
+        // Menampilkan detail supplier jika supplierId tersedia
         supplierId?.let {
             viewModel.getSupplierById(it).observe(viewLifecycleOwner) { supplier ->
                 supplierNama = supplier.nama_supplier
@@ -54,68 +51,54 @@ class DetailSupplierFragment : Fragment() {
             }
         }
 
+        // Tombol Edit
         binding.btnEdit.setOnClickListener {
             onEditClick(supplierId!!)
         }
 
+        // Tombol Hapus
         binding.btnHapus.setOnClickListener {
-            // Membuat alert dialog untuk konfirmasi hapus
             val builder = AlertDialog.Builder(requireContext())
             builder.setTitle("Konfirmasi Hapus")
             builder.setMessage("Apakah Anda yakin ingin menghapus supplier ini?")
-
-            // Tombol untuk membatalkan
-            builder.setNegativeButton("Batal") { dialog, _ ->
-                dialog.dismiss() // Menutup dialog jika dibatalkan
-            }
-
-            // Tombol untuk menghapus
+            builder.setNegativeButton("Batal") { dialog, _ -> dialog.dismiss() }
             builder.setPositiveButton("Hapus") { dialog, _ ->
-                // Melakukan aksi hapus jika user memilih "Hapus"
                 supplierId?.let {
-                    viewModel.delete(Supplier(it, "", "", "")) // Hapus supplier berdasarkan ID
-                    toSupplierFragment() // Kembali ke fragment daftar supplier setelah penghapusan
+                    viewModel.delete(Supplier(it, "", "", ""))
+                    toSupplierFragment()
                 }
                 dialog.dismiss()
             }
-
-            // Menampilkan dialog
             builder.create().show()
         }
 
+        // Tombol Tambah Barang
         binding.btnTambahBarang.setOnClickListener {
             onTambahBarangClick(supplierId!!, supplierNama!!)
         }
 
+        // Inisialisasi ViewModel dan Adapter Barang
         viewModelBarang = ViewModelProvider(this).get(BarangViewModel::class.java)
-
-        Adapter = AdapterBarang() { barang ->
-            onDetailClick(barang)
-        }
+        Adapter = AdapterBarang() { barang -> onDetailClick(barang) }
 
         binding.rvBarang.adapter = Adapter
         binding.rvBarang.layoutManager = LinearLayoutManager(requireContext())
 
+        // Menampilkan daftar barang
         supplierId?.let {
             viewModelBarang.getAllBarangByIdSupplier(it).observe(viewLifecycleOwner) { barangList ->
-                barangList?.let {
-                    // Use 'it' safely here
-                    setHeader(it)
-                }
+                barangList?.let { setHeader(it) }
             }
         }
-
 
         return binding.root
     }
 
+    // Fungsi untuk menampilkan header berdasarkan kategori barang
     fun setHeader(barangList: List<Barang>) {
         val data: MutableList<Any> = mutableListOf()
         data.clear()
-
-        val sortedMap = barangList.sortedBy {
-            it.kategori_barang
-        }
+        val sortedMap = barangList.sortedBy { it.kategori_barang }
 
         if (sortedMap.isNotEmpty()) {
             var dataKategori = sortedMap[0].kategori_barang
@@ -128,24 +111,21 @@ class DetailSupplierFragment : Fragment() {
                 data.add(element)
             }
         }
-
         Adapter.submitList(data)
     }
 
+    // Navigasi ke fragment edit supplier
     private fun onEditClick(idSupplier: Long) {
-        // Navigasi ke CreateProductFragment dengan ID produk
-        val bundle = Bundle().apply {
-            putLong("supplierId", idSupplier ?: 0)
-        }
+        val bundle = Bundle().apply { putLong("supplierId", idSupplier) }
         val addEditFragment = AddEditSupplierFragment()
         addEditFragment.arguments = bundle
-
         parentFragmentManager.beginTransaction()
             .replace(R.id.FragmentMenu, addEditFragment)
             .addToBackStack(null)
             .commit()
     }
 
+    // Navigasi ke daftar supplier
     private fun toSupplierFragment() {
         parentFragmentManager.beginTransaction()
             .replace(R.id.FragmentMenu, SupplierFragment())
@@ -153,29 +133,28 @@ class DetailSupplierFragment : Fragment() {
             .commit()
     }
 
+    // Navigasi ke detail barang
     private fun onDetailClick(barang: Barang) {
-        // Navigasi ke CreateProductFragment dengan ID produk
         val bundle = Bundle().apply {
             putLong("barangId", barang.id_barang ?: 0)
             putLong("supplierId", barang.supplier_id)
         }
         val detailFragment = DetailBarangFragment()
         detailFragment.arguments = bundle
-
         parentFragmentManager.beginTransaction()
             .replace(R.id.FragmentMenu, detailFragment)
             .addToBackStack(null)
             .commit()
     }
 
+    // Navigasi ke fragment tambah barang
     private fun onTambahBarangClick(idSupplier: Long, namaSupplier: String) {
         val bundle = Bundle().apply {
-            putLong("supplierId", idSupplier ?: 0)
-            putString("supplierNama", namaSupplier ?: "")
+            putLong("supplierId", idSupplier)
+            putString("supplierNama", namaSupplier)
         }
         val addEditFragment = AddEditBarangFragment()
         addEditFragment.arguments = bundle
-
         parentFragmentManager.beginTransaction()
             .replace(R.id.FragmentMenu, addEditFragment)
             .addToBackStack(null)
