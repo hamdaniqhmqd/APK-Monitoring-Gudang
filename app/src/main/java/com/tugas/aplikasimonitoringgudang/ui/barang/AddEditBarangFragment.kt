@@ -20,9 +20,11 @@ import java.util.Date
 import java.util.Locale
 
 class AddEditBarangFragment : Fragment() {
+    //inisialisasi viewmodel
     private lateinit var transaksiViewModel: TransaksiViewModel
     private lateinit var barangViewModel: BarangViewModel
     private lateinit var viewModel: SupplierViewModel
+
     private var supplierId: Long? = 0
 
     private val formatTanggal = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
@@ -55,7 +57,6 @@ class AddEditBarangFragment : Fragment() {
         //mengambil data dari Argumen, pada fragment ini mengambil suplierId yang dikirim dari fragment sebelumnya. digunakan u/ menghubungkan barang dengan suplier yang sesuai
         supplierId = arguments?.getLong("supplierId")
 
-
         val kategori = binding.kategoriBarang
 
         //ini membuat dropdown dengan menggunakan spinner
@@ -65,6 +66,7 @@ class AddEditBarangFragment : Fragment() {
         adapterKategori.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         kategori.adapter = adapterKategori
 
+        //membuat object barang dari data form
         val ukuran = binding.ukuranBarang
         val ukuran_item = listOf("XXXL", "XXL", "XL", "L", "M", "S")
         val adapterUkuran =
@@ -73,6 +75,7 @@ class AddEditBarangFragment : Fragment() {
         ukuran.adapter = adapterUkuran
 
 
+        //objek transaksi unntuk mencatat perubahan stok barang
         binding.btnSubmit.setOnClickListener {
             val nama = binding.namaBarang.text.toString()
             val kategori = binding.kategoriBarang.selectedItem.toString()
@@ -96,6 +99,7 @@ class AddEditBarangFragment : Fragment() {
             )
             barangViewModel.insert(barang)
 
+            //membuat objek transaksi u/ mencatat perubahan stok barang
             val transaksi = Transaksi(
                 id_transaksi = id_transaksi, // ID transaksi auto-generate
                 barang_id = id_barang, // Placeholder, akan diperbarui
@@ -116,6 +120,7 @@ class AddEditBarangFragment : Fragment() {
             toBarangFragment()
         }
 
+        //taampilkan layout
         return binding.root
     }
 
@@ -123,7 +128,7 @@ class AddEditBarangFragment : Fragment() {
 //    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 //        super.onViewCreated(view, savedInstanceState)
 //    }
-
+    //berpindah ke BarangFragment
     private fun toBarangFragment() {
         parentFragmentManager.beginTransaction()
             .replace(R.id.FragmentMenu, BarangFragment())
